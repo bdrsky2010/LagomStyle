@@ -25,4 +25,11 @@ extension String {
     var stringToURL: URL? {
         return URL(string: self)
     }
+    
+    // MARK: API 요청 결과 String Data에 Markup Data가 포함되어 삭제 필요
+    var removeHtmlTag: String {
+        return self
+            .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression) // tag 삭제
+            .replacingOccurrences(of: #"\\"#, with: "", options: .regularExpression) // '\' 삭제
+    }
 }

@@ -28,10 +28,6 @@ enum LagomStyle {
         static let removeAll = "전체 삭제"
         
         static let searchResult = "개의 검색 결과"
-        static let accuracyKorean = "정확도"
-        static let dateDscKorean = "정확도"
-        static let priceAscKorean = "가격낮은순"
-        static let priceDscKorean = "가격높은순"
         
         static let setting = "SETTING"
         static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]

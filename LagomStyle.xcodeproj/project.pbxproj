@@ -14,6 +14,17 @@
 		7B6BB9D52C1ADFFC00BC85F8 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D42C1ADFFC00BC85F8 /* Base */; };
 		7B6BB9DD2C1AE11F00BC85F8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9DC2C1AE11F00BC85F8 /* .gitignore */; };
 		7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */; };
+		7B6BB9E22C1AE50C00BC85F8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BB9E12C1AE50C00BC85F8 /* Kingfisher */; };
+		7B6BB9E52C1AE53400BC85F8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BB9E42C1AE53400BC85F8 /* Alamofire */; };
+		7B6BB9E82C1AE57600BC85F8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BB9E72C1AE57600BC85F8 /* SnapKit */; };
+		7B6BB9EB2C1AE60C00BC85F8 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9EA2C1AE60C00BC85F8 /* UINavigationController+.swift */; };
+		7B6BB9ED2C1AE61D00BC85F8 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9EC2C1AE61D00BC85F8 /* UIViewController+.swift */; };
+		7B6BB9EF2C1AE63300BC85F8 /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9EE2C1AE63300BC85F8 /* UITableViewCell+.swift */; };
+		7B6BB9F12C1AE63C00BC85F8 /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F02C1AE63C00BC85F8 /* UICollectionViewCell.swift */; };
+		7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F22C1AE64C00BC85F8 /* UIImageView+.swift */; };
+		7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F42C1AE65200BC85F8 /* String+.swift */; };
+		7B6BB9F82C1AE68C00BC85F8 /* ConfigureViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F72C1AE68C00BC85F8 /* ConfigureViewProtocol.swift */; };
+		7B6BB9FD2C1AEA3400BC85F8 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9FC2C1AEA3400BC85F8 /* Resource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +37,14 @@
 		7B6BB9D62C1ADFFC00BC85F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B6BB9DC2C1AE11F00BC85F8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		7B6BB9EA2C1AE60C00BC85F8 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
+		7B6BB9EC2C1AE61D00BC85F8 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		7B6BB9EE2C1AE63300BC85F8 /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
+		7B6BB9F02C1AE63C00BC85F8 /* UICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCell.swift; sourceTree = "<group>"; };
+		7B6BB9F22C1AE64C00BC85F8 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		7B6BB9F42C1AE65200BC85F8 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		7B6BB9F72C1AE68C00BC85F8 /* ConfigureViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureViewProtocol.swift; sourceTree = "<group>"; };
+		7B6BB9FC2C1AEA3400BC85F8 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +52,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6BB9E82C1AE57600BC85F8 /* SnapKit in Frameworks */,
+				7B6BB9E22C1AE50C00BC85F8 /* Kingfisher in Frameworks */,
+				7B6BB9E52C1AE53400BC85F8 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +83,9 @@
 				7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */,
 				7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */,
 				7B6BB9CC2C1ADFFB00BC85F8 /* ViewController.swift */,
+				7B6BB9F62C1AE67500BC85F8 /* Protocol */,
+				7B6BB9FB2C1AE9FE00BC85F8 /* Resource */,
+				7B6BB9E92C1AE5BB00BC85F8 /* Extension */,
 				7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */,
 				7B6BB9D32C1ADFFC00BC85F8 /* LaunchScreen.storyboard */,
 				7B6BB9D62C1ADFFC00BC85F8 /* Info.plist */,
@@ -68,6 +93,35 @@
 				7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */,
 			);
 			path = LagomStyle;
+			sourceTree = "<group>";
+		};
+		7B6BB9E92C1AE5BB00BC85F8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BB9EA2C1AE60C00BC85F8 /* UINavigationController+.swift */,
+				7B6BB9EC2C1AE61D00BC85F8 /* UIViewController+.swift */,
+				7B6BB9EE2C1AE63300BC85F8 /* UITableViewCell+.swift */,
+				7B6BB9F02C1AE63C00BC85F8 /* UICollectionViewCell.swift */,
+				7B6BB9F22C1AE64C00BC85F8 /* UIImageView+.swift */,
+				7B6BB9F42C1AE65200BC85F8 /* String+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		7B6BB9F62C1AE67500BC85F8 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BB9F72C1AE68C00BC85F8 /* ConfigureViewProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		7B6BB9FB2C1AE9FE00BC85F8 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BB9FC2C1AEA3400BC85F8 /* Resource.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +140,11 @@
 			dependencies = (
 			);
 			name = LagomStyle;
+			packageProductDependencies = (
+				7B6BB9E12C1AE50C00BC85F8 /* Kingfisher */,
+				7B6BB9E42C1AE53400BC85F8 /* Alamofire */,
+				7B6BB9E72C1AE57600BC85F8 /* SnapKit */,
+			);
 			productName = LagomStyle;
 			productReference = 7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +173,11 @@
 				Base,
 			);
 			mainGroup = 7B6BB9BC2C1ADFFB00BC85F8;
+			packageReferences = (
+				7B6BB9E02C1AE50C00BC85F8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				7B6BB9E32C1AE53400BC85F8 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 7B6BB9C62C1ADFFB00BC85F8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -141,7 +205,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6BB9FD2C1AEA3400BC85F8 /* Resource.swift in Sources */,
+				7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */,
 				7B6BB9CD2C1ADFFB00BC85F8 /* ViewController.swift in Sources */,
+				7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */,
+				7B6BB9F82C1AE68C00BC85F8 /* ConfigureViewProtocol.swift in Sources */,
+				7B6BB9EB2C1AE60C00BC85F8 /* UINavigationController+.swift in Sources */,
+				7B6BB9F12C1AE63C00BC85F8 /* UICollectionViewCell.swift in Sources */,
+				7B6BB9EF2C1AE63300BC85F8 /* UITableViewCell+.swift in Sources */,
+				7B6BB9ED2C1AE61D00BC85F8 /* UIViewController+.swift in Sources */,
 				7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */,
 				7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */,
 				7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */,
@@ -371,6 +443,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7B6BB9E02C1AE50C00BC85F8 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
+		7B6BB9E32C1AE53400BC85F8 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7B6BB9E12C1AE50C00BC85F8 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B6BB9E02C1AE50C00BC85F8 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		7B6BB9E42C1AE53400BC85F8 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B6BB9E32C1AE53400BC85F8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		7B6BB9E72C1AE57600BC85F8 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7B6BB9BD2C1ADFFB00BC85F8 /* Project object */;
 }

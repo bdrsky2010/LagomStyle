@@ -1,0 +1,109 @@
+//
+//  Resource.swift
+//  LagomStyle
+//
+//  Created by Minjae Kim on 6/13/24.
+//
+
+import UIKit
+
+// MARK: LagomStyle App에서 사용되는 Resource 정의
+enum LagomStyle {
+    
+    // MARK: App에서 사용되는 문구들
+    enum phrase {
+        static let splashAppTitle = "Lagom\nStyle"
+        static let start = "시작하기"
+        
+        static let searchTabBarTitle = "검색"
+        static let settingTabBarTitle = "설정"
+        
+        static let profileSetting = "PROFILE SETTING"
+        static let profileSettingPlaceholder = "닉네임을 입력해주세요"
+        static let complete = "완료"
+        
+        static let navigationAppTitle = "'s LagomStyle"
+        static let mainViewPlaceholder = "브랜드, 상품 등을 입력하세요."
+        static let recentSearch = "최근 검색"
+        static let removeAll = "전체 삭제"
+        
+        static let searchResult = "개의 검색 결과"
+        static let accuracyKorean = "정확도"
+        static let dateDscKorean = "정확도"
+        static let priceAscKorean = "가격낮은순"
+        static let priceDscKorean = "가격높은순"
+        
+        static let setting = "SETTING"
+        static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
+        
+        static let availableNickname = "사용 가능한 닉네임입니다 :D"
+        static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요"
+        static let specialCharacerX = "닉네임에 @, #, $, % 는 포함할 수 없어요"
+        static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요"
+        
+        static let editProfile = "EDIT PROFILE"
+    }
+    
+    // MARK: App에서 사용되는 UIColor Data
+    enum Color {
+        static let lagomPrimaryColor = UIColor.lagomOrange
+        static let lagomBlack = UIColor.lagomBlack
+        static let lagomGray = UIColor.lagomGray
+        static let lagomDarkGray = UIColor.lagomDarkGray
+        static let lagomLightGray = UIColor.lagomLightGray
+        static let lagomWhite = UIColor.lagomWhite
+    }
+    
+    // MARK: App에서 사용되는 Image Set 이름
+    enum Image {
+        case empty
+        case launch
+        case like(selected: Bool)
+        case profile(index: Int)
+        
+        var imageName: String {
+            switch self {
+            case .empty:
+                return String(describing: self)
+            case .launch:
+                return String(describing: self)
+            case .like(let selected):
+                return "like_\(selected ? "selected" : "unselected")"
+            case .profile(let index):
+                return "profile_\(index)"
+            }
+        }
+    }
+    
+    // MARK: App에서 사용되는 System Image 이름
+    enum SystemImage {
+        static let magnifyingglass = "magnifyingglass"
+        static let person = "person"
+        static let chevronRight = "chevron.right"
+        static let clock = "clock"
+        static let xmark = "xmark"
+        static let cameraFill = "camera.fill"
+    }
+    
+    // MARK: App에서 사용되는 선택O / 선택X 에 따른 프로필 이미지 border 설정 값
+    struct SetProfileImageBorder {
+        let borderWidth: CGFloat
+        let opacity: Float
+        
+        static let selected = SetProfileImageBorder(borderWidth: 3, opacity: 1)
+        static let unselected = SetProfileImageBorder(borderWidth: 1, opacity: 0.5)
+    }
+    
+    // MARK: App에서 사용되는 Text들의 Font
+    enum Font {
+        static let regular13 = UIFont.systemFont(ofSize: 13)
+        static let regular14 = UIFont.systemFont(ofSize: 14)
+        static let regular15 = UIFont.systemFont(ofSize: 15)
+        static let regular16 = UIFont.systemFont(ofSize: 16)
+        
+        static let bold13 = UIFont.boldSystemFont(ofSize: 13)
+        static let bold14 = UIFont.boldSystemFont(ofSize: 14)
+        static let bold15 = UIFont.boldSystemFont(ofSize: 15)
+        static let bold16 = UIFont.boldSystemFont(ofSize: 16)
+    }
+}

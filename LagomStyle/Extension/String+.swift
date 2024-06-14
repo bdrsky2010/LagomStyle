@@ -1,0 +1,28 @@
+//
+//  String+.swift
+//  LagomStyle
+//
+//  Created by Minjae Kim on 6/13/24.
+//
+
+import UIKit
+
+extension String {
+    
+    // MARK: 검색된 결과에 따른 해당 키워드 Text Color 변경
+    func changedSearchTextColor(_ text: String?) -> NSAttributedString {
+        guard let text, !text.isEmpty else {
+            return NSAttributedString(string: self)
+        }
+        
+        let attributedString = NSMutableAttributedString(string: self)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow, range: (self as NSString).range(of: text, options: .caseInsensitive))
+        
+        return attributedString
+    }
+    
+    // MARK: String Data를 URL 데이터타입으로 변환
+    var stringToURL: URL? {
+        return URL(string: self)
+    }
+}

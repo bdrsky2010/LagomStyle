@@ -18,7 +18,6 @@ enum LagomStyle {
         static let searchTabBarTitle = "검색"
         static let settingTabBarTitle = "설정"
         
-        static let profileSetting = "PROFILE SETTING"
         static let profileSettingPlaceholder = "닉네임을 입력해주세요"
         static let profileSettingComplete = "완료"
         
@@ -37,8 +36,6 @@ enum LagomStyle {
         static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
         static let specialCharacerX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
-        
-        static let editProfile = "EDIT PROFILE"
     }
     
     // MARK: App에서 사용되는 UIColor Data
@@ -111,5 +108,20 @@ enum LagomStyle {
         static let profileImage = "profileImage"
         static let recentSearchQueries = "recentSearchQueries"
         static let productIDsInBasket = "productIDsInBasket"
+    }
+    
+    // MARK: Profile Setup Option: setup OR edit
+    enum ProfileSetupOption {
+        case setup
+        case edit
+        
+        var title: String {
+            switch self {
+            case .setup:
+                return "PROFILE SETTING"
+            case .edit:
+                return "EDIT PROFILE"
+            }
+        }
     }
 }

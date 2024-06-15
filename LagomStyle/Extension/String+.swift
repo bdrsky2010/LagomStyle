@@ -16,7 +16,8 @@ extension String {
         }
         
         let attributedString = NSMutableAttributedString(string: self)
-        attributedString.addAttribute(.foregroundColor, value: UIColor.yellow, range: (self as NSString).range(of: text, options: .caseInsensitive))
+        attributedString.addAttribute(.foregroundColor, value: LagomStyle.Color.lagomPrimaryColor,
+                                      range: (self as NSString).range(of: text, options: .caseInsensitive))
         
         return attributedString
     }

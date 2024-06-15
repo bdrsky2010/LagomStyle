@@ -24,3 +24,28 @@ struct NVSProduct: Decodable {
     let mallName: String
     let productId: String
 }
+
+// MARK: NAVER Shopping Search Sort Options
+enum NVSSSort: CaseIterable {
+    case sim
+    case date
+    case asc
+    case dsc
+    
+    var parameter: String {
+        return String(describing: self)
+    }
+    
+    var segmentedTitle: String {
+        switch self {
+        case .sim:
+            return "정확도"
+        case .date:
+            return "날짜순"
+        case .asc:
+            return "가격높은순"
+        case .dsc:
+            return "가격낮은순"
+        }
+    }
+}

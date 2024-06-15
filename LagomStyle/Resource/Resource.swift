@@ -12,30 +12,31 @@ enum LagomStyle {
     
     // MARK: App에서 사용되는 문구들
     enum phrase {
-        static let splashAppTitle = "Lagom\nStyle"
-        static let start = "시작하기"
+        static let onBoardingAppTitle = "Lagom\nStyle"
+        static let onBoardingStart = "시작하기"
         
         static let searchTabBarTitle = "검색"
         static let settingTabBarTitle = "설정"
         
         static let profileSetting = "PROFILE SETTING"
         static let profileSettingPlaceholder = "닉네임을 입력해주세요"
-        static let complete = "완료"
+        static let profileSettingComplete = "완료"
         
-        static let navigationAppTitle = "'s LagomStyle"
+        static let mainViewNavigationTitle = "'s LagomStyle"
         static let mainViewPlaceholder = "브랜드, 상품 등을 입력하세요."
-        static let recentSearch = "최근 검색"
-        static let removeAll = "전체 삭제"
+        static let mainViewRecentSearch = "최근 검색"
+        static let mainViewNoRecentSearch = "최근 검색어가 없어요"
+        static let mainViewRemoveAll = "전체 삭제"
         
         static let searchResult = "개의 검색 결과"
         
         static let setting = "SETTING"
         static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
         
-        static let availableNickname = "사용 가능한 닉네임입니다 :D"
-        static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요"
-        static let specialCharacerX = "닉네임에 @, #, $, % 는 포함할 수 없어요"
-        static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요"
+        static let availableNickname = "사용 가능한 닉네임입니다 ୧༼ ヘ ᗜ ヘ ༽୨"
+        static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
+        static let specialCharacerX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
+        static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
         static let editProfile = "EDIT PROFILE"
     }
@@ -101,5 +102,14 @@ enum LagomStyle {
         static let bold14 = UIFont.boldSystemFont(ofSize: 14)
         static let bold15 = UIFont.boldSystemFont(ofSize: 15)
         static let bold16 = UIFont.boldSystemFont(ofSize: 16)
+    }
+    
+    // MARK: App에서 사용되는 UserDefaults Key
+    enum UserDefaultsKey {
+        static let isOnboarding = "isOnboarding"
+        static let nickname = "nickname"
+        static let profileImage = "profileImage"
+        static let recentSearchQueries = "recentSearchQueries"
+        static let productIDsInBasket = "productIDsInBasket"
     }
 }

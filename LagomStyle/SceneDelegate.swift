@@ -17,19 +17,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        var navigationController: UINavigationController
-        
         if let isOnboarding = UserDefaultsHelper.getUserDefaults(forKey: LagomStyle.UserDefaultsKey.isOnboarding) as? Bool, isOnboarding {
-            navigationController = UINavigationController(rootViewController: MainViewController())
+            window?.rootViewController = MainTabBarController()
         } else {
-            navigationController = UINavigationController(rootViewController: OnboardingViewController())
+            let navigationController = UINavigationController(rootViewController: OnboardingViewController())
+            navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
+            navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
+                                                                 textColor: LagomStyle.Color.lagomBlack)
+            window?.rootViewController = navigationController
         }
-        
-        navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
-        navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
-                                                             textColor: LagomStyle.Color.lagomBlack)
-        
-        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 

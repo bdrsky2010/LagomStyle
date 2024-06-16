@@ -38,7 +38,7 @@ final class ProfileImageSetupViewController: UIViewController, ConfigureViewProt
     
     var selectedImageIndex: Int?
     var pfImageSetupType: LagomStyle.PFSetupOption?
-    var pfImageSetupDelegate: PFImageSetupDelegate?
+    var delegate: PFImageSetupDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +117,7 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
             profileImage.configureContent(image: LagomStyle.Image.profile(index: index).imageName)
             
             if let selectedImageIndex {
-                pfImageSetupDelegate?.setupPFImage(selectedIndex: selectedImageIndex)
+                delegate?.setupPFImage(selectedIndex: selectedImageIndex)
             }
             
             selectedImageIndex = index

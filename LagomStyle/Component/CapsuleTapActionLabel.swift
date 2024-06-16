@@ -71,6 +71,8 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         
         if tag == 0 {
             selectUI()
+        } else {
+            unSelectUI()
         }
     }
     

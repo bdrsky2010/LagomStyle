@@ -44,7 +44,7 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         UserDefaultsHelper.setUserDefaults(value: selectedImageIndex,
                                            forKey: LagomStyle.UserDefaultsKey.profileImageIndex)
         
-        let mainViewController = MainViewController()
+        let mainViewController = NVSSearchViewController()
         changeRootViewController(rootViewController: mainViewController)
     }
     

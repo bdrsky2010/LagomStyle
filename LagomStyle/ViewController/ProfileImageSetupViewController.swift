@@ -36,8 +36,8 @@ final class ProfileImageSetupViewController: UIViewController, ConfigureViewProt
         return collectionView
     }()
     
-    var pfImageSetupType: LagomStyle.PFSetupOption?
     var selectedImageIndex: Int?
+    var pfImageSetupType: LagomStyle.PFSetupOption?
     var pfImageSetupDelegate: PFImageSetupDelegate?
     
     override func viewDidLoad() {

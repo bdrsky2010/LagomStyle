@@ -15,13 +15,14 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     
     private var isTapped = false
     
-    var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
+//    var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
+    var tapAction: (() -> Void)?
     
     init() {
         super.init(frame: .zero)
     }
     
-    convenience init(title: String, tag: Int, tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?) {
+    convenience init(title: String, tag: Int, tapAction: (() -> Void)?) {
         self.init()
         self.tag = tag
         self.tapAction = tapAction
@@ -44,7 +45,9 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     }
     
     @objc private func tappedAction() {
-        tapAction?(self)
+        resultFilteringButtonTapped()
+        
+        tapAction?()
     }
     
     private func configureView() {
@@ -71,7 +74,7 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         }
     }
     
-    func resultFilteringButtonTapped() {
+    private func resultFilteringButtonTapped() {
         isTapped.toggle()
         
         if isTapped {

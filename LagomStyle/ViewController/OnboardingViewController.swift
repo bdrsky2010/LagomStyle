@@ -32,7 +32,11 @@ final class OnboardingViewController: UIViewController, ConfigureViewProtocol {
     
     private lazy var startButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.onBoardingStart) { [weak self] in
         guard let self else { return }
-        navigationController?.pushViewController(ProfileNicknameSetupViewController(), animated: true)
+        
+        let profileSetupViewController = ProfileSetupViewController()
+        profileSetupViewController.pfSetupType = .setup
+        
+        navigationController?.pushViewController(profileSetupViewController, animated: true)
     }
     
     override func viewDidLoad() {

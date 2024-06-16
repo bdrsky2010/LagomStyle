@@ -161,7 +161,7 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         let profileImageSetupViewController = ProfileImageSetupViewController()
         profileImageSetupViewController.pfImageSetupType = .setup
         profileImageSetupViewController.selectedImageIndex = selectedImageIndex
-        profileImageSetupViewController.pfImageSetupDelegate = self
+        profileImageSetupViewController.delegate = self
         
         navigationController?.pushViewController(profileImageSetupViewController, animated: true)
     }

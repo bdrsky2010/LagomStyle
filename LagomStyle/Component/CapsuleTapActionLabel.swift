@@ -22,7 +22,7 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         super.init(frame: .zero)
     }
     
-    convenience init(title: String, tag: Int, tapAction: (() -> Void)?) {
+    convenience init(title: String, tag: Int, tapAction: (() -> Void)? = nil) {
         self.init()
         self.tag = tag
         self.tapAction = tapAction

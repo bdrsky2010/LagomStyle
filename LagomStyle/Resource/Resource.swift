@@ -21,15 +21,15 @@ enum LagomStyle {
         static let profileSettingPlaceholder = "닉네임을 입력해주세요 :)"
         static let profileSettingComplete = "완료"
         
-        static let mainViewNavigationTitle = "'s LagomStyle"
-        static let mainViewPlaceholder = "브랜드, 상품 등을 입력하세요."
-        static let mainViewRecentSearch = "최근 검색"
-        static let mainViewNoRecentSearch = "최근 검색어가 없어요"
-        static let mainViewRemoveAll = "전체 삭제"
+        static let searchViewNavigationTitle = "'s LagomStyle"
+        static let searchViewPlaceholder = "브랜드, 상품 등을 입력하세요."
+        static let searchViewRecentSearch = "최근 검색"
+        static let searchViewNoRecentSearch = "최근 검색어가 없어요"
+        static let searchViewRemoveAll = "전체 삭제"
         
         static let searchResult = "개의 검색 결과"
         
-        static let setting = "SETTING"
+        static let settingViewNavigationTitle = "SETTING"
         static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
         
         static let availableNickname = "사용 가능한 닉네임입니다 ୧༼ ヘ ᗜ ヘ ༽୨"

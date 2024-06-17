@@ -53,6 +53,8 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         return collectionView
     }()
     
+    private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
+    
     private let searchDisplayCount = 30
     private let nvsSortTypeList = NVSSSort.allCases
     
@@ -92,6 +94,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         configureHierarchy()
         configureLayout()
         configureCollectionView()
+        emptyView.isHidden = true
     }
     
     func configureNavigation() {
@@ -106,6 +109,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         view.addSubview(priceAscFilteringButton)
         view.addSubview(priceDscFilteringButton)
         view.addSubview(searchResultCollectionView)
+        view.addSubview(emptyView)
     }
     
     func configureLayout() {
@@ -135,6 +139,11 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         
         searchResultCollectionView.snp.makeConstraints { make in
             make.top.equalTo(accuracyFilteringButton.snp.bottom).offset(16)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(accuracyFilteringButton.snp.bottom)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -287,10 +296,12 @@ extension NVSSearchResultViewController {
                 
                 guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
                     searchResultCollectionView.isHidden = true
+                    emptyView.isHidden = false
                     return
                 }
                 
                 searchResultCollectionView.isHidden = false
+                emptyView.isHidden = true
                 if let result = searchResult {
                     if result.total <= result.items.count {
                         nvssIsPagingEnd = true

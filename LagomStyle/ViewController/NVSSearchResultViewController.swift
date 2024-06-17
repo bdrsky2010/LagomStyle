@@ -211,7 +211,22 @@ extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
 extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let nvs
+        let nvsProductDetailViewController = NVSProductDetailViewController()
+        
+        let index = indexPath.row
+        let product = searchResultList[selectedButtonTag].items[index]
+        
+        if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
+            nvsProductDetailViewController.isLike = true
+        } else {
+            nvsProductDetailViewController.isLike = false
+        }
+        nvsProductDetailViewController.delegate = self
+        nvsProductDetailViewController.productTitle = product.title
+        nvsProductDetailViewController.productLink = product.link
+        nvsProductDetailViewController.row = index
+        
+        navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -16,6 +16,9 @@ enum UserDefaultsHelper {
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.nickname)
     static var nickname: String?
     
+    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.signUpDate)
+    static var signUpDate: String?
+    
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.profileImageIndex)
     static var profileImageIndex: Int?
     
@@ -25,16 +28,17 @@ enum UserDefaultsHelper {
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.likeProducts)
     static var likeProducts: [NVSProduct]?
     
-    static func getUserDefaults(forKey: String) -> Any? {
-        return UserDefaults.standard.object(forKey: forKey)
-    }
-    
-    static func setUserDefaults<T>(value: T, forKey: String) {
-        UserDefaults.standard.set(value, forKey: forKey)
-    }
-    
-    static func removeUsetDefaults(forKey: String) {
+    static func removeUserDefaults(forKey: String) {
         UserDefaults.standard.removeObject(forKey: forKey)
+    }
+    
+    static func removeAllUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.isOnboarding)
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.nickname)
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.signUpDate)
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.profileImageIndex)
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
+        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.likeProducts)
     }
 }
 

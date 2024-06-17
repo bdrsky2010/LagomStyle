@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NVSSearchDelegate {
-    func setLikeButtonImageToggle(row: Int)
+    func setLikeButtonImageToggle(row: Int, isLike: Bool)
 }

@@ -56,11 +56,11 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     private let searchDisplayCount = 30
     private let nvsSortTypeList = NVSSSort.allCases
     
-    // 0. 정확도 1. 날짜순 2. 가격높은순 3. 가격낮은순
-    private var searchResultList = Array(repeating: NVSSearch(total: 0, start: 0, display: 0, items: []), count: 4)
     private var selectedButtonTag = 0
-    private var nvssStartNumberList = [1, 1, 1, 1]
-    private var nvssIsPagingEndList = [false, false, false, false]
+    private var searchResult: NVSSearch?
+    private var nvssStartNumber = 1
+    private var nvssIsPagingEnd = false
+    
     private var likeProductList: [NVSProduct] {
         get {
             guard let list = UserDefaultsHelper.likeProducts else { return [] }
@@ -148,9 +148,10 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
-        guard selectedButtonTag != sender.tag else { return }
         
         searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        
+        guard selectedButtonTag != sender.tag else { return }
         
         let filteringButtonList = [
             accuracyFilteringButton, dateFilteringButton, priceAscFilteringButton, priceDscFilteringButton
@@ -158,13 +159,11 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         filteringButtonList[selectedButtonTag].unSelectUI()
         sender.selectUI()
         selectedButtonTag = sender.tag
+        searchResult = nil
+        nvssStartNumber = 1
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let self else { return }
-            
-            if let query {
-                requestNVSSearchAPI(query: query)
-            }
+        if let query {
+            requestNVSSearchAPI(query: query)
         }
     }
 }
@@ -172,7 +171,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
 extension NVSSearchResultViewController: NVSSearchDelegate {
     
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
-        let product = searchResultList[selectedButtonTag].items[row]
+        guard let product = searchResult?.items[row] else { return }
         
         if isLike {
             var likeProducts = UserDefaultsHelper.likeProducts ?? []
@@ -198,11 +197,11 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
 
 extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let query, !nvssIsPagingEndList[selectedButtonTag] else { return }
+        guard let query, !nvssIsPagingEnd else { return }
         for indexPath in indexPaths {
             let row = indexPath.row
-            print(row, nvssStartNumberList[selectedButtonTag])
-            if row == nvssStartNumberList[selectedButtonTag] - 5 {
+            print(row, nvssStartNumber)
+            if row == nvssStartNumber - 5 {
                 requestNVSSearchAPI(query: query)
             }
         }
@@ -212,10 +211,10 @@ extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
 extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let nvsProductDetailViewController = NVSProductDetailViewController()
-        
         let index = indexPath.row
-        let product = searchResultList[selectedButtonTag].items[index]
+        guard let product = searchResult?.items[index] else { return }
+        
+        let nvsProductDetailViewController = NVSProductDetailViewController()
         
         if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
             nvsProductDetailViewController.isLike = true
@@ -231,13 +230,13 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResultList[selectedButtonTag].items.count
+        return searchResult?.items.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
-        let product = searchResultList[selectedButtonTag].items[index]
+        guard let product = searchResult?.items[index] else { return cell }
         
         if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
             cell.isLiske = true
@@ -258,7 +257,7 @@ extension NVSSearchResultViewController {
         let parameters: Parameters = [
             "query": query,
             "display": searchDisplayCount,
-            "start": nvssStartNumberList[selectedButtonTag],
+            "start": nvssStartNumber,
             "sort": nvsSortTypeList[selectedButtonTag].parameter
         ]
         let headers: HTTPHeaders = [
@@ -283,16 +282,18 @@ extension NVSSearchResultViewController {
                 }
                 searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
                 
-                if searchResultList[selectedButtonTag].total <= searchResultList[selectedButtonTag].items.count {
-                    nvssIsPagingEndList[selectedButtonTag] = false
-                }
-                
-                if searchResultList[selectedButtonTag].items.isEmpty {
-                    searchResultList[selectedButtonTag] = value
-                    nvssStartNumberList[selectedButtonTag] += searchDisplayCount
-                } else if !nvssIsPagingEndList[selectedButtonTag] {
-                    searchResultList[selectedButtonTag].items.append(contentsOf: value.items)
-                    nvssStartNumberList[selectedButtonTag] += searchDisplayCount
+                if let result = searchResult {
+                    if result.total <= result.items.count {
+                        nvssIsPagingEnd = true
+                    }
+                    
+                    if !nvssIsPagingEnd {
+                        searchResult?.items.append(contentsOf: value.items)
+                        nvssStartNumber += searchDisplayCount
+                    }
+                } else {
+                    searchResult = value
+                    nvssStartNumber += searchDisplayCount
                 }
                 searchResultCollectionView.reloadData()
             case .failure(let error):

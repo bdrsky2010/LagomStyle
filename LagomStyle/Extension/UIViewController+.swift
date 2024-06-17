@@ -45,3 +45,25 @@ extension UIViewController {
         window.makeKeyAndVisible()
     }
 }
+
+extension UIViewController {
+    func presentAlert(title: String, message: String, completionHandler: @escaping () -> Void) {
+        // 1. alert 창 구성
+        let title = title
+        let message = message
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        // 2. alert button 구성
+        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
+            completionHandler()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        // 3. alert에 button 추가
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
+    }
+}

@@ -27,7 +27,7 @@ enum LagomStyle {
         static let searchViewNoRecentSearch = "최근 검색어가 없어요"
         static let searchViewRemoveAll = "전체 삭제"
         
-        static let searchResult = "개의 검색 결과"
+        static let searchResultCount = "개의 검색 결과"
         
         static let settingViewNavigationTitle = "SETTING"
         static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
@@ -120,7 +120,7 @@ enum LagomStyle {
         static let nickname = "nickname"
         static let profileImageIndex = "profileImageIndex"
         static let recentSearchQueries = "recentSearchQueries"
-        static let productIDsInBasket = "productIDsInBasket"
+        static let likeProducts = "likeProducts"
     }
     
     // MARK: Profile Setup Option: setup OR edit

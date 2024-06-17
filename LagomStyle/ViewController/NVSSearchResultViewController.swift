@@ -185,6 +185,7 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
                 for i in 0..<likeProducts.count {
                     if likeProducts[i] == product {
                         likeProducts.remove(at: i)
+                        break
                     }
                 }
                 UserDefaultsHelper.likeProducts = likeProducts

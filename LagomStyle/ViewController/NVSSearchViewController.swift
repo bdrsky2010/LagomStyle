@@ -103,15 +103,20 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
             if !newValue.isEmpty {
                 UserDefaultsHelper.recentSearchQueries = newValue
             } else {
-                UserDefaultsHelper.removeUsetDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
+                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
             }
             recentSearchTableView.reloadData()
         }
     }
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigation()
     }
     
     private func configureView() {

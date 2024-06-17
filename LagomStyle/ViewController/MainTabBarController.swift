@@ -21,6 +21,13 @@ final class MainTabBarController: UITabBarController {
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         let settingNavigationController = UINavigationController(rootViewController: settingViewController)
         
+        searchNavigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
+        searchNavigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
+                                                             textColor: LagomStyle.Color.lagomBlack)
+        settingNavigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
+        settingNavigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
+                                                             textColor: LagomStyle.Color.lagomBlack)
+        
         searchNavigationController.tabBarItem = UITabBarItem(
             title: LagomStyle.phrase.searchTabBarTitle,
             image: UIImage(systemName: LagomStyle.SystemImage.magnifyingglass),

@@ -11,18 +11,22 @@ import SnapKit
 
 final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     
-    private let label = UILabel()
+    private let label: UILabel = {
+        let lable = UILabel()
+        lable.font = LagomStyle.Font.regular14
+        return lable
+    }()
     
-    private var isTapped = false
+//    private var isTapped = false
     
-//    var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
-    var tapAction: (() -> Void)?
+    var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
+//    var tapAction: (() -> Void)?
     
     init() {
         super.init(frame: .zero)
     }
     
-    convenience init(title: String, tag: Int, tapAction: (() -> Void)? = nil) {
+    convenience init(title: String, tag: Int, tapAction: ((_ sender: CapsuleTapActionButton) -> Void)? = nil) {
         self.init()
         self.tag = tag
         self.tapAction = tapAction
@@ -45,9 +49,9 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     }
     
     @objc private func tappedAction() {
-        resultFilteringButtonTapped()
+//        resultFilteringButtonTapped()
         
-        tapAction?()
+        tapAction?(self)
     }
     
     private func configureView() {
@@ -62,7 +66,8 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     
     func configureLayout() {
         label.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(8)
+            make.verticalEdges.equalToSuperview().inset(8)
+            make.horizontalEdges.equalToSuperview().inset(12)
         }
     }
     
@@ -76,23 +81,23 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         }
     }
     
-    private func resultFilteringButtonTapped() {
-        isTapped.toggle()
-        
-        if isTapped {
-            selectUI()
-        } else {
-            unSelectUI()
-        }
-    }
+//    func resultFilteringButtonTapped() {
+//        isTapped.toggle()
+//        
+//        if isTapped {
+//            selectUI()
+//        } else {
+//            unSelectUI()
+//        }
+//    }
     
-    private func selectUI() {
+    func selectUI() {
         label.textColor = LagomStyle.Color.lagomWhite
         backgroundColor = LagomStyle.Color.lagomDarkGray
         layer.borderWidth = 0
     }
     
-    private func unSelectUI() {
+    func unSelectUI() {
         label.textColor = LagomStyle.Color.lagomBlack
         backgroundColor = LagomStyle.Color.lagomWhite
         layer.borderWidth = 1

@@ -59,6 +59,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     }()
     
     private let recentSearchTableView = UITableView()
+    
     private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchViewNoRecentSearch)
     
     private var recentSearchQueries: [String] {

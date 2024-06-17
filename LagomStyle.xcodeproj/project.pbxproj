@@ -25,6 +25,26 @@
 		7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F42C1AE65200BC85F8 /* String+.swift */; };
 		7B6BB9F82C1AE68C00BC85F8 /* ConfigureViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9F72C1AE68C00BC85F8 /* ConfigureViewProtocol.swift */; };
 		7B6BB9FD2C1AEA3400BC85F8 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9FC2C1AEA3400BC85F8 /* Resource.swift */; };
+		7B6BBA002C1DD30D00BC85F8 /* NVSSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9FF2C1DD30D00BC85F8 /* NVSSearch.swift */; };
+		7B6BBA032C1DE66600BC85F8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */; };
+		7B6BBA052C1DE6CC00BC85F8 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */; };
+		7B6BBA072C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */; };
+		7B6BBA092C1DE6E700BC85F8 /* NVSSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */; };
+		7B6BBA0C2C1DE76D00BC85F8 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */; };
+		7B6BBA0E2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */; };
+		7B6BBA102C1DE83200BC85F8 /* NVSSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */; };
+		7B6BBA122C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */; };
+		7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */; };
+		7B6BBA182C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */; };
+		7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */; };
+		7B6BBA1E2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA1D2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift */; };
+		7B6BBA232C1F13FE00BC85F8 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA222C1F13FE00BC85F8 /* UserDefaultsHelper.swift */; };
+		7B6BBA252C1F221A00BC85F8 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */; };
+		7B6BBA272C1F358B00BC85F8 /* RecentSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA262C1F358B00BC85F8 /* RecentSearchTableViewCell.swift */; };
+		7B6BBA292C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */; };
+		7B6BBA2C2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */; };
+		7B6BBA5C2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */; };
+		7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +65,25 @@
 		7B6BB9F42C1AE65200BC85F8 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		7B6BB9F72C1AE68C00BC85F8 /* ConfigureViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureViewProtocol.swift; sourceTree = "<group>"; };
 		7B6BB9FC2C1AEA3400BC85F8 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		7B6BB9FF2C1DD30D00BC85F8 /* NVSSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearch.swift; sourceTree = "<group>"; };
+		7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
+		7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSetupViewController.swift; sourceTree = "<group>"; };
+		7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchViewController.swift; sourceTree = "<group>"; };
+		7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
+		7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorRoundedButton.swift; sourceTree = "<group>"; };
+		7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchResultViewController.swift; sourceTree = "<group>"; };
+		7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSProduceDetailViewController.swift; sourceTree = "<group>"; };
+		7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleTapActionLabel.swift; sourceTree = "<group>"; };
+		7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B6BBA1D2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFImageSetupDelegate.swift; sourceTree = "<group>"; };
+		7B6BBA222C1F13FE00BC85F8 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		7B6BBA262C1F358B00BC85F8 /* RecentSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCell.swift; sourceTree = "<group>"; };
+		7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchQueryDelegate.swift; sourceTree = "<group>"; };
+		7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B6BB9E82C1AE57600BC85F8 /* SnapKit in Frameworks */,
+				7B6BBA2C2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift in Frameworks */,
 				7B6BB9E22C1AE50C00BC85F8 /* Kingfisher in Frameworks */,
 				7B6BB9E52C1AE53400BC85F8 /* Alamofire in Frameworks */,
 			);
@@ -83,8 +123,12 @@
 				7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */,
 				7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */,
 				7B6BB9CC2C1ADFFB00BC85F8 /* ViewController.swift */,
+				7B6BB9FE2C1DD2FD00BC85F8 /* Model */,
 				7B6BB9F62C1AE67500BC85F8 /* Protocol */,
 				7B6BB9FB2C1AE9FE00BC85F8 /* Resource */,
+				7B6BBA0A2C1DE74E00BC85F8 /* Component */,
+				7B6BBA012C1DD35C00BC85F8 /* ViewController */,
+				7B6BBA212C1F13EB00BC85F8 /* Helper */,
 				7B6BB9E92C1AE5BB00BC85F8 /* Extension */,
 				7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */,
 				7B6BB9D32C1ADFFC00BC85F8 /* LaunchScreen.storyboard */,
@@ -124,6 +168,61 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		7B6BB9FE2C1DD2FD00BC85F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BB9FF2C1DD30D00BC85F8 /* NVSSearch.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7B6BBA012C1DD35C00BC85F8 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA1A2C1F01FF00BC85F8 /* Delegate */,
+				7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */,
+				7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */,
+				7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */,
+				7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */,
+				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
+				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
+				7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */,
+				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		7B6BBA0A2C1DE74E00BC85F8 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */,
+				7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */,
+				7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */,
+				7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */,
+				7B6BBA262C1F358B00BC85F8 /* RecentSearchTableViewCell.swift */,
+				7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		7B6BBA1A2C1F01FF00BC85F8 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA1D2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift */,
+				7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */,
+				7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		7B6BBA212C1F13EB00BC85F8 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA222C1F13FE00BC85F8 /* UserDefaultsHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,6 +243,7 @@
 				7B6BB9E12C1AE50C00BC85F8 /* Kingfisher */,
 				7B6BB9E42C1AE53400BC85F8 /* Alamofire */,
 				7B6BB9E72C1AE57600BC85F8 /* SnapKit */,
+				7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */,
 			);
 			productName = LagomStyle;
 			productReference = 7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */;
@@ -177,6 +277,7 @@
 				7B6BB9E02C1AE50C00BC85F8 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				7B6BB9E32C1AE53400BC85F8 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				7B6BBA2A2C1F3A0E00BC85F8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 7B6BB9C62C1ADFFB00BC85F8 /* Products */;
 			projectDirPath = "";
@@ -205,18 +306,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6BBA272C1F358B00BC85F8 /* RecentSearchTableViewCell.swift in Sources */,
+				7B6BBA232C1F13FE00BC85F8 /* UserDefaultsHelper.swift in Sources */,
+				7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */,
+				7B6BBA1E2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift in Sources */,
 				7B6BB9FD2C1AEA3400BC85F8 /* Resource.swift in Sources */,
+				7B6BBA292C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift in Sources */,
+				7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */,
 				7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */,
 				7B6BB9CD2C1ADFFB00BC85F8 /* ViewController.swift in Sources */,
+				7B6BBA122C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift in Sources */,
 				7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */,
+				7B6BBA072C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift in Sources */,
 				7B6BB9F82C1AE68C00BC85F8 /* ConfigureViewProtocol.swift in Sources */,
+				7B6BBA0C2C1DE76D00BC85F8 /* ProfileImageView.swift in Sources */,
+				7B6BBA0E2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift in Sources */,
+				7B6BBA002C1DD30D00BC85F8 /* NVSSearch.swift in Sources */,
+				7B6BBA092C1DE6E700BC85F8 /* NVSSearchViewController.swift in Sources */,
 				7B6BB9EB2C1AE60C00BC85F8 /* UINavigationController+.swift in Sources */,
 				7B6BB9F12C1AE63C00BC85F8 /* UICollectionViewCell.swift in Sources */,
+				7B6BBA5C2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift in Sources */,
 				7B6BB9EF2C1AE63300BC85F8 /* UITableViewCell+.swift in Sources */,
 				7B6BB9ED2C1AE61D00BC85F8 /* UIViewController+.swift in Sources */,
 				7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */,
+				7B6BBA252C1F221A00BC85F8 /* MainTabBarController.swift in Sources */,
+				7B6BBA032C1DE66600BC85F8 /* OnboardingViewController.swift in Sources */,
 				7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */,
+				7B6BBA102C1DE83200BC85F8 /* NVSSearchResultViewController.swift in Sources */,
+				7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */,
 				7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */,
+				7B6BBA182C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift in Sources */,
+				7B6BBA052C1DE6CC00BC85F8 /* ProfileSetupViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +589,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		7B6BBA2A2C1F3A0E00BC85F8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -486,6 +614,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B6BBA2A2C1F3A0E00BC85F8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

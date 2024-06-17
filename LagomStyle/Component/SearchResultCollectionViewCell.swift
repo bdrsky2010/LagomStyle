@@ -164,6 +164,10 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         }
     }
     
+    func highlightingWithQuery(query: String?) {
+        productTitleLabel.attributedText = productTitleLabel.text?.changedSearchTextColor(query)
+    }
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

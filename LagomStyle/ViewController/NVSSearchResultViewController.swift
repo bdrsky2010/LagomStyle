@@ -148,8 +148,10 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
-        
-        searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
+        if !searchResultCollectionView.isHidden {
+            searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        }
         
         guard selectedButtonTag != sender.tag else { return }
         
@@ -283,6 +285,12 @@ extension NVSSearchResultViewController {
                 }
                 searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
                 
+                guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
+                    searchResultCollectionView.isHidden = true
+                    return
+                }
+                
+                searchResultCollectionView.isHidden = false
                 if let result = searchResult {
                     if result.total <= result.items.count {
                         nvssIsPagingEnd = true
@@ -297,6 +305,7 @@ extension NVSSearchResultViewController {
                     nvssStartNumber += searchDisplayCount
                 }
                 searchResultCollectionView.reloadData()
+                    
             case .failure(let error):
                 print(error)
             }

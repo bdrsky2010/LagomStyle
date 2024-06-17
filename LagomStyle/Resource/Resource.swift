@@ -30,12 +30,15 @@ enum LagomStyle {
         static let searchResultCount = "개의 검색 결과"
         
         static let settingViewNavigationTitle = "SETTING"
-        static let settingOptions = ["나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
+        static let settingOptions = ["", "나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
         
         static let availableNickname = "사용 가능한 닉네임입니다 ୧༼ ヘ ᗜ ヘ ༽୨"
         static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
         static let specialCharacterX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
+        
+        static let withDrawAlertTitle = "탈퇴하기"
+        static let withDrawAlertMessage = "탈퇴하면 모든 데이터가 초기화됩니다. 탈퇴 하시겠습니까?"
     }
     
     // MARK: App에서 사용되는 UIColor Data
@@ -118,6 +121,7 @@ enum LagomStyle {
     enum UserDefaultsKey {
         static let isOnboarding = "isOnboarding"
         static let nickname = "nickname"
+        static let signUpDate = "signUpDate"
         static let profileImageIndex = "profileImageIndex"
         static let recentSearchQueries = "recentSearchQueries"
         static let likeProducts = "likeProducts"

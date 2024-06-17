@@ -59,23 +59,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     }()
     
     private let recentSearchTableView = UITableView()
-    
-    private let emptyView = UIView()
-    
-    private let emptyImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.image = UIImage(named: LagomStyle.Image.empty.imageName)
-        return imageView
-    }()
-    
-    private let emptyText: UILabel = {
-        let label = UILabel()
-        label.font = LagomStyle.Font.black16
-        label.textColor = LagomStyle.Color.lagomBlack
-        label.text = LagomStyle.phrase.searchViewNoRecentSearch
-        return label
-    }()
+    private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchViewNoRecentSearch)
     
     private var recentSearchQueries: [String] {
         get {
@@ -145,10 +129,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         view.addSubview(recentSearchTableViewTitleLabel)
         view.addSubview(removeAllQueriesButton)
         view.addSubview(recentSearchTableView)
-        
         view.addSubview(emptyView)
-        emptyView.addSubview(emptyImage)
-        emptyView.addSubview(emptyText)
     }
     
     func configureLayout() {
@@ -195,17 +176,6 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         emptyView.snp.makeConstraints { make in
             make.top.equalTo(divider.snp.bottom)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        emptyImage.snp.makeConstraints { make in
-            make.centerY.equalTo(emptyView.snp.centerY)
-            make.horizontalEdges.equalToSuperview().inset(16)
-            make.height.equalTo(emptyView.snp.height).multipliedBy(0.5)
-        }
-        
-        emptyText.snp.makeConstraints { make in
-            make.top.equalTo(emptyImage.snp.bottom)
-            make.centerX.equalToSuperview()
         }
     }
     

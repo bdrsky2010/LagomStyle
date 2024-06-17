@@ -68,7 +68,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         }
         set {
             guard !newValue.isEmpty else {
-                UserDefaultsHelper.removeUsetDefaults(forKey: LagomStyle.UserDefaultsKey.likeProducts)
+                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.likeProducts)
                 return
             }
             UserDefaultsHelper.likeProducts = newValue

@@ -27,7 +27,7 @@ final class SettingTableViewCell: UITableViewCell, ConfigureViewProtocol {
     
     private let likeProductCountLabel: UILabel = {
         let label = UILabel()
-        label.font = LagomStyle.Font.regular14
+        label.font = LagomStyle.Font.regular15
         label.textColor = LagomStyle.Color.lagomBlack
         return label
     }()
@@ -89,7 +89,12 @@ final class SettingTableViewCell: UITableViewCell, ConfigureViewProtocol {
         }
         likeProductCountLabel.isHidden = false
         basketImageView.isHidden = false
-        likeProductCountLabel.text = "\(likeProductsCount)개의 상품"
+        
+        let textCount = (likeProductsCount / 10) + 2
+        let attributedString = NSMutableAttributedString(string: "\(likeProductsCount)개의 상품")
+        let blackAttribute = [NSAttributedString.Key.font: LagomStyle.Font.black15]
+        attributedString.addAttributes(blackAttribute, range: NSRange(location: 0, length: textCount))
+        likeProductCountLabel.attributedText = attributedString
     }
     
     @available(*, unavailable)

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */; };
 		7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */; };
-		7B6BB9CD2C1ADFFB00BC85F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CC2C1ADFFB00BC85F8 /* ViewController.swift */; };
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
 		7B6BB9D52C1ADFFC00BC85F8 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D42C1ADFFC00BC85F8 /* Base */; };
 		7B6BB9DD2C1AE11F00BC85F8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9DC2C1AE11F00BC85F8 /* .gitignore */; };
@@ -33,7 +32,7 @@
 		7B6BBA0C2C1DE76D00BC85F8 /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */; };
 		7B6BBA0E2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */; };
 		7B6BBA102C1DE83200BC85F8 /* NVSSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */; };
-		7B6BBA122C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */; };
+		7B6BBA122C1DE85F00BC85F8 /* NVSProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */; };
 		7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */; };
 		7B6BBA182C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */; };
 		7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */; };
@@ -45,13 +44,16 @@
 		7B6BBA2C2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */; };
 		7B6BBA5C2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */; };
 		7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */; };
+		7B6BBA602C20643A00BC85F8 /* SettingTableViewProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */; };
+		7B6BBA622C20644500BC85F8 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */; };
+		7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA632C2065DB00BC85F8 /* Date+.swift */; };
+		7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LagomStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7B6BB9CC2C1ADFFB00BC85F8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B6BB9D42C1ADFFC00BC85F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B6BB9D62C1ADFFC00BC85F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
 		7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryColorRoundedButton.swift; sourceTree = "<group>"; };
 		7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchResultViewController.swift; sourceTree = "<group>"; };
-		7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSProduceDetailViewController.swift; sourceTree = "<group>"; };
+		7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSProductDetailViewController.swift; sourceTree = "<group>"; };
 		7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleTapActionLabel.swift; sourceTree = "<group>"; };
 		7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -84,6 +86,10 @@
 		7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchQueryDelegate.swift; sourceTree = "<group>"; };
 		7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
 		7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchDelegate.swift; sourceTree = "<group>"; };
+		7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewProfileCell.swift; sourceTree = "<group>"; };
+		7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		7B6BBA632C2065DB00BC85F8 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +128,6 @@
 			children = (
 				7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */,
 				7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */,
-				7B6BB9CC2C1ADFFB00BC85F8 /* ViewController.swift */,
 				7B6BB9FE2C1DD2FD00BC85F8 /* Model */,
 				7B6BB9F62C1AE67500BC85F8 /* Protocol */,
 				7B6BB9FB2C1AE9FE00BC85F8 /* Resource */,
@@ -148,6 +153,7 @@
 				7B6BB9F02C1AE63C00BC85F8 /* UICollectionViewCell.swift */,
 				7B6BB9F22C1AE64C00BC85F8 /* UIImageView+.swift */,
 				7B6BB9F42C1AE65200BC85F8 /* String+.swift */,
+				7B6BBA632C2065DB00BC85F8 /* Date+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -186,7 +192,7 @@
 				7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */,
 				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
 				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
-				7B6BBA112C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift */,
+				7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */,
 				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
 			);
 			path = ViewController;
@@ -201,6 +207,8 @@
 				7B6BBA1B2C1F044600BC85F8 /* ImageCollectionViewCell.swift */,
 				7B6BBA262C1F358B00BC85F8 /* RecentSearchTableViewCell.swift */,
 				7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */,
+				7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */,
+				7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -211,6 +219,7 @@
 				7B6BBA1D2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift */,
 				7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */,
 				7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */,
+				7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -306,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6BBA622C20644500BC85F8 /* SettingTableViewCell.swift in Sources */,
 				7B6BBA272C1F358B00BC85F8 /* RecentSearchTableViewCell.swift in Sources */,
 				7B6BBA232C1F13FE00BC85F8 /* UserDefaultsHelper.swift in Sources */,
 				7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */,
@@ -314,8 +324,8 @@
 				7B6BBA292C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift in Sources */,
 				7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */,
 				7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */,
-				7B6BB9CD2C1ADFFB00BC85F8 /* ViewController.swift in Sources */,
-				7B6BBA122C1DE85F00BC85F8 /* NVSProduceDetailViewController.swift in Sources */,
+				7B6BBA122C1DE85F00BC85F8 /* NVSProductDetailViewController.swift in Sources */,
+				7B6BBA602C20643A00BC85F8 /* SettingTableViewProfileCell.swift in Sources */,
 				7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */,
 				7B6BBA072C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift in Sources */,
 				7B6BB9F82C1AE68C00BC85F8 /* ConfigureViewProtocol.swift in Sources */,
@@ -332,7 +342,9 @@
 				7B6BBA252C1F221A00BC85F8 /* MainTabBarController.swift in Sources */,
 				7B6BBA032C1DE66600BC85F8 /* OnboardingViewController.swift in Sources */,
 				7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */,
+				7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */,
 				7B6BBA102C1DE83200BC85F8 /* NVSSearchResultViewController.swift in Sources */,
+				7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */,
 				7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */,
 				7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */,
 				7B6BBA182C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift in Sources */,

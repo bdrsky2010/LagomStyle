@@ -31,6 +31,5 @@ extension String {
     var removeHtmlTag: String {
         return self
             .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression) // tag 삭제
-            .replacingOccurrences(of: #"\\"#, with: "", options: .regularExpression) // '\' 삭제
     }
 }

@@ -244,6 +244,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
             cell.isLiske = false
         }
         cell.configureContent(product: product)
+        cell.highlightingWithQuery(query: query)
         cell.delegate = self
         cell.row = index
         

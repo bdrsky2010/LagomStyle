@@ -60,6 +60,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         return label
     }()
     
+    var row: Int?
     var isLiske: Bool?
     var delegate: NVSSearchDelegate?
     
@@ -106,8 +107,8 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         }
         
         basketBackgroundView.snp.makeConstraints { make in
-            make.bottom.equalTo(thumbnailImageView.snp.bottom).offset(-16)
-            make.trailing.equalTo(thumbnailImageView.snp.trailing).offset(-16)
+            make.bottom.equalTo(thumbnailImageView.snp.bottom).offset(-12)
+            make.trailing.equalTo(thumbnailImageView.snp.trailing).offset(-12)
             make.width.height.equalTo(24)
         }
         
@@ -133,18 +134,27 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         changeBasketContent()
     }
     
+    private func configureBasketContent(isLike: Bool) {
+        basketBackgroundView.backgroundColor = isLike ? LagomStyle.Color.lagomWhite : LagomStyle.Color.lagomBlack
+        basketBackgroundView.layer.opacity = isLike ? 1 : 0.5
+        basketImageView.image = UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)
+    }
+    
     private func changeBasketContent() {
-        guard let isLiske else { return }
-        basketBackgroundView.backgroundColor = isLiske ? LagomStyle.Color.lagomWhite : LagomStyle.Color.lagomBlack
-        basketBackgroundView.layer.opacity = isLiske ? 1 : 0.5
-        basketImageView.image = UIImage(named: LagomStyle.Image.like(selected: isLiske).imageName)
+        guard let isLiske, let row else { return }
+        
+        configureBasketContent(isLike: isLiske)
+        delegate?.setLikeButtonImageToggle(row: row, isLike: isLiske)
     }
     
     func configureContent(product: NVSProduct) {
         if let url = URL(string: product.image) {
             thumbnailImageView.configureImageWithKF(url: url)
         }
-        changeBasketContent()
+        
+        if let isLiske {
+            configureBasketContent(isLike: isLiske)
+        }
         
         mallNameLabel.text = product.mallName
         productTitleLabel.text = product.title

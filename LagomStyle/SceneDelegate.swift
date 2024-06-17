@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        if let isOnboarding = UserDefaultsHelper.getUserDefaults(forKey: LagomStyle.UserDefaultsKey.isOnboarding) as? Bool, isOnboarding {
+        if let isOnboarding = UserDefaultsHelper.isOnboarding, isOnboarding {
             window?.rootViewController = MainTabBarController()
         } else {
             let navigationController = UINavigationController(rootViewController: OnboardingViewController())

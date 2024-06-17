@@ -42,8 +42,9 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         UserDefaultsHelper.isOnboarding = true
         UserDefaultsHelper.nickname = text
         UserDefaultsHelper.profileImageIndex = selectedImageIndex
+        UserDefaultsHelper.signUpDate = Date.convertString
         
-        let mainViewController = NVSSearchViewController()
+        let mainViewController = MainTabBarController()
         changeRootViewController(rootViewController: mainViewController)
     }
     
@@ -92,6 +93,7 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         
         UserDefaultsHelper.nickname = text
         UserDefaultsHelper.profileImageIndex = selectedImageIndex
+        navigationController?.popViewController(animated: true)
     }
     
     func configureHierarchy() {
@@ -139,6 +141,14 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
     }
     
     func configureContent() {
+        if pfSetupType == .edit,
+            let profileImageIndex = UserDefaultsHelper.profileImageIndex,
+            let nickname = UserDefaultsHelper.nickname {
+            completeButton.isHidden = true
+            selectedImageIndex = profileImageIndex
+            nicknameTextField.text = nickname
+            checkNickname(text: nickname)
+        }
         let image = LagomStyle.Image.profile(index: selectedImageIndex).imageName
         profileImageView.configureContent(image: image)
     }
@@ -172,8 +182,12 @@ extension ProfileSetupViewController: UITextFieldDelegate {
         
         defer {
             completeButton.isEnabled = isEnabled
+            navigationItem.rightBarButtonItem?.isEnabled = isEnabled
         }
-        
+        checkNickname(text: text)
+    }
+    
+    private func checkNickname(text: String) {
         for char in text {
             let string = String(char)
             

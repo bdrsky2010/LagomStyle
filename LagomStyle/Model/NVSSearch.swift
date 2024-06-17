@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: NAVER Shopping Search Data Model
-struct NVSSearch: Decodable {
+struct NVSSearch: Codable {
     let total: Int
     let start: Int
     let display: Int
@@ -16,7 +16,7 @@ struct NVSSearch: Decodable {
 }
 
 // MARK: NAVER Shopping Product Data Model
-struct NVSProduct: Decodable {
+struct NVSProduct: Codable {
     var title: String
     let link: String
     let image: String

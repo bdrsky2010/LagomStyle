@@ -135,8 +135,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
     }
     
     private func configureBasketContent(isLike: Bool) {
-        basketBackgroundView.backgroundColor = isLike ? LagomStyle.Color.lagomWhite : LagomStyle.Color.lagomBlack
-        basketBackgroundView.layer.opacity = isLike ? 1 : 0.5
+        basketBackgroundView.backgroundColor = isLike ? LagomStyle.Color.lagomWhite.withAlphaComponent(1) : LagomStyle.Color.lagomBlack.withAlphaComponent(0.5)
         basketImageView.image = UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)
     }
     

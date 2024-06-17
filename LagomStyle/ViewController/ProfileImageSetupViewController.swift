@@ -116,11 +116,11 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
             newSelectedCell.changeContentStatus(imageSelectType: .select)
             profileImage.configureContent(image: LagomStyle.Image.profile(index: index).imageName)
             
+            selectedImageIndex = index
+            
             if let selectedImageIndex {
                 delegate?.setupPFImage(selectedIndex: selectedImageIndex)
             }
-            
-            selectedImageIndex = index
         }
     }
     

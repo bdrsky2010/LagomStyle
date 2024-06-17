@@ -239,16 +239,18 @@ extension NVSSearchViewController: UITextFieldDelegate {
         guard let text = textField.text else { return true }
         
         var queries = recentSearchQueries
-        queries.insert(text, at: 0)
         
-        recentSearchQueries = queries
-        
-        if queries.count > 10 {
-            for i in (10..<queries.count).reversed() {
-                removeQuery(row: i)
+        if !queries.contains(text) { // 최근 검색어에 새로 검색한 키워드가 없다면
+            queries.insert(text, at: 0)
+            
+            recentSearchQueries = queries
+            
+            if queries.count > 10 {
+                for i in (10..<queries.count).reversed() {
+                    removeQuery(row: i)
+                }
             }
         }
-        
         textField.text = nil
         
         let nvsSearchResultViewController = NVSSearchResultViewController()

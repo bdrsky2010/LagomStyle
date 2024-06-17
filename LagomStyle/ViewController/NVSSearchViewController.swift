@@ -64,7 +64,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     
     private let emptyImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.image = UIImage(named: LagomStyle.Image.empty.imageName)
         return imageView
     }()
@@ -79,7 +79,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     
     private var recentSearchQueries: [String] {
         get {
-            guard let queries =  UserDefaultsHelper.getUserDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries) as? [String] else {
+            guard let queries =  UserDefaultsHelper.recentSearchQueries else {
                 
                 recentSearchTableViewTitleLabel.isHidden = true
                 removeAllQueriesButton.isHidden = true
@@ -101,7 +101,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         
         set {
             if !newValue.isEmpty {
-                UserDefaultsHelper.setUserDefaults(value: newValue, forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
+                UserDefaultsHelper.recentSearchQueries = newValue
             } else {
                 UserDefaultsHelper.removeUsetDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
             }
@@ -126,7 +126,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     }
     
     func configureNavigation() {
-        guard let nickname = UserDefaultsHelper.getUserDefaults(forKey: LagomStyle.UserDefaultsKey.nickname) as? String else { return }
+        guard let nickname = UserDefaultsHelper.nickname else { return }
         navigationItem.title = nickname + LagomStyle.phrase.searchViewNavigationTitle
     }
     
@@ -193,8 +193,9 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         }
         
         emptyImage.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalTo(emptyView.snp.height).multipliedBy(0.5)
+            make.centerY.equalTo(emptyView.snp.centerY)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(emptyView.snp.height).multipliedBy(0.5)
         }
         
         emptyText.snp.makeConstraints { make in
@@ -246,6 +247,7 @@ extension NVSSearchViewController: UITextFieldDelegate {
         textField.text = nil
         
         let nvsSearchResultViewController = NVSSearchResultViewController()
+        nvsSearchResultViewController.query = text
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
         return true
@@ -257,6 +259,8 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let nvsSearchResultViewController = NVSSearchResultViewController()
+        nvsSearchResultViewController.query = recentSearchQueries[indexPath.row]
+        
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
         tableView.reloadRows(at: [indexPath], with: .automatic)

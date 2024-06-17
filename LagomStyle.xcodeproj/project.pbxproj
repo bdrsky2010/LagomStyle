@@ -48,6 +48,7 @@
 		7B6BBA622C20644500BC85F8 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */; };
 		7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA632C2065DB00BC85F8 /* Date+.swift */; };
 		7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */; };
+		7B6BBA682C20FDA400BC85F8 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		7B6BBA632C2065DB00BC85F8 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDelegate.swift; sourceTree = "<group>"; };
+		7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 				7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */,
 				7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */,
 				7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */,
+				7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */,
 				7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */,
 				7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */,
+				7B6BBA682C20FDA400BC85F8 /* EmptyResultView.swift in Sources */,
 				7B6BBA182C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift in Sources */,
 				7B6BBA052C1DE6CC00BC85F8 /* ProfileSetupViewController.swift in Sources */,
 			);

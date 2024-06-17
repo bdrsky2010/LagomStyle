@@ -16,7 +16,6 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         let label = UILabel()
         label.font = LagomStyle.Font.bold13
         label.textColor = LagomStyle.Color.lagomPrimaryColor
-        label.text = LagomStyle.phrase.searchResultCount
         return label
     }()
     
@@ -28,23 +27,23 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         guard let self else { return }
         filteringButtonClicked(sender)
     }
-    private lazy var priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 2) { [weak self] sender in
+    private lazy var priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2) { [weak self] sender in
         guard let self else { return }
         filteringButtonClicked(sender)
     }
-    private lazy var priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 3) { [weak self] sender in
+    private lazy var priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3) { [weak self] sender in
         guard let self else { return }
         filteringButtonClicked(sender)
     }
     
     private let searchResultCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let sectionSpacing: CGFloat = 12
-        let cellSpacing: CGFloat = 12
+        let sectionSpacing: CGFloat = 16
+        let cellSpacing: CGFloat = 16
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             let screenWidth = windowScene.screen.bounds.width
             let itemWidth = screenWidth - (sectionSpacing * 2) - cellSpacing
-            layout.itemSize = CGSize(width: itemWidth / 2, height: itemWidth / 1.5)
+            layout.itemSize = CGSize(width: itemWidth / 2, height: itemWidth / 1.2)
             layout.minimumLineSpacing = sectionSpacing
             layout.minimumInteritemSpacing = cellSpacing
             layout.scrollDirection = .vertical
@@ -91,6 +90,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         configureNavigation()
         configureHierarchy()
         configureLayout()
+        configureCollectionView()
     }
     
     func configureNavigation() {
@@ -138,16 +138,20 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         }
     }
     
-    private func configureCollectioView() {
+    private func configureCollectionView() {
         searchResultCollectionView.delegate = self
         searchResultCollectionView.dataSource = self
+        searchResultCollectionView.register(SearchResultCollectionViewCell.self,
+                                            forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
-        if selectedButtonTag == sender.tag {
+        
+        defer {
             searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            return
         }
+        
+        guard selectedButtonTag != sender.tag else { return }
         
         let filteringButtonList = [
             accuracyFilteringButton, dateFilteringButton, priceAscFilteringButton, priceDscFilteringButton
@@ -168,7 +172,14 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
+        let index = indexPath.row
+        let product = searchResultList[selectedButtonTag].items[index]
+        
+        cell.isLiske = false
+        cell.configureContent(product: product)
+        
+        return cell
     }
 }
 
@@ -201,6 +212,7 @@ extension NVSSearchResultViewController {
                     let title = value.items[i].title.removeHtmlTag
                     value.items[i].title = title
                 }
+                searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
                 searchResultList[selectedButtonTag] = value
                 searchResultCollectionView.reloadData()
             case .failure(let error):

@@ -39,10 +39,9 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
     private lazy var completeButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.profileSettingComplete) { [weak self] in
         guard let self, let text = nicknameTextField.text else { return }
         
-        UserDefaultsHelper.setUserDefaults(value: true, forKey: LagomStyle.UserDefaultsKey.isOnboarding)
-        UserDefaultsHelper.setUserDefaults(value: text, forKey: LagomStyle.UserDefaultsKey.nickname)
-        UserDefaultsHelper.setUserDefaults(value: selectedImageIndex,
-                                           forKey: LagomStyle.UserDefaultsKey.profileImageIndex)
+        UserDefaultsHelper.isOnboarding = true
+        UserDefaultsHelper.nickname = text
+        UserDefaultsHelper.profileImageIndex = selectedImageIndex
         
         let mainViewController = NVSSearchViewController()
         changeRootViewController(rootViewController: mainViewController)
@@ -91,9 +90,8 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
     private func saveButtonClicked() {
         guard let text = nicknameTextField.text else { return }
         
-        UserDefaultsHelper.setUserDefaults(value: text, forKey: LagomStyle.UserDefaultsKey.nickname)
-        UserDefaultsHelper.setUserDefaults(value: selectedImageIndex,
-                                           forKey: LagomStyle.UserDefaultsKey.profileImageIndex)
+        UserDefaultsHelper.nickname = text
+        UserDefaultsHelper.profileImageIndex = selectedImageIndex
     }
     
     func configureHierarchy() {

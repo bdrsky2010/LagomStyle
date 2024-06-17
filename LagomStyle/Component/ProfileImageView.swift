@@ -35,7 +35,6 @@ final class ProfileImageView: UIView, ConfigureViewProtocol {
     
     init() {
         super.init(frame: .zero)
-        
         configureView()
     }
     

@@ -317,8 +317,12 @@ extension NVSSearchResultViewController {
                 }
                 searchResultCollectionView.reloadData()
                     
-            case .failure(let error):
-                print(error)
+            case .failure(_):
+                presentAlert(type: .oneButton,
+                             title: LagomStyle.phrase.networkErrorTitle,
+                             message: LagomStyle.phrase.networkErrorMessage)
+                searchResultCollectionView.isHidden = true
+                emptyView.isHidden = false
             }
         }
     }

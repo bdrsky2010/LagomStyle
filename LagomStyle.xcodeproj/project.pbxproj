@@ -49,6 +49,7 @@
 		7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA632C2065DB00BC85F8 /* Date+.swift */; };
 		7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */; };
 		7B6BBA682C20FDA400BC85F8 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */; };
+		7B6BBA6B2C21098D00BC85F8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BBA6A2C21098D00BC85F8 /* SkeletonView */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +104,7 @@
 				7B6BBA2C2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift in Frameworks */,
 				7B6BB9E22C1AE50C00BC85F8 /* Kingfisher in Frameworks */,
 				7B6BB9E52C1AE53400BC85F8 /* Alamofire in Frameworks */,
+				7B6BBA6B2C21098D00BC85F8 /* SkeletonView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +258,7 @@
 				7B6BB9E42C1AE53400BC85F8 /* Alamofire */,
 				7B6BB9E72C1AE57600BC85F8 /* SnapKit */,
 				7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */,
+				7B6BBA6A2C21098D00BC85F8 /* SkeletonView */,
 			);
 			productName = LagomStyle;
 			productReference = 7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */;
@@ -290,6 +293,7 @@
 				7B6BB9E32C1AE53400BC85F8 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7B6BB9E62C1AE57600BC85F8 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7B6BBA2A2C1F3A0E00BC85F8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				7B6BBA692C21098D00BC85F8 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 7B6BB9C62C1ADFFB00BC85F8 /* Products */;
 			projectDirPath = "";
@@ -613,6 +617,14 @@
 				minimumVersion = 7.0.3;
 			};
 		};
+		7B6BBA692C21098D00BC85F8 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -635,6 +647,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7B6BBA2A2C1F3A0E00BC85F8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		7B6BBA6A2C21098D00BC85F8 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7B6BBA692C21098D00BC85F8 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

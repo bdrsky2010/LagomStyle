@@ -209,11 +209,14 @@ extension NVSSearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
         
+        let nvsSearchResultViewController = NVSSearchResultViewController()
+        nvsSearchResultViewController.query = text
+        navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
+        
         var queries = recentSearchQueries
         
         if !queries.contains(text) { // 최근 검색어에 새로 검색한 키워드가 없다면
             queries.insert(text, at: 0)
-            
             recentSearchQueries = queries
             
             if queries.count > 10 {
@@ -221,13 +224,17 @@ extension NVSSearchViewController: UITextFieldDelegate {
                     removeQuery(row: i)
                 }
             }
+        } else {
+            for i in 0..<queries.count {
+                if queries[i] == text {
+                    queries.remove(at: i)
+                    break
+                }
+            }
+            queries.insert(text, at: 0)
+            recentSearchQueries = queries
         }
         textField.text = nil
-        
-        let nvsSearchResultViewController = NVSSearchResultViewController()
-        nvsSearchResultViewController.query = text
-        navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
-        
         return true
     }
 }

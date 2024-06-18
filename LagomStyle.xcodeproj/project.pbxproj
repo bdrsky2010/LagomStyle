@@ -199,15 +199,12 @@
 			isa = PBXGroup;
 			children = (
 				7B6BBA1A2C1F01FF00BC85F8 /* Delegate */,
-				7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */,
-				7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */,
-				7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */,
+				7B823D452C225204009567EE /* Onboarding */,
+				7B823D462C225213009567EE /* ProfileSetup */,
+				7B823D472C22523C009567EE /* NVSSearch */,
+				7B823D482C225249009567EE /* Setting */,
 				7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */,
-				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
-				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
 				7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */,
-				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
-				7B823D3F2C223FF3009567EE /* BasketViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -255,6 +252,41 @@
 				7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		7B823D452C225204009567EE /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		7B823D462C225213009567EE /* ProfileSetup */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */,
+				7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */,
+			);
+			path = ProfileSetup;
+			sourceTree = "<group>";
+		};
+		7B823D472C22523C009567EE /* NVSSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
+				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
+			);
+			path = NVSSearch;
+			sourceTree = "<group>";
+		};
+		7B823D482C225249009567EE /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
+				7B823D3F2C223FF3009567EE /* BasketViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

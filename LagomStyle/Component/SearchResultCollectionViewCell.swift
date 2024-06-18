@@ -8,6 +8,7 @@
 import UIKit
 
 import Kingfisher
+import SkeletonView
 import SnapKit
 
 final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol {
@@ -17,6 +18,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         imageView.layer.cornerRadius = 10
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.isSkeletonable = true
         return imageView
     }()
     
@@ -24,17 +26,20 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         let view = UIView()
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
+        view.isSkeletonable = true
         return view
     }()
     
     private let basketImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
+        imageView.isSkeletonable = true
         return imageView
     }()
     
     private let basketForgroundView: UIView = {
         let view = UIView()
+        view.isSkeletonable = true
         return view
     }()
     
@@ -42,6 +47,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         let label = UILabel()
         label.font  = LagomStyle.Font.regular13
         label.textColor = LagomStyle.Color.lagomLightGray
+        label.isSkeletonable = true
         return label
     }()
     
@@ -50,6 +56,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         label.font  = LagomStyle.Font.regular14
         label.textColor = LagomStyle.Color.lagomBlack
         label.numberOfLines = 2
+        label.isSkeletonable = true
         return label
     }()
     
@@ -57,6 +64,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         let label = UILabel()
         label.font  = LagomStyle.Font.black16
         label.textColor = LagomStyle.Color.lagomBlack
+        label.isSkeletonable = true
         return label
     }()
     
@@ -66,6 +74,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        isSkeletonable = true
         configureView()
     }
     

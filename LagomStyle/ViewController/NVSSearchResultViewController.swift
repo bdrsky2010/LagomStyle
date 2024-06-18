@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import Kingfisher
+import SkeletonView
 import SnapKit
 
 final class NVSSearchResultViewController: UIViewController, ConfigureViewProtocol {
@@ -50,6 +51,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
             layout.sectionInset = UIEdgeInsets(top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
         }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isSkeletonable = true
         return collectionView
     }()
     
@@ -81,7 +83,6 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if let query {
             requestNVSSearchAPI(query: query)
         }
@@ -95,6 +96,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         configureLayout()
         configureCollectionView()
         emptyView.isHidden = true
+        searchResultCollectionView.showGradientSkeleton()
     }
     
     func configureNavigation() {
@@ -154,9 +156,11 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         searchResultCollectionView.prefetchDataSource = self
         searchResultCollectionView.register(SearchResultCollectionViewCell.self,
                                             forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
+        searchResultCollectionView.isSkeletonable = true
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
+        searchResultCollectionView.showGradientSkeleton()
         // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
         if !searchResultCollectionView.isHidden {
             searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
@@ -182,7 +186,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
 extension NVSSearchResultViewController: NVSSearchDelegate {
     
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
-        guard let product = searchResult?.items[row] else { return }
+        guard let product = searchResult?.products[row] else { return }
         
         if isLike {
             var likeProducts = UserDefaultsHelper.likeProducts ?? []
@@ -219,11 +223,22 @@ extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
     }
 }
 
+extension NVSSearchResultViewController: SkeletonCollectionViewDelegate,
+                                         SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> SkeletonView.ReusableCellIdentifier {
+        return SearchResultCollectionViewCell.identifier
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 30
+    }
+}
+
 extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.row
-        guard let product = searchResult?.items[index] else { return }
+        guard let product = searchResult?.products[index] else { return }
         
         let nvsProductDetailViewController = NVSProductDetailViewController()
         
@@ -234,20 +249,20 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         }
         nvsProductDetailViewController.delegate = self
         nvsProductDetailViewController.productTitle = product.title
-        nvsProductDetailViewController.productLink = product.link
+        nvsProductDetailViewController.productLink = product.urlString
         nvsProductDetailViewController.row = index
         
         navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResult?.items.count ?? 0
+        return searchResult?.products.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
-        guard let product = searchResult?.items[index] else { return cell }
+        guard let product = searchResult?.products[index] else { return cell }
         
         if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
             cell.isLiske = true
@@ -266,63 +281,70 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
 extension NVSSearchResultViewController {
     
     private func requestNVSSearchAPI(query: String) {
-        let parameters: Parameters = [
-            "query": query,
-            "display": searchDisplayCount,
-            "start": nvssStartNumber,
-            "sort": nvsSortTypeList[selectedButtonTag].parameter
-        ]
-        let headers: HTTPHeaders = [
-            "X-Naver-Client-Id": APIKey.naverClientID,
-            "X-Naver-Client-Secret": APIKey.naverClientSecret
-        ]
         
-        AF.request(APIUrl.naverShopping,
-                   method: .get,
-                   parameters: parameters,
-                   encoding: URLEncoding.queryString,
-                   headers: headers)
-        .responseDecodable(of: NVSSearch.self) { [weak self] response in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
             guard let self else { return }
             
-            switch response.result {
-            case .success(let value):
-                var value = value
-                value.items.indices.forEach { i in
-                    let title = value.items[i].title.removeHtmlTag
-                    value.items[i].title = title
-                }
-                searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
+            let parameters: Parameters = [
+                "query": query,
+                "display": searchDisplayCount,
+                "start": nvssStartNumber,
+                "sort": nvsSortTypeList[selectedButtonTag].parameter
+            ]
+            let headers: HTTPHeaders = [
+                "X-Naver-Client-Id": APIKey.naverClientID,
+                "X-Naver-Client-Secret": APIKey.naverClientSecret
+            ]
+            
+            AF.request(APIUrl.naverShopping,
+                       method: .get,
+                       parameters: parameters,
+                       encoding: URLEncoding.queryString,
+                       headers: headers)
+            .responseDecodable(of: NVSSearch.self) { [weak self] response in
+                guard let self else { return }
                 
-                guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
-                    searchResultCollectionView.isHidden = true
-                    emptyView.isHidden = false
-                    return
-                }
-                
-                searchResultCollectionView.isHidden = false
-                emptyView.isHidden = true
-                if let result = searchResult {
-                    if result.total <= result.items.count {
-                        nvssIsPagingEnd = true
+                switch response.result {
+                case .success(let value):
+                    var value = value
+                    value.products.indices.forEach { i in
+                        let title = value.products[i].title.removeHtmlTag
+                        value.products[i].title = title
+                    }
+                    searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
+                    
+                    guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
+                        searchResultCollectionView.isHidden = true
+                        emptyView.isHidden = false
+                        return
                     }
                     
-                    if !nvssIsPagingEnd {
-                        searchResult?.items.append(contentsOf: value.items)
+                    searchResultCollectionView.isHidden = false
+                    emptyView.isHidden = true
+                    if let result = searchResult {
+                        if result.total <= result.products.count {
+                            nvssIsPagingEnd = true
+                        }
+                        
+                        if !nvssIsPagingEnd {
+                            searchResult?.products.append(contentsOf: value.products)
+                            nvssStartNumber += searchDisplayCount
+                        }
+                    } else {
+                        searchResult = value
                         nvssStartNumber += searchDisplayCount
                     }
-                } else {
-                    searchResult = value
-                    nvssStartNumber += searchDisplayCount
-                }
-                searchResultCollectionView.reloadData()
+                    searchResultCollectionView.reloadData()
+                    searchResultCollectionView.stopSkeletonAnimation()
+                    searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
                     
-            case .failure(_):
-                presentAlert(type: .oneButton,
-                             title: LagomStyle.phrase.networkErrorTitle,
-                             message: LagomStyle.phrase.networkErrorMessage)
-                searchResultCollectionView.isHidden = true
-                emptyView.isHidden = false
+                case .failure(_):
+                    presentAlert(type: .oneButton,
+                                 title: LagomStyle.phrase.networkErrorTitle,
+                                 message: LagomStyle.phrase.networkErrorMessage)
+                    searchResultCollectionView.isHidden = true
+                    emptyView.isHidden = false
+                }
             }
         }
     }

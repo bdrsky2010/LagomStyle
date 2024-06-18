@@ -35,13 +35,17 @@ extension UIViewController {
     func changeRootViewController(rootViewController: UIViewController) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
         guard let window = (windowScene.delegate as? SceneDelegate)?.window else { return }
+        if let _ = rootViewController as? UITabBarController {
+            window.rootViewController = rootViewController
+        } else {
+            let navigationController = UINavigationController(rootViewController: rootViewController)
+            navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
+            navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
+                                                                 textColor: LagomStyle.Color.lagomBlack)
+            
+            window.rootViewController = navigationController
+        }
         
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
-        navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
-                                                             textColor: LagomStyle.Color.lagomBlack)
-        
-        window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
 }

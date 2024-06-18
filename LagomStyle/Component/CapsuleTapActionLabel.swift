@@ -11,16 +11,9 @@ import SnapKit
 
 final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     
-    private let label: UILabel = {
-        let lable = UILabel()
-        lable.font = LagomStyle.Font.regular14
-        return lable
-    }()
-    
-//    private var isTapped = false
+    private let label = UILabel.blackRegular14()
     
     var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
-//    var tapAction: (() -> Void)?
     
     init() {
         super.init(frame: .zero)
@@ -49,12 +42,10 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     }
     
     @objc private func tappedAction() {
-//        resultFilteringButtonTapped()
-        
         tapAction?(self)
     }
     
-    private func configureView() {
+    func configureView() {
         configureHierarchy()
         configureLayout()
         configureUI()
@@ -80,16 +71,6 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
             unSelectUI()
         }
     }
-    
-//    func resultFilteringButtonTapped() {
-//        isTapped.toggle()
-//        
-//        if isTapped {
-//            selectUI()
-//        } else {
-//            unSelectUI()
-//        }
-//    }
     
     func selectUI() {
         label.textColor = LagomStyle.Color.lagomWhite

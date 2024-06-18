@@ -38,6 +38,9 @@ enum LagomStyle {
         static let specialCharacterX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
+        static let networkErrorTitle = "네트워크 통신 오류"
+        static let networkErrorMessage = "네트워크 통신 오류로 인하여 데이터를 불러오는데 실패하였습니다"
+        
         static let withDrawAlertTitle = "탈퇴하기"
         static let withDrawAlertMessage = "탈퇴하면 모든 데이터가 초기화됩니다. 탈퇴 하시겠습니까?"
     }

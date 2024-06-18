@@ -37,6 +37,7 @@ enum LagomStyle {
         static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
         static let specialCharacterX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
+        static let unknownError = "알 수 없는 에러가 발생했어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
         static let networkErrorTitle = "네트워크 통신 오류"
         static let networkErrorMessage = "네트워크 통신 오류로 인하여 데이터를 불러오는데 실패하였습니다"

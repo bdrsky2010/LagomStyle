@@ -39,6 +39,8 @@ enum LagomStyle {
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         static let unknownError = "알 수 없는 에러가 발생했어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
+        static let basketViewNavigationTitle = "장바구니"
+        
         static let networkErrorTitle = "네트워크 통신 오류"
         static let networkErrorMessage = "네트워크 통신 오류로 인하여 데이터를 불러오는데 실패하였습니다"
         

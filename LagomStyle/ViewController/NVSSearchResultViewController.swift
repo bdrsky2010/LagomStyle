@@ -216,7 +216,7 @@ extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
         for indexPath in indexPaths {
             let row = indexPath.row
             print(row, nvssStartNumber)
-            if row == nvssStartNumber - 5 {
+            if row == nvssStartNumber - 10 {
                 requestNVSSearchAPI(query: query)
             }
         }

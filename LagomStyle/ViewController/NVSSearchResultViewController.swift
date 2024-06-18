@@ -13,12 +13,8 @@ import SkeletonView
 import SnapKit
 
 final class NVSSearchResultViewController: UIViewController, ConfigureViewProtocol {
-    private let searchResultCountLabel: UILabel = {
-        let label = UILabel()
-        label.font = LagomStyle.Font.bold13
-        label.textColor = LagomStyle.Color.lagomPrimaryColor
-        return label
-    }()
+    
+    private let searchResultCountLabel = UILabel.primaryBold13()
     
     private lazy var accuracyFilteringButton = CapsuleTapActionButton(title: NVSSSort.sim.segmentedTitle, tag: 0) { [weak self] sender in
         guard let self else { return }
@@ -37,25 +33,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         filteringButtonClicked(sender)
     }
     
-//    private let searchResultCollectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        let sectionSpacing: CGFloat = 16
-//        let cellSpacing: CGFloat = 16
-//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-//            let screenWidth = windowScene.screen.bounds.width
-//            let itemWidth = screenWidth - (sectionSpacing * 2) - cellSpacing
-//            layout.itemSize = CGSize(width: itemWidth / 2, height: itemWidth / 1.2)
-//            layout.minimumLineSpacing = sectionSpacing
-//            layout.minimumInteritemSpacing = cellSpacing
-//            layout.scrollDirection = .vertical
-//            layout.sectionInset = UIEdgeInsets(top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
-//        }
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        return collectionView
-//    }()
-    
     private let searchResultCollectionView = ProductsCollectionView()
-    
     private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
     
     private let searchDisplayCount = 30
@@ -90,7 +68,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         configureView()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         configureNavigation()
         configureHierarchy()

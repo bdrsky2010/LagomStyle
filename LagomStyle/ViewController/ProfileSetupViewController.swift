@@ -18,7 +18,6 @@ enum ValidationError: Error {
 final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol {
     
     private let profileImageView = ProfileImageView(imageSelectType: .selected)
-    
     private let nicknameTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
@@ -29,18 +28,8 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         return textField
     }()
     
-    private let textFieldUnderBar: UIView = {
-        let view = UIView()
-        view.backgroundColor = LagomStyle.Color.lagomLightGray
-        return view
-    }()
-    
-    private let warningLabel: UILabel = {
-        let label = UILabel()
-        label.font = LagomStyle.Font.regular13
-        label.textColor = LagomStyle.Color.lagomPrimaryColor
-        return label
-    }()
+    private let textFieldUnderBar = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
+    private let warningLabel = UILabel.primaryRegular13()
     
     private lazy var completeButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.profileSettingComplete) { [weak self] in
         guard let self, let text = nicknameTextField.text else { return }
@@ -64,7 +53,7 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         configureView()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureNavigation()

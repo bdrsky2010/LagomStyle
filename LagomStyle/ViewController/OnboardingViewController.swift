@@ -51,7 +51,7 @@ final class OnboardingViewController: UIViewController, ConfigureViewProtocol {
         configureNavigation()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureHierarchy()

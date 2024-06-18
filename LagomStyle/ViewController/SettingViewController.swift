@@ -14,7 +14,7 @@ final class SettingViewController: UIViewController, ConfigureViewProtocol {
     private let settingTableView = UITableView()
     
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
         configureView()
     }
     
@@ -23,7 +23,7 @@ final class SettingViewController: UIViewController, ConfigureViewProtocol {
         settingTableView.reloadData()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureNavigation()

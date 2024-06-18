@@ -25,7 +25,7 @@ final class NVSProductDetailViewController: UIViewController, ConfigureViewProto
         configureView()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureNavigation()

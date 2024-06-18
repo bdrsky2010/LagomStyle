@@ -55,18 +55,18 @@ final class ProfileImageView: UIView, ConfigureViewProtocol {
         cameraBackground.layer.cornerRadius = bounds.width * 0.3 / 2
     }
     
-    private func configureView() {
+    func configureView() {
         configureHierarchy()
         configureLayout()
     }
     
-    private func configureView(imageSelectType: LagomStyle.PFImageSelectType) {
+    func configureView(imageSelectType: LagomStyle.PFImageSelectType) {
         configureHierarchy()
         configureLayout()
         configureUI(imageSelectType: imageSelectType)
     }
     
-    private func configureView(image: String, imageSelectType: LagomStyle.PFImageSelectType) {
+    func configureView(image: String, imageSelectType: LagomStyle.PFImageSelectType) {
         configureHierarchy()
         configureLayout()
         configureUI(imageSelectType: imageSelectType)

@@ -46,7 +46,7 @@ final class ProfileImageSetupViewController: UIViewController, ConfigureViewProt
         configureView()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureNavigation()

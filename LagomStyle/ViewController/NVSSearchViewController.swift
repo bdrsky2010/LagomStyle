@@ -33,19 +33,8 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         return textField
     }()
     
-    private let divider: UIView = {
-        let view = UIView()
-        view.backgroundColor = LagomStyle.Color.lagomLightGray
-        return view
-    }()
-    
-    private let recentSearchTableViewTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = LagomStyle.Font.black14
-        label.text = LagomStyle.phrase.searchViewRecentSearch
-        label.textColor = LagomStyle.Color.lagomBlack
-        return label
-    }()
+    private let divider = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
+    private let recentSearchTableViewTitleLabel = UILabel.blackBlack14(text: LagomStyle.phrase.searchViewRecentSearch)
     
     private let removeAllQueriesButton: UIButton = {
         let button = UIButton(type: .system)
@@ -57,9 +46,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         button.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         return button
     }()
-    
     private let recentSearchTableView = UITableView()
-    
     private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchViewNoRecentSearch)
     
     private var recentSearchQueries: [String] {
@@ -104,7 +91,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         configureNavigation()
     }
     
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = LagomStyle.Color.lagomWhite
         
         configureNavigation()

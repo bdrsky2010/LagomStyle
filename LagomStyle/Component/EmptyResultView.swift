@@ -18,12 +18,7 @@ final class EmptyResultView: UIView, ConfigureViewProtocol {
         return imageView
     }()
     
-    private let emptyText: UILabel = {
-        let label = UILabel()
-        label.font = LagomStyle.Font.black16
-        label.textColor = LagomStyle.Color.lagomBlack
-        return label
-    }()
+    private let emptyText = UILabel.blackBlack16()
     
     private var text: String
     
@@ -33,7 +28,7 @@ final class EmptyResultView: UIView, ConfigureViewProtocol {
         configureView()
     }
     
-    private func configureView() {
+    func configureView() {
         configureHierarchy()
         configureLayout()
         configureContent()

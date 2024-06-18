@@ -118,6 +118,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     func configureNavigation() {
         guard let nickname = UserDefaultsHelper.nickname else { return }
         navigationItem.title = nickname + LagomStyle.phrase.searchViewNavigationTitle
+        configureNavigationBackButton()
     }
     
     func configureHierarchy() {

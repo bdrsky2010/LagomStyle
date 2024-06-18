@@ -503,7 +503,7 @@
 				DEVELOPMENT_TEAM = T62JF6T7Q4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LagomStyle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LagomStyle;
+				INFOPLIST_KEY_CFBundleDisplayName = "김민재";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -537,7 +537,7 @@
 				DEVELOPMENT_TEAM = T62JF6T7Q4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LagomStyle/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LagomStyle;
+				INFOPLIST_KEY_CFBundleDisplayName = "김민재";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

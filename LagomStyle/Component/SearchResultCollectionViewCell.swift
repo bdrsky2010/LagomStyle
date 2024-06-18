@@ -76,34 +76,20 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
     }
     
     func configureHierarchy() {
-        contentView.addSubview(priceLabel)
-        contentView.addSubview(productTitleLabel)
-        contentView.addSubview(mallNameLabel)
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(basketBackgroundView)
         basketBackgroundView.addSubview(basketImageView)
         basketBackgroundView.addSubview(basketForgroundView)
+        
+        contentView.addSubview(mallNameLabel)
+        contentView.addSubview(productTitleLabel)
+        contentView.addSubview(priceLabel)
     }
     
     func configureLayout() {
-        priceLabel.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-        }
-        
-        productTitleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(priceLabel.snp.top).offset(-8)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
-        mallNameLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(productTitleLabel.snp.top).offset(-8)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
         thumbnailImageView.snp.makeConstraints { make in
-            make.bottom.equalTo(mallNameLabel.snp.top).offset(-8)
             make.top.horizontalEdges.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.7)
         }
         
         basketBackgroundView.snp.makeConstraints { make in
@@ -118,6 +104,21 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         
         basketForgroundView.snp.makeConstraints { make in
             make.horizontalEdges.verticalEdges.equalToSuperview().inset(4)
+        }
+        
+        mallNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(thumbnailImageView.snp.bottom).offset(8)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        productTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(mallNameLabel.snp.bottom).offset(8)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        priceLabel.snp.makeConstraints { make in
+            make.top.equalTo(productTitleLabel.snp.bottom).offset(8)
+            make.horizontalEdges.equalToSuperview()
         }
     }
     

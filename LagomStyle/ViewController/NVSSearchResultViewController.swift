@@ -37,23 +37,24 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         filteringButtonClicked(sender)
     }
     
-    private let searchResultCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let sectionSpacing: CGFloat = 16
-        let cellSpacing: CGFloat = 16
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let screenWidth = windowScene.screen.bounds.width
-            let itemWidth = screenWidth - (sectionSpacing * 2) - cellSpacing
-            layout.itemSize = CGSize(width: itemWidth / 2, height: itemWidth / 1.2)
-            layout.minimumLineSpacing = sectionSpacing
-            layout.minimumInteritemSpacing = cellSpacing
-            layout.scrollDirection = .vertical
-            layout.sectionInset = UIEdgeInsets(top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
-        }
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.isSkeletonable = true
-        return collectionView
-    }()
+//    private let searchResultCollectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        let sectionSpacing: CGFloat = 16
+//        let cellSpacing: CGFloat = 16
+//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+//            let screenWidth = windowScene.screen.bounds.width
+//            let itemWidth = screenWidth - (sectionSpacing * 2) - cellSpacing
+//            layout.itemSize = CGSize(width: itemWidth / 2, height: itemWidth / 1.2)
+//            layout.minimumLineSpacing = sectionSpacing
+//            layout.minimumInteritemSpacing = cellSpacing
+//            layout.scrollDirection = .vertical
+//            layout.sectionInset = UIEdgeInsets(top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
+//        }
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        return collectionView
+//    }()
+    
+    private let searchResultCollectionView = ProductsCollectionView()
     
     private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
     
@@ -160,14 +161,14 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
-        searchResultCollectionView.showGradientSkeleton()
+        
         // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
         if !searchResultCollectionView.isHidden {
             searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
         guard selectedButtonTag != sender.tag else { return }
-        
+        searchResultCollectionView.showGradientSkeleton()
         let filteringButtonList = [
             accuracyFilteringButton, dateFilteringButton, priceAscFilteringButton, priceDscFilteringButton
         ]
@@ -215,7 +216,6 @@ extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
         guard let query, !nvssIsPagingEnd else { return }
         for indexPath in indexPaths {
             let row = indexPath.row
-            print(row, nvssStartNumber)
             if row == nvssStartNumber - 10 {
                 requestNVSSearchAPI(query: query)
             }

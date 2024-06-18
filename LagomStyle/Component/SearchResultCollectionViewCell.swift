@@ -148,7 +148,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
     }
     
     func configureContent(product: NVSProduct) {
-        if let url = URL(string: product.image) {
+        if let url = URL(string: product.imageUrlString) {
             thumbnailImageView.configureImageWithKF(url: url)
         }
         
@@ -159,7 +159,7 @@ final class SearchResultCollectionViewCell: UICollectionViewCell, ConfigureViewP
         mallNameLabel.text = product.mallName
         productTitleLabel.text = product.title
         
-        if let price = Int(product.lprice)?.formatted() {
+        if let price = Int(product.lowPrice)?.formatted() {
             priceLabel.text = price + "원"
         }
     }

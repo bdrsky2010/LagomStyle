@@ -12,20 +12,36 @@ struct NVSSearch: Codable {
     let total: Int
     let start: Int
     let display: Int
-    var items: [NVSProduct]
+    var products: [NVSProduct]
+    
+    enum CodingKeys: String, CodingKey {
+        case total
+        case start
+        case display
+        case products = "items"
+    }
 }
 
 // MARK: NAVER Shopping Product Data Model
-struct NVSProduct: Codable, Equatable {
+struct NVSProduct: Codable, Equatable {    
     var title: String
-    let link: String
-    let image: String
-    let lprice: String
+    let urlString: String
+    let imageUrlString: String
+    let lowPrice: String
     let mallName: String
-    let productId: String
+    let productID: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case urlString = "link"
+        case imageUrlString = "image"
+        case lowPrice = "lprice"
+        case mallName
+        case productID = "productId"
+    }
     
     static func == (lhs: NVSProduct, rhs: NVSProduct) -> Bool {
-        return lhs.productId == rhs.productId
+        return lhs.productID == rhs.productID
     }
 }
 

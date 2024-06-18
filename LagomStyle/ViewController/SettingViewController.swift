@@ -96,8 +96,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
-        if index == 1, let likeProducts = UserDefaultsHelper.likeProducts {
-            cell.configureContent(option: LagomStyle.phrase.settingOptions[index], likeProductsCount: likeProducts.count)
+        if index == 1 {
+            let likeProductsCount = UserDefaultsHelper.likeProducts?.count
+            cell.configureContent(option: LagomStyle.phrase.settingOptions[index], likeProductsCount: likeProductsCount ?? 0)
         } else {
             cell.configureContent(option: LagomStyle.phrase.settingOptions[index])
         }

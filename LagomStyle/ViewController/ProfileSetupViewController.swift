@@ -9,6 +9,12 @@ import UIKit
 
 import SnapKit
 
+enum ValidationError: Error {
+    case numberOfCharacter
+    case specialCharacter
+    case includeNumbers
+}
+
 final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol {
     
     private let profileImageView = ProfileImageView(imageSelectType: .selected)
@@ -147,7 +153,7 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
             completeButton.isHidden = true
             selectedImageIndex = profileImageIndex
             nicknameTextField.text = nickname
-            checkNickname(text: nickname)
+            completeValidateNickname(nickname: nickname)
         }
         let image = LagomStyle.Image.profile(index: selectedImageIndex).imageName
         profileImageView.configureContent(image: image)
@@ -184,33 +190,53 @@ extension ProfileSetupViewController: UITextFieldDelegate {
             completeButton.isEnabled = isEnabled
             navigationItem.rightBarButtonItem?.isEnabled = isEnabled
         }
-        checkNickname(text: text)
+        completeValidateNickname(nickname: text)
     }
     
-    private func checkNickname(text: String) {
-        for char in text {
+    private func completeValidateNickname(nickname: String) {
+        do {
+            let isEnabled = try validateNickname(nickname: nickname)
+            
+            if isEnabled {
+                self.isEnabled = isEnabled
+                warningLabel.text = LagomStyle.phrase.availableNickname
+                warningLabel.textColor = LagomStyle.Color.lagomBlack
+            }
+            
+        } catch ValidationError.numberOfCharacter {
+            warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
+            warningLabel.text = LagomStyle.phrase.numberOfCharacterX
+            isEnabled = false
+        } catch ValidationError.specialCharacter {
+            warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
+            warningLabel.text = LagomStyle.phrase.specialCharacterX
+            isEnabled = false
+        } catch ValidationError.includeNumbers {
+            warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
+            warningLabel.text = LagomStyle.phrase.includeNumbers
+            isEnabled = false
+        } catch {
+            warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
+            warningLabel.text = LagomStyle.phrase.unknownError
+            isEnabled = false
+        }
+    }
+    
+    private func validateNickname(nickname: String) throws -> Bool {
+        guard nickname.count >= 2, nickname.count < 10 else {
+            throw ValidationError.numberOfCharacter
+        }
+        
+        for char in nickname {
             let string = String(char)
-            
-            guard text.count >= 2, text.count < 10 else {
-                warningLabel.text = LagomStyle.phrase.numberOfCharacterX
-                isEnabled = false
-                return
-            }
-            
             if let _ = string.range(of: "^[@#$%]*$", options: .regularExpression) {
-                warningLabel.text = LagomStyle.phrase.specialCharacterX
-                isEnabled = false
-                return
+                throw ValidationError.specialCharacter
             }
-            
             if let _ = string.range(of: "^[0-9]*$", options: .regularExpression) {
-                warningLabel.text = LagomStyle.phrase.includeNumbers
-                isEnabled = false
-                return
+                throw ValidationError.includeNumbers
             }
         }
-        isEnabled = true
-        warningLabel.text = LagomStyle.phrase.availableNickname
+        return true
     }
 }
 

@@ -53,6 +53,7 @@
 		7B823D402C223FF3009567EE /* BasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D3F2C223FF3009567EE /* BasketViewController.swift */; };
 		7B823D422C2242DF009567EE /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D412C2242DF009567EE /* Divider.swift */; };
 		7B823D442C224A12009567EE /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D432C224A12009567EE /* UILabel+.swift */; };
+		7B9BCB712C293C550082AE38 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCB702C293C550082AE38 /* NetworkHelper.swift */; };
 		7BB4C5912C21A4E300953FAB /* ProductsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB4C5902C21A4E300953FAB /* ProductsCollectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +101,7 @@
 		7B823D3F2C223FF3009567EE /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
 		7B823D412C2242DF009567EE /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		7B823D432C224A12009567EE /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		7B9BCB702C293C550082AE38 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		7BB4C5902C21A4E300953FAB /* ProductsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				7B6BBA222C1F13FE00BC85F8 /* UserDefaultsHelper.swift */,
+				7B9BCB702C293C550082AE38 /* NetworkHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */,
 				7B823D422C2242DF009567EE /* Divider.swift in Sources */,
 				7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */,
+				7B9BCB712C293C550082AE38 /* NetworkHelper.swift in Sources */,
 				7B6BBA102C1DE83200BC85F8 /* NVSSearchResultViewController.swift in Sources */,
 				7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */,
 				7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */,

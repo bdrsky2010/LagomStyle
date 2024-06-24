@@ -66,7 +66,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         if index == 5 {
             presentAlert(type: .twoButton, title: LagomStyle.phrase.withDrawAlertTitle,
-                         message: LagomStyle.phrase.withDrawAlertMessage) { [weak self] in
+                         message: LagomStyle.phrase.withDrawAlertMessage) { [weak self] _ in
                 guard let self else { return }
                 UserDefaultsHelper.removeAllUserDefaults()
                 

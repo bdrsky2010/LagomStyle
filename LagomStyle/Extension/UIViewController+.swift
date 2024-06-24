@@ -56,7 +56,10 @@ extension UIViewController {
         case twoButton
     }
     
-    func presentAlert(type alertType: AlertType, title: String, message: String, completionHandler: (() -> Void)? = nil) {
+    func presentAlert(type alertType: AlertType,
+                      title: String,
+                      message: String,
+                      completionHandler: ((UIAlertAction) -> Void)? = nil) {
         // 1. alert 창 구성
         let title = title
         let message = message
@@ -64,9 +67,7 @@ extension UIViewController {
                                       message: message,
                                       preferredStyle: .alert)
         // 2. alert button 구성
-        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-            completionHandler?()
-        }
+        let confirm = UIAlertAction(title: "확인", style: .default, handler: completionHandler)
         
         // 3. alert에 button 추가
         alert.addAction(confirm)

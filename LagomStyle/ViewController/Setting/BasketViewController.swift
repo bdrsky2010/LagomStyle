@@ -9,6 +9,13 @@ import UIKit
 
 final class BasketViewController: UIViewController, ConfigureViewProtocol {
     
+    private let toggleContentView: UIView = {
+        let view = UIView()
+        view.layer.borderColor = LagomStyle.Color.lagomBlack.cgColor
+        view.layer.borderWidth = 1
+        return view
+    }()
+    
     private let productsCollectionView = ProductsCollectionView()
     private let productsTableView = UITableView()
     

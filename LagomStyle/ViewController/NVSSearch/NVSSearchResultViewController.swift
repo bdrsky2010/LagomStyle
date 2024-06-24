@@ -274,55 +274,55 @@ extension NVSSearchResultViewController {
                 "X-Naver-Client-Secret": APIKey.naverClientSecret
             ]
             
-            AF.request(APIUrl.naverShopping,
-                       method: .get,
-                       parameters: parameters,
-                       encoding: URLEncoding.queryString,
-                       headers: headers)
-            .responseDecodable(of: NVSSearch.self) { [weak self] response in
+            NetworkHelper.requestAPI(urlString: APIUrl.naverShopping,
+                                     method: .get,
+                                     parameters: parameters,
+                                     encoding: URLEncoding.queryString,
+                                     headers: headers,
+                                     of: NVSSearch.self
+            ) { [weak self] value in
                 guard let self else { return }
                 
-                switch response.result {
-                case .success(let value):
-                    var value = value
-                    value.products.indices.forEach { i in
-                        let title = value.products[i].title.removeHtmlTag
-                        value.products[i].title = title
-                    }
-                    searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
-                    
-                    guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
-                        searchResultCollectionView.isHidden = true
-                        emptyView.isHidden = false
-                        return
-                    }
-                    
-                    searchResultCollectionView.isHidden = false
-                    emptyView.isHidden = true
-                    if let result = searchResult {
-                        if result.total <= result.products.count {
-                            nvssIsPagingEnd = true
-                        }
-                        
-                        if !nvssIsPagingEnd {
-                            searchResult?.products.append(contentsOf: value.products)
-                            nvssStartNumber += searchDisplayCount
-                        }
-                    } else {
-                        searchResult = value
-                        nvssStartNumber += searchDisplayCount
-                    }
-                    searchResultCollectionView.reloadData()
-                    searchResultCollectionView.stopSkeletonAnimation()
-                    searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
-                    
-                case .failure(_):
-                    presentAlert(type: .oneButton,
-                                 title: LagomStyle.phrase.networkErrorTitle,
-                                 message: LagomStyle.phrase.networkErrorMessage)
+                var value = value
+                value.products.indices.forEach { i in
+                    let title = value.products[i].title.removeHtmlTag
+                    value.products[i].title = title
+                }
+                searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
+                
+                guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
                     searchResultCollectionView.isHidden = true
                     emptyView.isHidden = false
+                    return
                 }
+                
+                searchResultCollectionView.isHidden = false
+                emptyView.isHidden = true
+                if let result = searchResult {
+                    if result.total <= result.products.count {
+                        nvssIsPagingEnd = true
+                    }
+                    
+                    if !nvssIsPagingEnd {
+                        searchResult?.products.append(contentsOf: value.products)
+                        nvssStartNumber += searchDisplayCount
+                    }
+                } else {
+                    searchResult = value
+                    nvssStartNumber += searchDisplayCount
+                }
+                searchResultCollectionView.reloadData()
+                searchResultCollectionView.stopSkeletonAnimation()
+                searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+                
+            } failure: { [weak self] error in
+                guard let self else { return }
+                
+                presentAlert(type: .oneButton,
+                             title: LagomStyle.phrase.networkErrorTitle,
+                             message: LagomStyle.phrase.networkErrorMessage)
+                searchResultCollectionView.isHidden = true
+                emptyView.isHidden = false
             }
         }
     }

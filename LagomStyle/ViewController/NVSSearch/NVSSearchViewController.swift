@@ -52,20 +52,14 @@ final class NVSSearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        configureTextField()
+        configutrRemoveAllButton()
+        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigation()
-    }
-    
-    override func configureView() {
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
-        configureTextField()
-        configutrRemoveAllButton()
-        configureTableView()
     }
     
     override func configureNavigation() {

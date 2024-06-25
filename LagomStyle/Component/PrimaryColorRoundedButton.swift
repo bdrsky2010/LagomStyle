@@ -11,15 +11,12 @@ import SnapKit
 
 final class PrimaryColorRoundedButton: UIButton, ConfigureViewProtocol {
     
-    var clickAction: (() -> Void)?
-    
     init() {
         super.init(frame: .zero)
     }
     
-    convenience init(title: String, clickAction: (() -> Void)? = nil) {
+    convenience init(title: String) {
         self.init()
-        self.clickAction = clickAction
         
         configuration = .filled()
         configuration?.cornerStyle = .capsule
@@ -27,13 +24,6 @@ final class PrimaryColorRoundedButton: UIButton, ConfigureViewProtocol {
             NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: LagomStyle.Font.black16,
                                                            NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomWhite]))
         configuration?.baseBackgroundColor = LagomStyle.Color.lagomPrimaryColor
-        
-        addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
-    }
-    
-    @objc
-    private func buttonClicked() {
-        clickAction?()
     }
     
     @available(*, unavailable)

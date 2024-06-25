@@ -13,36 +13,22 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
     
     private let label = UILabel.blackRegular14()
     
-    var tapAction: ((_ sender: CapsuleTapActionButton) -> Void)?
-    
     init() {
         super.init(frame: .zero)
     }
     
-    convenience init(title: String, tag: Int, tapAction: ((_ sender: CapsuleTapActionButton) -> Void)? = nil) {
+    convenience init(title: String, tag: Int) {
         self.init()
         self.tag = tag
-        self.tapAction = tapAction
         
         label.text = title
-        
         clipsToBounds = true
-        
-        isUserInteractionEnabled = true
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAction))
-        addGestureRecognizer(tapGesture)
-        
         configureView()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = bounds.height / 2
-    }
-    
-    @objc private func tappedAction() {
-        tapAction?(self)
     }
     
     func configureView() {

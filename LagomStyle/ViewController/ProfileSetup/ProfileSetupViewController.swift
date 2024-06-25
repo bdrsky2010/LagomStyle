@@ -30,27 +30,18 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
     
     private let textFieldUnderBar = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
     private let warningLabel = UILabel.primaryRegular13()
-    
-    private lazy var completeButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.profileSettingComplete) { [weak self] in
-        guard let self, let text = nicknameTextField.text else { return }
-        
-        UserDefaultsHelper.isOnboarding = true
-        UserDefaultsHelper.nickname = text
-        UserDefaultsHelper.profileImageIndex = selectedImageIndex
-        UserDefaultsHelper.signUpDate = Date.convertString
-        
-        let mainViewController = MainTabBarController()
-        changeRootViewController(rootViewController: mainViewController)
-    }
+    private let completeButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.profileSettingComplete)
     
     private var isEnabled = false
     private var selectedImageIndex = Int.random(in: 0...11)
+    
     var pfSetupType: LagomStyle.PFSetupOption?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureView()
+        configureCompleteButton()
     }
     
     func configureView() {
@@ -157,6 +148,23 @@ final class ProfileSetupViewController: UIViewController, ConfigureViewProtocol 
         
         let tapGestuer = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
         profileImageView.addGestureRecognizer(tapGestuer)
+    }
+    
+    private func configureCompleteButton() {
+        completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc
+    private func completeButtonClicked() {
+        guard let text = nicknameTextField.text else { return }
+        
+        UserDefaultsHelper.isOnboarding = true
+        UserDefaultsHelper.nickname = text
+        UserDefaultsHelper.profileImageIndex = selectedImageIndex
+        UserDefaultsHelper.signUpDate = Date.convertString
+        
+        let mainViewController = MainTabBarController()
+        changeRootViewController(rootViewController: mainViewController)
     }
     
     @objc

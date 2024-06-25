@@ -7,42 +7,18 @@
 
 import UIKit
 
-import SnapKit
-
-final class OnboardingViewController: UIViewController, ConfigureViewProtocol {
+final class OnboardingViewController: BaseViewController {
     
-    private let onboardingTitleBackground = UIView()
+    private let onboardingView = OnboardingView()
     
-    private let onboardingTitle: UILabel = {
-        let label = UILabel()
-        label.text = LagomStyle.phrase.onBoardingAppTitle
-        label.numberOfLines = 2
-        label.font = LagomStyle.Font.black50
-        label.textColor = LagomStyle.Color.lagomPrimaryColor
-        label.textAlignment = .right
-        return label
-    }()
-    
-    private let backgroundImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: LagomStyle.Image.launch.imageName)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var startButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.onBoardingStart) { [weak self] in
-        guard let self else { return }
-        
-        let profileSetupViewController = ProfileSetupViewController()
-        profileSetupViewController.pfSetupType = .setup
-        
-        navigationController?.pushViewController(profileSetupViewController, animated: true)
+    override func loadView() {
+        view = onboardingView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureView()
+        configureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,46 +27,23 @@ final class OnboardingViewController: UIViewController, ConfigureViewProtocol {
         configureNavigation()
     }
     
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        
-        configureHierarchy()
-        configureLayout()
+    override func configureView() {
+        super.configureView()
     }
     
-    func configureNavigation() {
+    override func configureNavigation() {
         navigationController?.navigationBar.isHidden = true
     }
     
-    func configureHierarchy() {
-        view.addSubview(onboardingTitleBackground)
-        onboardingTitleBackground.addSubview(onboardingTitle)
-        
-        view.addSubview(backgroundImage)
-        view.addSubview(startButton)
+    private func configureButton() {
+        onboardingView.startButton.addTarget(self, action: #selector(startButtonClicked), for: .touchUpInside)
     }
     
-    func configureLayout() {
-        backgroundImage.snp.makeConstraints { make in
-            make.center.equalTo(view.safeAreaLayoutGuide)
-            make.width.height.equalTo(view.snp.height).multipliedBy(0.35)
-        }
+    @objc
+    private func startButtonClicked() {
+        let profileSetupViewController = ProfileSetupViewController()
+        profileSetupViewController.pfSetupType = .setup
         
-        onboardingTitleBackground.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(backgroundImage.snp.top)
-            make.width.equalTo(onboardingTitleBackground.snp.height)
-            make.centerX.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        onboardingTitle.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        
-        startButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(44)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
-        }
+        navigationController?.pushViewController(profileSetupViewController, animated: true)
     }
 }

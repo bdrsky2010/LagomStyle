@@ -14,14 +14,7 @@ import SnapKit
 
 final class NVSSearchResultViewController: UIViewController, ConfigureViewProtocol {
     
-    let accuracyFilteringButton = CapsuleTapActionButton(title: NVSSSort.sim.segmentedTitle, tag: 0)
-    let dateFilteringButton = CapsuleTapActionButton(title: NVSSSort.date.segmentedTitle, tag: 1)
-    let priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2)
-    let priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3)
-    
-    private let searchResultCountLabel = UILabel.primaryBold13()
-    private let searchResultCollectionView = ProductsCollectionView()
-    private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
+    private let nvsSearchResultView = NVSSearchResultView()
     
     private let searchDisplayCount = 30
     private let nvsSortTypeList = NVSSSort.allCases
@@ -47,23 +40,24 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
     
     var query: String?
     
+    override func loadView() {
+        view = nvsSearchResultView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let query {
             requestNVSSearchAPI(query: query)
         }
         configureView()
+        configureCollectionView()
+        
+        nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
         configureFilteringButton()
     }
     
     func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
-        configureCollectionView()
-        emptyView.isHidden = true
-        searchResultCollectionView.showGradientSkeleton()
+        nvsSearchResultView.emptyView.isHidden = true
     }
     
     func configureNavigation() {
@@ -71,108 +65,65 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         configureNavigationBackButton()
     }
     
-    func configureHierarchy() {
-        view.addSubview(searchResultCountLabel)
-        view.addSubview(accuracyFilteringButton)
-        view.addSubview(dateFilteringButton)
-        view.addSubview(priceAscFilteringButton)
-        view.addSubview(priceDscFilteringButton)
-        view.addSubview(searchResultCollectionView)
-        view.addSubview(emptyView)
-    }
-    
-    func configureLayout() {
-        searchResultCountLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).offset(20)
-        }
-        
-        accuracyFilteringButton.snp.makeConstraints { make in
-            make.top.equalTo(searchResultCountLabel.snp.bottom).offset(16)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(20)
-        }
-        
-        dateFilteringButton.snp.makeConstraints { make in
-            make.leading.equalTo(accuracyFilteringButton.snp.trailing).offset(8)
-            make.centerY.equalTo(accuracyFilteringButton)
-        }
-        
-        priceAscFilteringButton.snp.makeConstraints { make in
-            make.leading.equalTo(dateFilteringButton.snp.trailing).offset(8)
-            make.centerY.equalTo(accuracyFilteringButton)
-        }
-        
-        priceDscFilteringButton.snp.makeConstraints { make in
-            make.leading.equalTo(priceAscFilteringButton.snp.trailing).offset(8)
-            make.centerY.equalTo(accuracyFilteringButton)
-        }
-        
-        searchResultCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(accuracyFilteringButton.snp.bottom).offset(16)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        emptyView.snp.makeConstraints { make in
-            make.top.equalTo(accuracyFilteringButton.snp.bottom)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func configureCollectionView() {
-        searchResultCollectionView.delegate = self
-        searchResultCollectionView.dataSource = self
-        searchResultCollectionView.prefetchDataSource = self
-        searchResultCollectionView.register(SearchResultCollectionViewCell.self,
-                                            forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
-        searchResultCollectionView.isSkeletonable = true
+        nvsSearchResultView.searchResultCollectionView.delegate = self
+        nvsSearchResultView.searchResultCollectionView.dataSource = self
+        nvsSearchResultView.searchResultCollectionView.prefetchDataSource = self
+        nvsSearchResultView.searchResultCollectionView.register(SearchResultCollectionViewCell.self,
+                                                                forCellWithReuseIdentifier: SearchResultCollectionViewCell.identifier)
+        nvsSearchResultView.searchResultCollectionView.isSkeletonable = true
     }
     
     private func configureFilteringButton() {
-        accuracyFilteringButton.isUserInteractionEnabled = true
-        dateFilteringButton.isUserInteractionEnabled = true
-        priceAscFilteringButton.isUserInteractionEnabled = true
-        priceDscFilteringButton.isUserInteractionEnabled = true
+        nvsSearchResultView.accuracyFilteringButton.isUserInteractionEnabled = true
+        nvsSearchResultView.dateFilteringButton.isUserInteractionEnabled = true
+        nvsSearchResultView.priceAscFilteringButton.isUserInteractionEnabled = true
+        nvsSearchResultView.priceDscFilteringButton.isUserInteractionEnabled = true
         
         let accuracyGesture = UITapGestureRecognizer(target: self, action: #selector(accuracyButtonClicked))
         let dateGesture = UITapGestureRecognizer(target: self, action: #selector(dateButtonClicked))
         let priceAscGesture = UITapGestureRecognizer(target: self, action: #selector(priceAscButtonClicked))
         let priceDscGesture = UITapGestureRecognizer(target: self, action: #selector(priceDscButtonClicked))
         
-        accuracyFilteringButton.addGestureRecognizer(accuracyGesture)
-        dateFilteringButton.addGestureRecognizer(dateGesture)
-        priceAscFilteringButton.addGestureRecognizer(priceAscGesture)
-        priceDscFilteringButton.addGestureRecognizer(priceDscGesture)
+        nvsSearchResultView.accuracyFilteringButton.addGestureRecognizer(accuracyGesture)
+        nvsSearchResultView.dateFilteringButton.addGestureRecognizer(dateGesture)
+        nvsSearchResultView.priceAscFilteringButton.addGestureRecognizer(priceAscGesture)
+        nvsSearchResultView.priceDscFilteringButton.addGestureRecognizer(priceDscGesture)
     }
     
     @objc
     private func accuracyButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(accuracyFilteringButton)
+        filteringButtonClicked(nvsSearchResultView.accuracyFilteringButton)
     }
     
     @objc
     private func dateButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(dateFilteringButton)
+        filteringButtonClicked(nvsSearchResultView.dateFilteringButton)
     }
     
     @objc
     private func priceAscButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(priceAscFilteringButton)
+        filteringButtonClicked(nvsSearchResultView.priceAscFilteringButton)
     }
     
     @objc
     private func priceDscButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(priceDscFilteringButton)
+        filteringButtonClicked(nvsSearchResultView.priceDscFilteringButton)
     }
     
     private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
         // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
-        if !searchResultCollectionView.isHidden {
-            searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+        if !nvsSearchResultView.searchResultCollectionView.isHidden {
+            nvsSearchResultView.searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
         guard selectedButtonTag != sender.tag else { return }
-        searchResultCollectionView.showGradientSkeleton()
+        nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
         let filteringButtonList = [
-            accuracyFilteringButton, dateFilteringButton, priceAscFilteringButton, priceDscFilteringButton
+            nvsSearchResultView.accuracyFilteringButton,
+            nvsSearchResultView.dateFilteringButton,
+            nvsSearchResultView.priceAscFilteringButton,
+            nvsSearchResultView.priceDscFilteringButton
         ]
         filteringButtonList[selectedButtonTag].unSelectUI()
         sender.selectUI()
@@ -209,7 +160,7 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
             }
         }
         
-        searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
 }
 
@@ -313,16 +264,16 @@ extension NVSSearchResultViewController {
                         let title = value.products[i].title.removeHtmlTag
                         value.products[i].title = title
                     }
-                    searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
+                    nvsSearchResultView.searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
                     
                     guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
-                        searchResultCollectionView.isHidden = true
-                        emptyView.isHidden = false
+                        nvsSearchResultView.searchResultCollectionView.isHidden = true
+                        nvsSearchResultView.emptyView.isHidden = false
                         return
                     }
                     
-                    searchResultCollectionView.isHidden = false
-                    emptyView.isHidden = true
+                    nvsSearchResultView.searchResultCollectionView.isHidden = false
+                    nvsSearchResultView.emptyView.isHidden = true
                     if let result = searchResult {
                         if result.total <= result.products.count {
                             nvssIsPagingEnd = true
@@ -336,16 +287,16 @@ extension NVSSearchResultViewController {
                         searchResult = value
                         nvssStartNumber += searchDisplayCount
                     }
-                    searchResultCollectionView.reloadData()
-                    searchResultCollectionView.stopSkeletonAnimation()
-                    searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+                    nvsSearchResultView.searchResultCollectionView.reloadData()
+                    nvsSearchResultView.searchResultCollectionView.stopSkeletonAnimation()
+                    nvsSearchResultView.searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
                     
                 case .failure(let error):
                     presentAlert(type: .oneButton,
                                  title: LagomStyle.phrase.networkErrorTitle,
                                  message: LagomStyle.phrase.networkErrorMessage)
-                    searchResultCollectionView.isHidden = true
-                    emptyView.isHidden = false
+                    nvsSearchResultView.searchResultCollectionView.isHidden = true
+                    nvsSearchResultView.emptyView.isHidden = false
                 }
             }
         }

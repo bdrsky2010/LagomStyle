@@ -9,64 +9,28 @@ import UIKit
 
 import SnapKit
 
-final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
+final class NVSSearchViewController: BaseViewController {
     
-    private let productSearchBarView: UIView = {
-        let view = UIView()
-        view.backgroundColor = LagomStyle.Color.lagomLightGray
-        view.layer.cornerRadius = 10
-        return view
-    }()
-    
-    private let productSearchBarImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: LagomStyle.SystemImage.magnifyingglass)
-        imageView.tintColor = LagomStyle.Color.lagomGray
-        return imageView
-    }()
-    
-    private let productSearchTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .none
-        textField.attributedPlaceholder = NSAttributedString(string: LagomStyle.phrase.searchViewPlaceholder, attributes: [NSAttributedString.Key.font: LagomStyle.Font.regular16, NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomGray])
-        textField.returnKeyType = .search
-        return textField
-    }()
-    
-    private let divider = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
-    private let recentSearchTableViewTitleLabel = UILabel.blackBlack14(text: LagomStyle.phrase.searchViewRecentSearch)
-    
-    private let removeAllQueriesButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.configuration = .plain()
-        button.configuration?.attributedTitle = AttributedString(
-            NSAttributedString(string: LagomStyle.phrase.searchViewRemoveAll,
-                               attributes: [NSAttributedString.Key.font: LagomStyle.Font.regular13,
-                                            NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomPrimaryColor]))
-        button.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
-        return button
-    }()
-    private let recentSearchTableView = UITableView()
-    private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchViewNoRecentSearch)
+    private let nvsSearchView = NVSSearchView()
     
     private var recentSearchQueries: [String] {
         get {
             guard let queries =  UserDefaultsHelper.recentSearchQueries else {
                 
-                recentSearchTableViewTitleLabel.isHidden = true
-                removeAllQueriesButton.isHidden = true
-                recentSearchTableView.isHidden = true
+                nvsSearchView.recentSearchTableViewTitleLabel.isHidden = true
+                nvsSearchView.removeAllQueriesButton.isHidden = true
+                nvsSearchView.recentSearchTableView.isHidden = true
                 
-                emptyView.isHidden = false
+                nvsSearchView.emptyView.isHidden = false
                 
                 return []
             }
             
-            recentSearchTableViewTitleLabel.isHidden = false
-            removeAllQueriesButton.isHidden = false
-            recentSearchTableView.isHidden = false
+            nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
+            nvsSearchView.removeAllQueriesButton.isHidden = false
+            nvsSearchView.recentSearchTableView.isHidden = false
             
-            emptyView.isHidden = true
+            nvsSearchView.emptyView.isHidden = true
             
             return queries
         }
@@ -77,8 +41,12 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
             } else {
                 UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
             }
-            recentSearchTableView.reloadData()
+            nvsSearchView.recentSearchTableView.reloadData()
         }
+    }
+    
+    override func loadView() {
+        view = nvsSearchView
     }
     
     override func viewDidLoad() {
@@ -91,9 +59,7 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         configureNavigation()
     }
     
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        
+    override func configureView() {
         configureNavigation()
         configureHierarchy()
         configureLayout()
@@ -102,77 +68,17 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
         configureTableView()
     }
     
-    func configureNavigation() {
+    override func configureNavigation() {
         guard let nickname = UserDefaultsHelper.nickname else { return }
         navigationItem.title = nickname + LagomStyle.phrase.searchViewNavigationTitle
     }
     
-    func configureHierarchy() {
-        
-        view.addSubview(productSearchBarView)
-        productSearchBarView.addSubview(productSearchBarImage)
-        productSearchBarView.addSubview(productSearchTextField)
-        
-        view.addSubview(divider)
-        view.addSubview(recentSearchTableViewTitleLabel)
-        view.addSubview(removeAllQueriesButton)
-        view.addSubview(recentSearchTableView)
-        view.addSubview(emptyView)
-    }
-    
-    func configureLayout() {
-        
-        productSearchBarView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(44)
-        }
-        
-        productSearchBarImage.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(8)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(20)
-        }
-        
-        productSearchTextField.snp.makeConstraints { make in
-            make.leading.equalTo(productSearchBarImage.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().offset(-8)
-            make.centerY.equalToSuperview()
-        }
-        
-        divider.snp.makeConstraints { make in
-            make.top.equalTo(productSearchBarView.snp.bottom).offset(16)
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
-        recentSearchTableViewTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(divider).offset(16)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-        }
-        
-        removeAllQueriesButton.snp.makeConstraints { make in
-            make.centerY.equalTo(recentSearchTableViewTitleLabel.snp.centerY)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).offset(-16)
-        }
-        
-        recentSearchTableView.snp.makeConstraints { make in
-            make.top.equalTo(recentSearchTableViewTitleLabel.snp.bottom).offset(16)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        emptyView.snp.makeConstraints { make in
-            make.top.equalTo(divider.snp.bottom)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func configureTextField() {
-        productSearchTextField.delegate = self
+        nvsSearchView.productSearchTextField.delegate = self
     }
     
     private func configutrRemoveAllButton() {
-        removeAllQueriesButton.addTarget(self, action: #selector(removeAllButtonClicked), for: .touchUpInside)
+        nvsSearchView.removeAllQueriesButton.addTarget(self, action: #selector(removeAllButtonClicked), for: .touchUpInside)
     }
     
     @objc
@@ -181,13 +87,11 @@ final class NVSSearchViewController: UIViewController, ConfigureViewProtocol {
     }
     
     private func configureTableView() {
-        recentSearchTableView.delegate = self
-        recentSearchTableView.dataSource = self
-        recentSearchTableView.register(RecentSearchTableViewCell.self,
-                                       forCellReuseIdentifier: RecentSearchTableViewCell.identifier)
-        
-        recentSearchTableView.separatorStyle = .none
-        recentSearchTableView.rowHeight = 32
+        nvsSearchView.recentSearchTableView.delegate = self
+        nvsSearchView.recentSearchTableView.dataSource = self
+        nvsSearchView.recentSearchTableView.register(RecentSearchTableViewCell.self, forCellReuseIdentifier: RecentSearchTableViewCell.identifier)
+        nvsSearchView.recentSearchTableView.separatorStyle = .none
+        nvsSearchView.recentSearchTableView.rowHeight = 32
     }
 }
 

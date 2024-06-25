@@ -9,15 +9,18 @@ import Foundation
 
 import Alamofire
 
-enum NetworkHelper {
-    static func requestAPI<T: Decodable>(urlString: String,
+class NetworkHelper {
+    static let shared = NetworkHelper()
+    
+    private init() { }
+    
+    func requestAPI<T: Decodable>(urlString: String,
                                          method: HTTPMethod,
                                          parameters: Parameters,
                                          encoding: URLEncoding,
                                          headers: HTTPHeaders,
                                          of type: T.Type,
-                                         success successHandler: @escaping (T) -> Void,
-                                         failure failureHandler: @escaping (Error) -> Void) {
+                                         completionHandler: @escaping (Result<T, Error>) -> Void) {
         AF.request(urlString,
                    method: method,
                    parameters: parameters,
@@ -26,9 +29,9 @@ enum NetworkHelper {
         .responseDecodable(of: type.self) { response in
             switch response.result {
             case .success(let value):
-                successHandler(value)
+                completionHandler(.success(value))
             case .failure(let error):
-                failureHandler(error)
+                completionHandler(.failure(error))
             }
         }
     }

@@ -14,25 +14,12 @@ import SnapKit
 
 final class NVSSearchResultViewController: UIViewController, ConfigureViewProtocol {
     
+    let accuracyFilteringButton = CapsuleTapActionButton(title: NVSSSort.sim.segmentedTitle, tag: 0)
+    let dateFilteringButton = CapsuleTapActionButton(title: NVSSSort.date.segmentedTitle, tag: 1)
+    let priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2)
+    let priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3)
+    
     private let searchResultCountLabel = UILabel.primaryBold13()
-    
-    private lazy var accuracyFilteringButton = CapsuleTapActionButton(title: NVSSSort.sim.segmentedTitle, tag: 0) { [weak self] sender in
-        guard let self else { return }
-        filteringButtonClicked(sender)
-    }
-    private lazy var dateFilteringButton = CapsuleTapActionButton(title: NVSSSort.date.segmentedTitle, tag: 1) { [weak self] sender in
-        guard let self else { return }
-        filteringButtonClicked(sender)
-    }
-    private lazy var priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2) { [weak self] sender in
-        guard let self else { return }
-        filteringButtonClicked(sender)
-    }
-    private lazy var priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3) { [weak self] sender in
-        guard let self else { return }
-        filteringButtonClicked(sender)
-    }
-    
     private let searchResultCollectionView = ProductsCollectionView()
     private let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
     
@@ -66,6 +53,7 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
             requestNVSSearchAPI(query: query)
         }
         configureView()
+        configureFilteringButton()
     }
     
     func configureView() {
@@ -138,8 +126,44 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         searchResultCollectionView.isSkeletonable = true
     }
     
-    private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
+    private func configureFilteringButton() {
+        accuracyFilteringButton.isUserInteractionEnabled = true
+        dateFilteringButton.isUserInteractionEnabled = true
+        priceAscFilteringButton.isUserInteractionEnabled = true
+        priceDscFilteringButton.isUserInteractionEnabled = true
         
+        let accuracyGesture = UITapGestureRecognizer(target: self, action: #selector(accuracyButtonClicked))
+        let dateGesture = UITapGestureRecognizer(target: self, action: #selector(dateButtonClicked))
+        let priceAscGesture = UITapGestureRecognizer(target: self, action: #selector(priceAscButtonClicked))
+        let priceDscGesture = UITapGestureRecognizer(target: self, action: #selector(priceDscButtonClicked))
+        
+        accuracyFilteringButton.addGestureRecognizer(accuracyGesture)
+        dateFilteringButton.addGestureRecognizer(dateGesture)
+        priceAscFilteringButton.addGestureRecognizer(priceAscGesture)
+        priceDscFilteringButton.addGestureRecognizer(priceDscGesture)
+    }
+    
+    @objc
+    private func accuracyButtonClicked(sender: UITapGestureRecognizer) {
+        filteringButtonClicked(accuracyFilteringButton)
+    }
+    
+    @objc
+    private func dateButtonClicked(sender: UITapGestureRecognizer) {
+        filteringButtonClicked(dateFilteringButton)
+    }
+    
+    @objc
+    private func priceAscButtonClicked(sender: UITapGestureRecognizer) {
+        filteringButtonClicked(priceAscFilteringButton)
+    }
+    
+    @objc
+    private func priceDscButtonClicked(sender: UITapGestureRecognizer) {
+        filteringButtonClicked(priceDscFilteringButton)
+    }
+    
+    private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
         // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
         if !searchResultCollectionView.isHidden {
             searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class RecentSearchTableViewCell: UITableViewCell, ConfigureViewProtocol {
+class RecentSearchTableViewCell: BaseTableViewCell {
     
     private let clockImage: UIImageView = {
         let imageView = UIImageView()
@@ -33,23 +33,19 @@ class RecentSearchTableViewCell: UITableViewCell, ConfigureViewProtocol {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        configureView()
     }
     
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
+    override func configureView() {
         configureButton()
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(clockImage)
         contentView.addSubview(removeButton)
         contentView.addSubview(queryLabel)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         clockImage.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(20)
@@ -81,10 +77,5 @@ class RecentSearchTableViewCell: UITableViewCell, ConfigureViewProtocol {
     
     func configureContent(query: String) {
         queryLabel.text = query
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

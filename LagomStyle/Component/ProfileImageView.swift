@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class ProfileImageView: UIView, ConfigureViewProtocol {
+final class ProfileImageView: BaseView {
     
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -35,7 +35,6 @@ final class ProfileImageView: UIView, ConfigureViewProtocol {
     
     init() {
         super.init(frame: .zero)
-        configureView()
     }
     
     convenience init(imageSelectType: LagomStyle.PFImageSelectType) {
@@ -55,11 +54,6 @@ final class ProfileImageView: UIView, ConfigureViewProtocol {
         cameraBackground.layer.cornerRadius = bounds.width * 0.3 / 2
     }
     
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
-    }
-    
     func configureView(imageSelectType: LagomStyle.PFImageSelectType) {
         configureHierarchy()
         configureLayout()
@@ -73,13 +67,13 @@ final class ProfileImageView: UIView, ConfigureViewProtocol {
         configureContent(image: image)
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         addSubview(profileImage)
         addSubview(cameraBackground)
         cameraBackground.addSubview(cameraImage)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         
         profileImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()

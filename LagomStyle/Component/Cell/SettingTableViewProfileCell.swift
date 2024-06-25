@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SettingTableViewProfileCell: UITableViewCell, ConfigureViewProtocol {
+final class SettingTableViewProfileCell: BaseTableViewCell {
     
     private let profileImageView = ProfileImageView(imageSelectType: .select)
     private let nicknameLabel = UILabel.blackBold16()
@@ -26,15 +26,9 @@ final class SettingTableViewProfileCell: UITableViewCell, ConfigureViewProtocol 
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
     }
     
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
-    }
-    
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(profileImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(signUpDateLabel)
@@ -42,7 +36,7 @@ final class SettingTableViewProfileCell: UITableViewCell, ConfigureViewProtocol 
         contentView.addSubview(seperator)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         profileImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(contentView.snp.height).multipliedBy(0.5)
@@ -83,10 +77,5 @@ final class SettingTableViewProfileCell: UITableViewCell, ConfigureViewProtocol 
         profileImageView.configureContent(image: LagomStyle.Image.profile(index: profileImageIndex).imageName)
         nicknameLabel.text = nickname
         signUpDateLabel.text = signUpDate + " 가입"
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SettingTableViewCell: UITableViewCell, ConfigureViewProtocol {
+final class SettingTableViewCell: BaseTableViewCell {
     
     private let optionLabel = UILabel.blackRegular15()
     private let basketImageView: UIImageView = {
@@ -24,22 +24,16 @@ final class SettingTableViewCell: UITableViewCell, ConfigureViewProtocol {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
     }
-    
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
-    }
-    
-    func configureHierarchy() {
+
+    override func configureHierarchy() {
         contentView.addSubview(optionLabel)
         contentView.addSubview(basketImageView)
         contentView.addSubview(likeProductCountLabel)
         contentView.addSubview(seperator)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         optionLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().offset(20)
@@ -79,10 +73,5 @@ final class SettingTableViewCell: UITableViewCell, ConfigureViewProtocol {
         let blackAttribute = [NSAttributedString.Key.font: LagomStyle.Font.black15]
         attributedString.addAttributes(blackAttribute, range: NSRange(location: 0, length: textCount))
         likeProductCountLabel.attributedText = attributedString
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

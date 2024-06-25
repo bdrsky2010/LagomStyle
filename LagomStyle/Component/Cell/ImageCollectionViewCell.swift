@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class ImageCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol {
+final class ImageCollectionViewCell: BaseCollectionViewCell {
     
     let profileImage = ProfileImageView()
     
@@ -19,16 +19,11 @@ final class ImageCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol
         configureView()
     }
     
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
-    }
-    
-    func configureHierarchy() {
+    override func configureHierarchy() {
         contentView.addSubview(profileImage)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         profileImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -41,10 +36,5 @@ final class ImageCollectionViewCell: UICollectionViewCell, ConfigureViewProtocol
     
     func changeContentStatus(imageSelectType: LagomStyle.PFImageSelectType) {
         profileImage.configureUI(imageSelectType: imageSelectType)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

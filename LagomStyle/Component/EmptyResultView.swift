@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class EmptyResultView: UIView, ConfigureViewProtocol {
+final class EmptyResultView: BaseView {
     
     private let emptyImage: UIImageView = {
         let imageView = UIImageView()
@@ -25,21 +25,15 @@ final class EmptyResultView: UIView, ConfigureViewProtocol {
     init(text: String) {
         self.text = text
         super.init(frame: .zero)
-        configureView()
-    }
-    
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
         configureContent()
     }
     
-    func configureHierarchy() {
+    override func configureHierarchy() {
         addSubview(emptyImage)
         addSubview(emptyText)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         emptyImage.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.horizontalEdges.equalToSuperview().inset(16)

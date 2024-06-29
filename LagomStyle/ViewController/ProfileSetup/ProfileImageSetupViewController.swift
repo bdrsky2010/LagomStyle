@@ -9,94 +9,48 @@ import UIKit
 
 import SnapKit
 
-final class ProfileImageSetupViewController: UIViewController, ConfigureViewProtocol {
-    
-    private let profileImage = ProfileImageView(imageSelectType: .selected)
-    
-    private lazy var imageCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            let screenWidth = windowScene.screen.bounds.width
-            
-            let sectionSpacing: CGFloat = 16
-            let cellSpacing: CGFloat = 16
-            let width = screenWidth - (sectionSpacing * 2) - (cellSpacing * 3)
-            
-            layout.itemSize = CGSize(width: width / 4, height: width / 4)
-            layout.minimumLineSpacing = 8
-            layout.minimumInteritemSpacing = 8
-            layout.sectionInset = UIEdgeInsets(
-                top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
-        }
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.isScrollEnabled = false
-        
-        return collectionView
-    }()
+final class ProfileImageSetupViewController: BaseViewController {
+    private let profileImageSetupView = ProfileImageSetupView()
     
     var selectedImageIndex: Int?
     var pfImageSetupType: LagomStyle.PFSetupOption?
     var delegate: PFImageSetupDelegate?
     
+    override func loadView() {
+        view = profileImageSetupView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureView()
-    }
-    
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        
         configureNavigation()
-        configureHierarchy()
-        configureLayout()
         configureContent()
         configureCollectionView()
     }
     
-    func configureNavigation() {
+    override func configureView() {
+        super.configureView()
+    }
+    
+    override func configureNavigation() {
         guard let setupType = pfImageSetupType else { return }
         navigationItem.title = setupType.title
         
         configureNavigationBackButton()
     }
     
-    func configureHierarchy() {
-        
-        view.addSubview(profileImage)
-        view.addSubview(imageCollectionView)
-    }
-    
-    func configureLayout() {
-        
-        profileImage.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.width.height.equalTo(view.snp.width).multipliedBy(0.3)
-            make.centerX.equalTo(view.safeAreaLayoutGuide)
-        }
-        
-        imageCollectionView.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(profileImage.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(view.safeAreaLayoutGuide).multipliedBy(0.4)
-            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
-        }
-    }
-    
-    func configureContent() {
+    private func configureContent() {
         guard let selectedImageIndex else { return }
         
         let image = LagomStyle.Image.profile(index: selectedImageIndex).imageName
-        profileImage.configureContent(image: image)
+        profileImageSetupView.profileImage.configureContent(image: image)
     }
     
     private func configureCollectionView() {
-        imageCollectionView.delegate = self
-        imageCollectionView.dataSource = self
+        profileImageSetupView.imageCollectionView.delegate = self
+        profileImageSetupView.imageCollectionView.dataSource = self
         
-        imageCollectionView.register(ImageCollectionViewCell.self,
+        profileImageSetupView.imageCollectionView.register(ImageCollectionViewCell.self,
                                      forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
     }
 }
@@ -114,7 +68,7 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
         
         if let newSelectedCell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? ImageCollectionViewCell {
             newSelectedCell.changeContentStatus(imageSelectType: .select)
-            profileImage.configureContent(image: LagomStyle.Image.profile(index: index).imageName)
+            profileImageSetupView.profileImage.configureContent(image: LagomStyle.Image.profile(index: index).imageName)
             
             selectedImageIndex = index
             

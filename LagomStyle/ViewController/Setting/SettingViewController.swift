@@ -10,6 +10,10 @@ import UIKit
 final class SettingViewController: BaseViewController {
     private let settingView = SettingView()
     
+    override func loadView() {
+        view = settingView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()

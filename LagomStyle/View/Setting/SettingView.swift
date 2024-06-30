@@ -16,6 +16,10 @@ final class SettingView: BaseView {
         super.init(frame: frame)
     }
     
+    override func configureView() {
+        super.configureView()
+    }
+    
     override func configureHierarchy() {
         addSubview(settingTableView)
     }

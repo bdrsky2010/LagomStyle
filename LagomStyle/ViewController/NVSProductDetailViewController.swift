@@ -6,13 +6,9 @@
 //
 
 import UIKit
-import WebKit
 
-import SnapKit
-
-final class NVSProductDetailViewController: UIViewController, ConfigureViewProtocol {
-    
-    private let webView = WKWebView()
+final class NVSProductDetailViewController: BaseViewController {
+    private let nvsProductDetailView = NVSProductDetailView()
     
     var delegate: NVSSearchDelegate?
     var row: Int?
@@ -20,21 +16,20 @@ final class NVSProductDetailViewController: UIViewController, ConfigureViewProto
     var productTitle: String?
     var productLink: String?
     
+    override func loadView() {
+        view = nvsProductDetailView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
     }
     
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
+    override func configureView() {
         requestWebView()
     }
     
-    func configureNavigation() {
+    override func configureNavigation() {
         guard let productTitle, let isLike else { return }
         navigationItem.title = productTitle
         let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal),
@@ -52,19 +47,9 @@ final class NVSProductDetailViewController: UIViewController, ConfigureViewProto
         delegate?.setLikeButtonImageToggle(row: row, isLike: isLike)
     }
     
-    func configureHierarchy() {
-        view.addSubview(webView)
-    }
-    
-    func configureLayout() {
-        webView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func requestWebView() {
         guard let productLink, let url = URL(string: productLink) else { return }
         let request = URLRequest(url: url)
-        webView.load(request)
+        nvsProductDetailView.webView.load(request)
     }
 }

@@ -9,8 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
-    
+final class CapsuleTapActionButton: BaseView {
     private let label = UILabel.blackRegular14()
     
     init() {
@@ -23,7 +22,7 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         
         label.text = title
         clipsToBounds = true
-        configureView()
+        configureButton()
     }
     
     override func layoutSubviews() {
@@ -31,24 +30,18 @@ final class CapsuleTapActionButton: UIView, ConfigureViewProtocol {
         layer.cornerRadius = bounds.height / 2
     }
     
-    func configureView() {
-        configureHierarchy()
-        configureLayout()
-        configureUI()
-    }
-    
-    func configureHierarchy() {
+    override func configureHierarchy() {
         addSubview(label)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(8)
             make.horizontalEdges.equalToSuperview().inset(12)
         }
     }
     
-    func configureUI() {
+    private func configureButton() {
         layer.borderColor = LagomStyle.Color.lagomLightGray.cgColor
         
         if tag == 0 {

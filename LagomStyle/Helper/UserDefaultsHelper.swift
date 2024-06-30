@@ -33,12 +33,9 @@ enum UserDefaultsHelper {
     }
     
     static func removeAllUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.isOnboarding)
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.nickname)
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.signUpDate)
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.profileImageIndex)
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
-        UserDefaults.standard.removeObject(forKey: LagomStyle.UserDefaultsKey.likeProducts)
+        UserDefaults.standard.dictionaryRepresentation().keys.forEach {
+            UserDefaults.standard.removeObject(forKey: $0)
+        }
     }
 }
 

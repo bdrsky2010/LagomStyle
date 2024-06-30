@@ -7,14 +7,6 @@
 
 import UIKit
 
-// MARK: UIViewController extension Method: get identifier
-extension UIViewController {
-    
-    static var identifier: String {
-        return String(describing: self)
-    }
-}
-
 extension UIViewController {
     
     func configureNavigationBackButton() {

@@ -16,7 +16,7 @@ final class NVSSearchResultView: BaseView {
     let priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3)
     
     let searchResultCountLabel = UILabel.primaryBold13()
-    let searchResultCollectionView = ProductsCollectionView()
+    let searchResultCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.layoutWith2X2())
     let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchEmptyResult)
     
     override init(frame: CGRect) {

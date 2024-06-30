@@ -75,7 +75,7 @@ final class ProfileSetupViewController: BaseViewController {
             profileSetupView.nicknameTextField.text = nickname
             completeValidateNickname(nickname: nickname)
         }
-        let image = LagomStyle.Image.profile(index: selectedImageIndex).imageName
+        let image = LagomStyle.AssetImage.profile(index: selectedImageIndex).imageName
         profileSetupView.profileImageView.configureContent(image: image)
     }
     
@@ -137,25 +137,25 @@ extension ProfileSetupViewController: UITextFieldDelegate {
             
             if isEnabled {
                 self.isEnabled = isEnabled
-                profileSetupView.warningLabel.text = LagomStyle.phrase.availableNickname
-                profileSetupView.warningLabel.textColor = LagomStyle.Color.lagomBlack
+                profileSetupView.warningLabel.text = LagomStyle.Phrase.availableNickname
+                profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomBlack
             }
             
         } catch ValidationError.numberOfCharacter {
-            profileSetupView.warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.phrase.numberOfCharacterX
+            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
+            profileSetupView.warningLabel.text = LagomStyle.Phrase.numberOfCharacterX
             isEnabled = false
         } catch ValidationError.specialCharacter {
-            profileSetupView.warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.phrase.specialCharacterX
+            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
+            profileSetupView.warningLabel.text = LagomStyle.Phrase.specialCharacterX
             isEnabled = false
         } catch ValidationError.includeNumbers {
-            profileSetupView.warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.phrase.includeNumbers
+            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
+            profileSetupView.warningLabel.text = LagomStyle.Phrase.includeNumbers
             isEnabled = false
         } catch {
-            profileSetupView.warningLabel.textColor = LagomStyle.Color.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.phrase.unknownError
+            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
+            profileSetupView.warningLabel.text = LagomStyle.Phrase.unknownError
             isEnabled = false
         }
     }
@@ -181,7 +181,7 @@ extension ProfileSetupViewController: UITextFieldDelegate {
 extension ProfileSetupViewController: PFImageSetupDelegate {
     
     func setupPFImage(selectedIndex: Int) {
-        let image = LagomStyle.Image.profile(index: selectedIndex).imageName
+        let image = LagomStyle.AssetImage.profile(index: selectedIndex).imageName
         profileSetupView.profileImageView.configureContent(image: image)
         selectedImageIndex = selectedIndex
     }

@@ -64,7 +64,7 @@ final class NVSSearchViewController: BaseViewController {
     
     override func configureNavigation() {
         guard let nickname = UserDefaultsHelper.nickname else { return }
-        navigationItem.title = nickname + LagomStyle.phrase.searchViewNavigationTitle
+        navigationItem.title = nickname + LagomStyle.Phrase.searchViewNavigationTitle
     }
     
     private func configureTextField() {

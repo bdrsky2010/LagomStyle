@@ -13,7 +13,7 @@ class RecentSearchTableViewCell: BaseTableViewCell {
     private let clockImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: LagomStyle.SystemImage.clock)
-        imageView.tintColor = LagomStyle.Color.lagomBlack
+        imageView.tintColor = LagomStyle.AssetColor.lagomBlack
         return imageView
     }()
     
@@ -23,7 +23,7 @@ class RecentSearchTableViewCell: BaseTableViewCell {
         let button = UIButton(type: .system)
         button.configuration = .plain()
         button.configuration?.image = UIImage(systemName: LagomStyle.SystemImage.xmark)
-        button.configuration?.baseForegroundColor = LagomStyle.Color.lagomBlack
+        button.configuration?.baseForegroundColor = LagomStyle.AssetColor.lagomBlack
         return button
     }()
     

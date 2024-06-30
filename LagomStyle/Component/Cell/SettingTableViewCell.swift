@@ -14,12 +14,12 @@ final class SettingTableViewCell: BaseTableViewCell {
     private let basketImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: LagomStyle.Image.like(selected: true).imageName)
+        imageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: true).imageName)
         return imageView
     }()
     
     private let likeProductCountLabel = UILabel.blackRegular15()
-    private let seperator = Divider(backgroundColor: LagomStyle.Color.lagomGray)
+    private let seperator = Divider(backgroundColor: LagomStyle.AssetColor.lagomGray)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -69,7 +69,7 @@ final class SettingTableViewCell: BaseTableViewCell {
         
         let textCount = likeProductsCount == 0 ? 2 : (likeProductsCount / 10) + 2
         let attributedString = NSMutableAttributedString(string: "\(likeProductsCount)개의 상품")
-        let blackAttribute = [NSAttributedString.Key.font: LagomStyle.Font.black15]
+        let blackAttribute = [NSAttributedString.Key.font: LagomStyle.SystemFont.black15]
         attributedString.addAttributes(blackAttribute, range: NSRange(location: 0, length: textCount))
         likeProductCountLabel.attributedText = attributedString
     }

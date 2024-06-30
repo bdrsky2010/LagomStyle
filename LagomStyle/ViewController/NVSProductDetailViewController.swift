@@ -32,7 +32,7 @@ final class NVSProductDetailViewController: BaseViewController {
     override func configureNavigation() {
         guard let productTitle, let isLike else { return }
         navigationItem.title = productTitle
-        let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal),
+        let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal),
                                                 style: .plain,
                                                 target: self,
                                                 action: #selector(likeButtonClicked))
@@ -43,7 +43,7 @@ final class NVSProductDetailViewController: BaseViewController {
     private func likeButtonClicked() {
         isLike?.toggle()
         guard let isLike, let row else { return }
-        navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal)
+        navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal)
         delegate?.setLikeButtonImageToggle(row: row, isLike: isLike)
     }
     

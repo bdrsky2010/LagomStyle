@@ -21,9 +21,9 @@ final class PrimaryColorRoundedButton: UIButton {
         configuration = .filled()
         configuration?.cornerStyle = .capsule
         configuration?.attributedTitle = AttributedString(
-            NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: LagomStyle.Font.black16,
-                                                           NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomWhite]))
-        configuration?.baseBackgroundColor = LagomStyle.Color.lagomPrimaryColor
+            NSAttributedString(string: title, attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.black16,
+                                                           NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomWhite]))
+        configuration?.baseBackgroundColor = LagomStyle.AssetColor.lagomPrimaryColor
     }
     
     @available(*, unavailable)

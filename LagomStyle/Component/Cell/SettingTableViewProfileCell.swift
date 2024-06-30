@@ -17,11 +17,11 @@ final class SettingTableViewProfileCell: BaseTableViewCell {
     private let pushImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: LagomStyle.SystemImage.chevronRight)
-        imageView.tintColor = LagomStyle.Color.lagomGray
+        imageView.tintColor = LagomStyle.AssetColor.lagomGray
         return imageView
     }()
     
-    private let seperator = Divider(backgroundColor: LagomStyle.Color.lagomGray)
+    private let seperator = Divider(backgroundColor: LagomStyle.AssetColor.lagomGray)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -73,7 +73,7 @@ final class SettingTableViewProfileCell: BaseTableViewCell {
         guard let nickname = UserDefaultsHelper.nickname else { return }
         guard let signUpDate = UserDefaultsHelper.signUpDate else { return }
         
-        profileImageView.configureContent(image: LagomStyle.Image.profile(index: profileImageIndex).imageName)
+        profileImageView.configureContent(image: LagomStyle.AssetImage.profile(index: profileImageIndex).imageName)
         nicknameLabel.text = nickname
         signUpDateLabel.text = signUpDate + " 가입"
     }

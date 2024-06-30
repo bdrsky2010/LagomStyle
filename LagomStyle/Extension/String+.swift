@@ -16,7 +16,7 @@ extension String {
         }
         
         let attributedString = NSMutableAttributedString(string: self)
-        let highlightBoldAttribute = [NSAttributedString.Key.backgroundColor: LagomStyle.Color.lagomPrimaryColor, NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomWhite, NSAttributedString.Key.font: LagomStyle.Font.black14]
+        let highlightBoldAttribute = [NSAttributedString.Key.backgroundColor: LagomStyle.AssetColor.lagomPrimaryColor, NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomWhite, NSAttributedString.Key.font: LagomStyle.SystemFont.black14]
         attributedString.addAttributes(highlightBoldAttribute,
                                       range: (self as NSString).range(of: text, options: .caseInsensitive))
         

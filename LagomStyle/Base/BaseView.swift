@@ -17,7 +17,7 @@ class BaseView: UIView {
         configureUI()
     }
     
-    func configureView() { backgroundColor = LagomStyle.Color.lagomWhite }
+    func configureView() { backgroundColor = LagomStyle.AssetColor.lagomWhite }
     func configureHierarchy() { }
     func configureLayout() { }
     func configureUI() { }

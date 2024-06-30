@@ -42,7 +42,7 @@ final class CapsuleTapActionButton: BaseView {
     }
     
     private func configureButton() {
-        layer.borderColor = LagomStyle.Color.lagomLightGray.cgColor
+        layer.borderColor = LagomStyle.AssetColor.lagomLightGray.cgColor
         
         if tag == 0 {
             selectUI()
@@ -52,14 +52,14 @@ final class CapsuleTapActionButton: BaseView {
     }
     
     func selectUI() {
-        label.textColor = LagomStyle.Color.lagomWhite
-        backgroundColor = LagomStyle.Color.lagomDarkGray
+        label.textColor = LagomStyle.AssetColor.lagomWhite
+        backgroundColor = LagomStyle.AssetColor.lagomDarkGray
         layer.borderWidth = 0
     }
     
     func unSelectUI() {
-        label.textColor = LagomStyle.Color.lagomBlack
-        backgroundColor = LagomStyle.Color.lagomWhite
+        label.textColor = LagomStyle.AssetColor.lagomBlack
+        backgroundColor = LagomStyle.AssetColor.lagomWhite
         layer.borderWidth = 1
     }
     

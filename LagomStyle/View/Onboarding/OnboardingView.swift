@@ -15,22 +15,22 @@ final class OnboardingView: BaseView {
     
     private let onboardingTitle: UILabel = {
         let label = UILabel()
-        label.text = LagomStyle.phrase.onBoardingAppTitle
+        label.text = LagomStyle.Phrase.onBoardingAppTitle
         label.numberOfLines = 2
-        label.font = LagomStyle.Font.black50
-        label.textColor = LagomStyle.Color.lagomPrimaryColor
+        label.font = LagomStyle.SystemFont.black50
+        label.textColor = LagomStyle.AssetColor.lagomPrimaryColor
         label.textAlignment = .right
         return label
     }()
     
     private let backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: LagomStyle.Image.launch.imageName)
+        imageView.image = UIImage(named: LagomStyle.AssetImage.launch.imageName)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    let startButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.onBoardingStart)
+    let startButton = PrimaryColorRoundedButton(title: LagomStyle.Phrase.onBoardingStart)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

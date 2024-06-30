@@ -19,14 +19,14 @@ final class ProfileImageView: BaseView {
     
     private let cameraBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = LagomStyle.Color.lagomPrimaryColor
+        view.backgroundColor = LagomStyle.AssetColor.lagomPrimaryColor
         return view
     }()
     
     private let cameraImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: LagomStyle.SystemImage.cameraFill)
-        imageView.tintColor = LagomStyle.Color.lagomWhite
+        imageView.tintColor = LagomStyle.AssetColor.lagomWhite
         imageView.backgroundColor = .clear
         imageView.preferredSymbolConfiguration = .init(pointSize: 14)
         return imageView

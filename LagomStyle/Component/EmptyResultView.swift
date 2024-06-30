@@ -13,7 +13,7 @@ final class EmptyResultView: BaseView {
     private let emptyImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.image = UIImage(named: LagomStyle.Image.empty.imageName)
+        imageView.image = UIImage(named: LagomStyle.AssetImage.empty.imageName)
         return imageView
     }()
     

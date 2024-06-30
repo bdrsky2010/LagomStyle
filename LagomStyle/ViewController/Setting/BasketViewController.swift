@@ -11,7 +11,7 @@ final class BasketViewController: BaseViewController {
     
     private let toggleContentView: UIView = {
         let view = UIView()
-        view.layer.borderColor = LagomStyle.Color.lagomBlack.cgColor
+        view.layer.borderColor = LagomStyle.AssetColor.lagomBlack.cgColor
         view.layer.borderWidth = 1
         return view
     }()
@@ -29,7 +29,7 @@ final class BasketViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        navigationItem.title = LagomStyle.phrase.basketViewNavigationTitle
+        navigationItem.title = LagomStyle.Phrase.basketViewNavigationTitle
     }
     
     private func configureCollectionView() {

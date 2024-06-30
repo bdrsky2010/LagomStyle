@@ -37,8 +37,8 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
     private let mallNameLabel = UILabel.lightGrayRegular13()
     private let productTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = LagomStyle.Color.lagomBlack
-        label.font = LagomStyle.Font.regular14
+        label.textColor = LagomStyle.AssetColor.lagomBlack
+        label.font = LagomStyle.SystemFont.regular14
         label.numberOfLines = 2
         return label
     }()
@@ -129,8 +129,8 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
     }
     
     private func configureBasketContent(isLike: Bool) {
-        basketBackgroundView.backgroundColor = isLike ? LagomStyle.Color.lagomWhite.withAlphaComponent(1) : LagomStyle.Color.lagomBlack.withAlphaComponent(0.5)
-        basketImageView.image = UIImage(named: LagomStyle.Image.like(selected: isLike).imageName)
+        basketBackgroundView.backgroundColor = isLike ? LagomStyle.AssetColor.lagomWhite.withAlphaComponent(1) : LagomStyle.AssetColor.lagomBlack.withAlphaComponent(0.5)
+        basketImageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)
     }
     
     private func changeBasketContent() {

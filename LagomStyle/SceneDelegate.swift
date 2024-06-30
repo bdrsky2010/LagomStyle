@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = MainTabBarController()
         } else {
             let navigationController = UINavigationController(rootViewController: OnboardingViewController())
-            navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
-            navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
-                                                                 textColor: LagomStyle.Color.lagomBlack)
+            navigationController.navigationBar.tintColor = LagomStyle.AssetColor.lagomBlack
+            navigationController.configureNavigationBarTitleFont(font: LagomStyle.SystemFont.bold16,
+                                                                 textColor: LagomStyle.AssetColor.lagomBlack)
             window?.rootViewController = navigationController
         }
         window?.makeKeyAndVisible()

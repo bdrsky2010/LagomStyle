@@ -247,7 +247,7 @@ extension NVSSearchResultViewController {
                     let title = value.products[i].title.removeHtmlTag
                     value.products[i].title = title
                 }
-                nvsSearchResultView.searchResultCountLabel.text = value.total.formatted() + LagomStyle.phrase.searchResultCount
+                nvsSearchResultView.searchResultCountLabel.text = value.total.formatted() + LagomStyle.Phrase.searchResultCount
                 
                 guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
                     nvsSearchResultView.searchResultCollectionView.isHidden = true

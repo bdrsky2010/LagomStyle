@@ -17,7 +17,7 @@ final class NVSSearchResultView: BaseView {
     
     let searchResultCountLabel = UILabel.primaryBold13()
     let searchResultCollectionView = ProductsCollectionView()
-    let emptyView = EmptyResultView(text: LagomStyle.phrase.searchEmptyResult)
+    let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchEmptyResult)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -13,7 +13,7 @@ final class NVSSearchView: BaseView {
     
     private let productSearchBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = LagomStyle.Color.lagomLightGray
+        view.backgroundColor = LagomStyle.AssetColor.lagomLightGray
         view.layer.cornerRadius = 10
         return view
     }()
@@ -21,36 +21,36 @@ final class NVSSearchView: BaseView {
     private let productSearchBarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: LagomStyle.SystemImage.magnifyingglass)
-        imageView.tintColor = LagomStyle.Color.lagomGray
+        imageView.tintColor = LagomStyle.AssetColor.lagomGray
         return imageView
     }()
     
-    private let divider = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
+    private let divider = Divider(backgroundColor: LagomStyle.AssetColor.lagomLightGray)
     
     let productSearchTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.attributedPlaceholder = NSAttributedString(string: LagomStyle.phrase.searchViewPlaceholder, attributes: [NSAttributedString.Key.font: LagomStyle.Font.regular16, NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomGray])
+        textField.attributedPlaceholder = NSAttributedString(string: LagomStyle.Phrase.searchViewPlaceholder, attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.regular16, NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomGray])
         textField.returnKeyType = .search
         return textField
     }()
     
     
-    let recentSearchTableViewTitleLabel = UILabel.blackBlack14(text: LagomStyle.phrase.searchViewRecentSearch)
+    let recentSearchTableViewTitleLabel = UILabel.blackBlack14(text: LagomStyle.Phrase.searchViewRecentSearch)
     
     let removeAllQueriesButton: UIButton = {
         let button = UIButton(type: .system)
         button.configuration = .plain()
         button.configuration?.attributedTitle = AttributedString(
-            NSAttributedString(string: LagomStyle.phrase.searchViewRemoveAll,
-                               attributes: [NSAttributedString.Key.font: LagomStyle.Font.regular13,
-                                            NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomPrimaryColor]))
+            NSAttributedString(string: LagomStyle.Phrase.searchViewRemoveAll,
+                               attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.regular13,
+                                            NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomPrimaryColor]))
         button.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         return button
     }()
     
     let recentSearchTableView = UITableView()
-    let emptyView = EmptyResultView(text: LagomStyle.phrase.searchViewNoRecentSearch)
+    let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchViewNoRecentSearch)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -16,17 +16,17 @@ final class ProfileSetupView: BaseView {
     let nicknameTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(
-            string: LagomStyle.phrase.profileSettingPlaceholder,
-            attributes: [NSAttributedString.Key.font: LagomStyle.Font.bold16,
-                         NSAttributedString.Key.foregroundColor: LagomStyle.Color.lagomLightGray])
+            string: LagomStyle.Phrase.profileSettingPlaceholder,
+            attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.bold16,
+                         NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomLightGray])
         textField.borderStyle = .none
         return textField
     }()
     
     let warningLabel = UILabel.primaryRegular13()
-    let completeButton = PrimaryColorRoundedButton(title: LagomStyle.phrase.profileSettingComplete)
+    let completeButton = PrimaryColorRoundedButton(title: LagomStyle.Phrase.profileSettingComplete)
     
-    private let textFieldUnderBar = Divider(backgroundColor: LagomStyle.Color.lagomLightGray)
+    private let textFieldUnderBar = Divider(backgroundColor: LagomStyle.AssetColor.lagomLightGray)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

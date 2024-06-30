@@ -25,7 +25,7 @@ final class SettingViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        navigationItem.title = LagomStyle.phrase.settingViewNavigationTitle
+        navigationItem.title = LagomStyle.Phrase.settingViewNavigationTitle
     }
     
     private func configureTableView() {
@@ -48,8 +48,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         if index == 5 {
             presentAlert(option: .twoButton, 
-                         title: LagomStyle.phrase.withDrawAlertTitle,
-                         message: LagomStyle.phrase.withDrawAlertMessage,
+                         title: LagomStyle.Phrase.withDrawAlertTitle,
+                         message: LagomStyle.Phrase.withDrawAlertMessage,
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
                 UserDefaultsHelper.removeAllUserDefaults()
@@ -63,7 +63,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LagomStyle.phrase.settingOptions.count
+        return LagomStyle.Phrase.settingOptions.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -82,9 +82,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         if index == 1 {
             let likeProductsCount = UserDefaultsHelper.likeProducts?.count
-            cell.configureContent(option: LagomStyle.phrase.settingOptions[index], likeProductsCount: likeProductsCount ?? 0)
+            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index], likeProductsCount: likeProductsCount ?? 0)
         } else {
-            cell.configureContent(option: LagomStyle.phrase.settingOptions[index])
+            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index])
         }
         return cell
     }

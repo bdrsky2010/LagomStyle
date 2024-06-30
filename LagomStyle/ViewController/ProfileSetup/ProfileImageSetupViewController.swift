@@ -42,7 +42,7 @@ final class ProfileImageSetupViewController: BaseViewController {
     private func configureContent() {
         guard let selectedImageIndex else { return }
         
-        let image = LagomStyle.Image.profile(index: selectedImageIndex).imageName
+        let image = LagomStyle.AssetImage.profile(index: selectedImageIndex).imageName
         profileImageSetupView.profileImage.configureContent(image: image)
     }
     
@@ -68,7 +68,7 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
         
         if let newSelectedCell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? ImageCollectionViewCell {
             newSelectedCell.changeContentStatus(imageSelectType: .select)
-            profileImageSetupView.profileImage.configureContent(image: LagomStyle.Image.profile(index: index).imageName)
+            profileImageSetupView.profileImage.configureContent(image: LagomStyle.AssetImage.profile(index: index).imageName)
             
             selectedImageIndex = index
             
@@ -87,7 +87,7 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
         
         let index = indexPath.row
         
-        let image = LagomStyle.Image.profile(index: index).imageName
+        let image = LagomStyle.AssetImage.profile(index: index).imageName
         
         if let selectedImageIndex, selectedImageIndex == index {
             cell.configureContent(image: image, imageSelectType: .select)

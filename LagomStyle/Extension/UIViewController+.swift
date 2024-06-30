@@ -31,9 +31,9 @@ extension UIViewController {
             window.rootViewController = rootViewController
         } else {
             let navigationController = UINavigationController(rootViewController: rootViewController)
-            navigationController.navigationBar.tintColor = LagomStyle.Color.lagomBlack
-            navigationController.configureNavigationBarTitleFont(font: LagomStyle.Font.bold16,
-                                                                 textColor: LagomStyle.Color.lagomBlack)
+            navigationController.navigationBar.tintColor = LagomStyle.AssetColor.lagomBlack
+            navigationController.configureNavigationBarTitleFont(font: LagomStyle.SystemFont.bold16,
+                                                                 textColor: LagomStyle.AssetColor.lagomBlack)
             
             window.rootViewController = navigationController
         }

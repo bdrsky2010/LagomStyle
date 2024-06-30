@@ -43,6 +43,13 @@ struct NVSProduct: Codable, Hashable {
     static func == (lhs: NVSProduct, rhs: NVSProduct) -> Bool {
         return lhs.productID == rhs.productID
     }
+    
+    static func < (lhs: NVSProduct, rhs: NVSProduct) -> Bool {
+        if lhs.title == rhs.title {
+            return lhs.productID < rhs.productID
+        }
+        return lhs.title < rhs.title
+    }
 }
 
 // MARK: UserDefaults에 빈 데이터를 저장하기 위한 데이터 타입

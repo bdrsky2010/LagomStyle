@@ -46,7 +46,7 @@
 		7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */; };
 		7B6BBA682C20FDA400BC85F8 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */; };
 		7B6BBA6B2C21098D00BC85F8 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BBA6A2C21098D00BC85F8 /* SkeletonView */; };
-		7B823D402C223FF3009567EE /* BasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D3F2C223FF3009567EE /* BasketViewController.swift */; };
+		7B823D402C223FF3009567EE /* NVSBasketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */; };
 		7B823D422C2242DF009567EE /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D412C2242DF009567EE /* Divider.swift */; };
 		7B823D442C224A12009567EE /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B823D432C224A12009567EE /* UILabel+.swift */; };
 		7B8BD3CA2C314847007A7E63 /* NSObject+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8BD3C92C314847007A7E63 /* NSObject+.swift */; };
@@ -71,7 +71,7 @@
 		7B9BCBBC2C2ACE8B0082AE38 /* NVSSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBBB2C2ACE8B0082AE38 /* NVSSearchResultView.swift */; };
 		7B9BCBBE2C2ACE9D0082AE38 /* NVSProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBBD2C2ACE9D0082AE38 /* NVSProductDetailView.swift */; };
 		7B9BCBC02C2ACEB40082AE38 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBBF2C2ACEB40082AE38 /* SettingView.swift */; };
-		7B9BCBC22C2ACEBF0082AE38 /* BasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBC12C2ACEBF0082AE38 /* BasketView.swift */; };
+		7B9BCBC22C2ACEBF0082AE38 /* NVSBasketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,7 +111,7 @@
 		7B6BBA632C2065DB00BC85F8 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingDelegate.swift; sourceTree = "<group>"; };
 		7B6BBA672C20FDA400BC85F8 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
-		7B823D3F2C223FF3009567EE /* BasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewController.swift; sourceTree = "<group>"; };
+		7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketViewController.swift; sourceTree = "<group>"; };
 		7B823D412C2242DF009567EE /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		7B823D432C224A12009567EE /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		7B8BD3C92C314847007A7E63 /* NSObject+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+.swift"; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 		7B9BCBBB2C2ACE8B0082AE38 /* NVSSearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchResultView.swift; sourceTree = "<group>"; };
 		7B9BCBBD2C2ACE9D0082AE38 /* NVSProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSProductDetailView.swift; sourceTree = "<group>"; };
 		7B9BCBBF2C2ACEB40082AE38 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		7B9BCBC12C2ACEBF0082AE38 /* BasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketView.swift; sourceTree = "<group>"; };
+		7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,7 +320,7 @@
 			isa = PBXGroup;
 			children = (
 				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
-				7B823D3F2C223FF3009567EE /* BasketViewController.swift */,
+				7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -360,7 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				7B9BCBBF2C2ACEB40082AE38 /* SettingView.swift */,
-				7B9BCBC12C2ACEBF0082AE38 /* BasketView.swift */,
+				7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -487,7 +487,7 @@
 				7B9BCBAB2C2AC1B40082AE38 /* BaseTableViewCell.swift in Sources */,
 				7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */,
 				7B9BCBA72C2AC1A70082AE38 /* BaseViewController.swift in Sources */,
-				7B823D402C223FF3009567EE /* BasketViewController.swift in Sources */,
+				7B823D402C223FF3009567EE /* NVSBasketViewController.swift in Sources */,
 				7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */,
 				7B6BBA122C1DE85F00BC85F8 /* NVSProductDetailViewController.swift in Sources */,
 				7B9BCBBE2C2ACE9D0082AE38 /* NVSProductDetailView.swift in Sources */,
@@ -500,7 +500,7 @@
 				7B6BBA002C1DD30D00BC85F8 /* NVSSearch.swift in Sources */,
 				7B6BBA092C1DE6E700BC85F8 /* NVSSearchViewController.swift in Sources */,
 				7B6BB9EB2C1AE60C00BC85F8 /* UINavigationController+.swift in Sources */,
-				7B9BCBC22C2ACEBF0082AE38 /* BasketView.swift in Sources */,
+				7B9BCBC22C2ACEBF0082AE38 /* NVSBasketView.swift in Sources */,
 				7B6BBA5C2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift in Sources */,
 				7B6BB9ED2C1AE61D00BC85F8 /* UIViewController+.swift in Sources */,
 				7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */,

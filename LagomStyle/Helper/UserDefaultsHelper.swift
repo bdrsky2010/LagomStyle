@@ -23,7 +23,7 @@ enum UserDefaultsHelper {
     static var profileImageIndex: Int?
     
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.recentSearchQueries)
-    static var recentSearchQueries: [String]?
+    static var recentSearchQueries: [String: Date]?
     
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.likeProducts)
     static var likeProducts: [NVSProduct]?

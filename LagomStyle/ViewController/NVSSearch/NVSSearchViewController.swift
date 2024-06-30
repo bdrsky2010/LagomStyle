@@ -13,7 +13,7 @@ final class NVSSearchViewController: BaseViewController {
     
     private let nvsSearchView = NVSSearchView()
     
-    private var recentSearchQueries: [String] {
+    private var recentSearchQueries: [String: Date] {
         get {
             guard let queries =  UserDefaultsHelper.recentSearchQueries else {
                 
@@ -23,7 +23,7 @@ final class NVSSearchViewController: BaseViewController {
                 
                 nvsSearchView.emptyView.isHidden = false
                 
-                return []
+                return [:]
             }
             
             nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
@@ -43,6 +43,10 @@ final class NVSSearchViewController: BaseViewController {
             }
             nvsSearchView.recentSearchTableView.reloadData()
         }
+    }
+    
+    private var recentSearchQueriesArray: [String] {
+        return recentSearchQueries.sorted(by: { $0.value > $1.value }).map { $0.key }
     }
     
     override func loadView() {
@@ -77,7 +81,7 @@ final class NVSSearchViewController: BaseViewController {
     
     @objc
     private func removeAllButtonClicked() {
-        recentSearchQueries = []
+        recentSearchQueries = [:]
     }
     
     private func configureTableView() {
@@ -96,29 +100,11 @@ extension NVSSearchViewController: UITextFieldDelegate {
         
         let nvsSearchResultViewController = NVSSearchResultViewController()
         nvsSearchResultViewController.query = text
+        
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
-        var queries = recentSearchQueries
+        recentSearchQueries[text] = Date()
         
-        if !queries.contains(text) { // 최근 검색어에 새로 검색한 키워드가 없다면
-            queries.insert(text, at: 0)
-            recentSearchQueries = queries
-            
-            if queries.count > 10 {
-                for i in (10..<queries.count).reversed() {
-                    removeQuery(row: i)
-                }
-            }
-        } else {
-            for i in 0..<queries.count {
-                if queries[i] == text {
-                    queries.remove(at: i)
-                    break
-                }
-            }
-            queries.insert(text, at: 0)
-            recentSearchQueries = queries
-        }
         textField.text = nil
         return true
     }
@@ -129,7 +115,7 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let nvsSearchResultViewController = NVSSearchResultViewController()
-        nvsSearchResultViewController.query = recentSearchQueries[indexPath.row]
+        nvsSearchResultViewController.query = recentSearchQueriesArray[indexPath.row]
         
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
@@ -146,15 +132,12 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
         let row = indexPath.row
         
         cell.row = row
-        cell.configureContent(query: recentSearchQueries[row])
+        cell.configureContent(query: recentSearchQueriesArray[row])
         cell.delegate = self
         return cell
     }
     
     func removeQuery(row: Int) {
-        var removeQueries = recentSearchQueries
-        removeQueries.remove(at: row)
-        
-        recentSearchQueries = removeQueries
+        recentSearchQueries[recentSearchQueriesArray[row]] = nil
     }
 }

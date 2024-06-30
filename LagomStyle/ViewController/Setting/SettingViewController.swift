@@ -47,8 +47,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(profileSetupViewController, animated: true)
         }
         if index == 5 {
-            presentAlert(type: .twoButton, title: LagomStyle.phrase.withDrawAlertTitle,
-                         message: LagomStyle.phrase.withDrawAlertMessage) { [weak self] _ in
+            presentAlert(option: .twoButton, 
+                         title: LagomStyle.phrase.withDrawAlertTitle,
+                         message: LagomStyle.phrase.withDrawAlertMessage,
+                         checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
                 UserDefaultsHelper.removeAllUserDefaults()
                 

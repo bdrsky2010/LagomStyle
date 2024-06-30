@@ -23,8 +23,8 @@ struct NVSSearch: Codable {
 }
 
 // MARK: NAVER Shopping Product Data Model
-struct NVSProduct: Codable, Equatable {    
-    var title: String
+struct NVSProduct: Codable, Hashable {
+    var title: String // let 이 아닌 var를 사용한 이유는 마크업 태그가 문자열 안에 들어가있어 삭제해서 다시 담아주기 위함
     let urlString: String
     let imageUrlString: String
     let lowPrice: String
@@ -44,6 +44,9 @@ struct NVSProduct: Codable, Equatable {
         return lhs.productID == rhs.productID
     }
 }
+
+// MARK: UserDefaults에 빈 데이터를 저장하기 위한 데이터 타입
+struct None: Codable { }
 
 // MARK: NAVER Shopping Search Sort Options
 enum NVSSSort: CaseIterable {

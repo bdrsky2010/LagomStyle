@@ -12,7 +12,6 @@ import SkeletonView
 import SnapKit
 
 final class SearchResultCollectionViewCell: BaseCollectionViewCell {
-    
     private let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10

@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class SettingTableViewProfileCell: BaseTableViewCell {
-    
     private let profileImageView = ProfileImageView(imageSelectType: .select)
     private let nicknameLabel = UILabel.blackBold16()
     private let signUpDateLabel = UILabel.grayRegular13()

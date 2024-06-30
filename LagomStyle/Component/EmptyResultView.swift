@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class EmptyResultView: BaseView {
-    
     private let emptyImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill

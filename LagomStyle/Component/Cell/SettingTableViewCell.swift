@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class SettingTableViewCell: BaseTableViewCell {
-    
     private let optionLabel = UILabel.blackRegular15()
     private let basketImageView: UIImageView = {
         let imageView = UIImageView()

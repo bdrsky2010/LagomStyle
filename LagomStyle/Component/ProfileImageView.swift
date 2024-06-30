@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class ProfileImageView: BaseView {
-    
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit

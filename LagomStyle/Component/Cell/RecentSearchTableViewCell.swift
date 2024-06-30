@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 class RecentSearchTableViewCell: BaseTableViewCell {
-    
     private let clockImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: LagomStyle.SystemImage.clock)

@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class ImageCollectionViewCell: BaseCollectionViewCell {
-    
     let profileImage = ProfileImageView()
     
     override init(frame: CGRect) {

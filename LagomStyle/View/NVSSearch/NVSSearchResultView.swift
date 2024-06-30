@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class NVSSearchResultView: BaseView {
-    
     let accuracyFilteringButton = CapsuleTapActionButton(title: NVSSSort.sim.segmentedTitle, tag: 0)
     let dateFilteringButton = CapsuleTapActionButton(title: NVSSSort.date.segmentedTitle, tag: 1)
     let priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2)

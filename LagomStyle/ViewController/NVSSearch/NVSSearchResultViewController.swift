@@ -30,10 +30,6 @@ final class NVSSearchResultViewController: BaseViewController {
             return dict
         }
         set {
-//            guard !newValue.isEmpty else {
-//                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.likeProducts)
-//                return
-//            }
             UserDefaultsHelper.likeProducts = newValue
         }
     }
@@ -53,6 +49,11 @@ final class NVSSearchResultViewController: BaseViewController {
         
         nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
         configureFilteringButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nvsSearchResultView.searchResultCollectionView.reloadData()
     }
     
     override func configureView() {

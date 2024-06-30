@@ -55,6 +55,25 @@ final class NVSBasketViewController: BaseViewController {
 
 extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.row
+        let product = likeProductArray[index]
+        
+        let nvsProductDetailViewController = NVSProductDetailViewController()
+        
+        if likeProductDictionary[product] != nil {
+            nvsProductDetailViewController.isLike = true
+        } else {
+            nvsProductDetailViewController.isLike = false
+        }
+        nvsProductDetailViewController.delegate = self
+        nvsProductDetailViewController.productTitle = product.title
+        nvsProductDetailViewController.productLink = product.urlString
+        nvsProductDetailViewController.row = index
+        
+        navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return likeProductArray.count
     }

@@ -56,27 +56,32 @@ extension UIViewController {
         case twoButton
     }
     
-    func presentAlert(type alertType: AlertType,
+    func presentAlert(option alertType: AlertType,
                       title: String,
-                      message: String,
+                      message: String? = nil,
+                      checkAlertTitle: String,
                       completionHandler: ((UIAlertAction) -> Void)? = nil) {
-        // 1. alert 창 구성
-        let title = title
-        let message = message
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert)
-        // 2. alert button 구성
-        let confirm = UIAlertAction(title: "확인", style: .default, handler: completionHandler)
         
-        // 3. alert에 button 추가
-        alert.addAction(confirm)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        if alertType == .twoButton {
+        switch alertType {
+        case .oneButton:
+            let check = UIAlertAction(title: checkAlertTitle, style: .default)
+            alert.addAction(check)
+        case .twoButton:
             let cancel = UIAlertAction(title: "취소", style: .cancel)
+            let check = UIAlertAction(title: checkAlertTitle, style: .default, handler: completionHandler)
             alert.addAction(cancel)
+            alert.addAction(check)
         }
         
         present(alert, animated: true)
+    }
+    
+    func presentNetworkErrorAlert(error: NetworkError) {
+        let title = error.alertTitle
+        let message = error.alertMessage
+        
+        presentAlert(option: .oneButton, title: title, message: message, checkAlertTitle: "확인")
     }
 }

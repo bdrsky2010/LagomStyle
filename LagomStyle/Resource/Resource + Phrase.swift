@@ -40,7 +40,7 @@ extension LagomStyle {
         static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         static let unknownError = "알 수 없는 에러가 발생했어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
-        static let basketViewNavigationTitle = "장바구니"
+        static let basketViewNavigationTitle = "살까 말까 고민하지 마."
         
         static let withDrawAlertTitle = "탈퇴하기"
         static let withDrawAlertMessage = "탈퇴하면 모든 데이터가 초기화됩니다. 탈퇴 하시겠습니까?"

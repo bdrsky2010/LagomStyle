@@ -26,7 +26,7 @@ enum UserDefaultsHelper {
     static var recentSearchQueries: [String: Date]?
     
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.likeProducts)
-    static var likeProducts: [NVSProduct]?
+    static var likeProducts: [NVSProduct: None]?
     
     static func removeUserDefaults(forKey: String) {
         UserDefaults.standard.removeObject(forKey: forKey)

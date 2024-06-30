@@ -24,16 +24,16 @@ final class NVSSearchResultViewController: BaseViewController {
     private var nvssStartNumber = 1
     private var nvssIsPagingEnd = false
     
-    private var likeProductList: [NVSProduct] {
+    private var likeProductDictionary: [NVSProduct: None] {
         get {
-            guard let list = UserDefaultsHelper.likeProducts else { return [] }
-            return list
+            guard let dict = UserDefaultsHelper.likeProducts else { return [:] }
+            return dict
         }
         set {
-            guard !newValue.isEmpty else {
-                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.likeProducts)
-                return
-            }
+//            guard !newValue.isEmpty else {
+//                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.likeProducts)
+//                return
+//            }
             UserDefaultsHelper.likeProducts = newValue
         }
     }
@@ -141,23 +141,7 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
         guard let product = searchResult?.products[row] else { return }
         
-        if isLike {
-            var likeProducts = UserDefaultsHelper.likeProducts ?? []
-            if !likeProducts.contains(product) {
-                likeProducts.append(product)
-                UserDefaultsHelper.likeProducts = likeProducts
-            }
-        } else {
-            if var likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
-                for i in 0..<likeProducts.count {
-                    if likeProducts[i] == product {
-                        likeProducts.remove(at: i)
-                        break
-                    }
-                }
-                UserDefaultsHelper.likeProducts = likeProducts
-            }
-        }
+        likeProductDictionary[product] = isLike ? None() : nil
         
         nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
@@ -194,7 +178,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         
         let nvsProductDetailViewController = NVSProductDetailViewController()
         
-        if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
+        if likeProductDictionary[product] != nil {
             nvsProductDetailViewController.isLike = true
         } else {
             nvsProductDetailViewController.isLike = false
@@ -216,7 +200,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         let index = indexPath.row
         guard let product = searchResult?.products[index] else { return cell }
         
-        if let likeProducts = UserDefaultsHelper.likeProducts, likeProducts.contains(product) {
+        if likeProductDictionary[product] != nil {
             cell.isLiske = true
         } else {
             cell.isLiske = false

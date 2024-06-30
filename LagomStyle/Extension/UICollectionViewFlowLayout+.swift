@@ -1,19 +1,14 @@
 //
-//  ProductsCollectionView.swift
+//  UICollectionViewFlowLayout+.swift
 //  LagomStyle
 //
-//  Created by Minjae Kim on 6/18/24.
+//  Created by Minjae Kim on 6/30/24.
 //
 
 import UIKit
 
-final class ProductsCollectionView: UICollectionView {
-    
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-    }
-    
-    convenience init() {
+extension UICollectionViewFlowLayout {
+    static func layoutWith2X2() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let sectionSpacing: CGFloat = 16
         let cellSpacing: CGFloat = 16
@@ -26,12 +21,6 @@ final class ProductsCollectionView: UICollectionView {
             layout.scrollDirection = .vertical
             layout.sectionInset = UIEdgeInsets(top: sectionSpacing, left: sectionSpacing, bottom: sectionSpacing, right: sectionSpacing)
         }
-        
-        self.init(frame: .zero, collectionViewLayout: layout)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return layout
     }
 }

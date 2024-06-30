@@ -46,6 +46,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             profileSetupViewController.pfSetupType = .edit
             navigationController?.pushViewController(profileSetupViewController, animated: true)
         }
+        if index == 1 {
+            let nvsBasketViewController = NVSBasketViewController()
+            navigationController?.pushViewController(nvsBasketViewController, animated: true)
+        }
         if index == 5 {
             presentAlert(option: .twoButton, 
                          title: LagomStyle.Phrase.withDrawAlertTitle,

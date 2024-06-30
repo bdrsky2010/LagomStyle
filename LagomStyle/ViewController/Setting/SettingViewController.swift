@@ -7,51 +7,29 @@
 
 import UIKit
 
-import SnapKit
-
-final class SettingViewController: UIViewController, ConfigureViewProtocol {
-    
-    private let settingTableView = UITableView()
+final class SettingViewController: BaseViewController {
+    private let settingView = SettingView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
+        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        settingTableView.reloadData()
+        settingView.settingTableView.reloadData()
     }
     
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
-        configureTableView()
-    }
-    
-    func configureNavigation() {
+    override func configureNavigation() {
         navigationItem.title = LagomStyle.phrase.settingViewNavigationTitle
     }
     
-    func configureHierarchy() {
-        view.addSubview(settingTableView)
-    }
-    
-    func configureLayout() {
-        settingTableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
     private func configureTableView() {
-        settingTableView.delegate = self
-        settingTableView.dataSource = self
-        settingTableView.separatorStyle = .none
-        settingTableView.register(SettingTableViewProfileCell.self, forCellReuseIdentifier: SettingTableViewProfileCell.identifier)
-        settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        settingView.settingTableView.delegate = self
+        settingView.settingTableView.dataSource = self
+        settingView.settingTableView.separatorStyle = .none
+        settingView.settingTableView.register(SettingTableViewProfileCell.self, forCellReuseIdentifier: SettingTableViewProfileCell.identifier)
+        settingView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
     }
 }
 
@@ -75,7 +53,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        settingTableView.reloadRows(at: [indexPath], with: .automatic)
+        settingView.settingTableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

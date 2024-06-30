@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class PrimaryColorRoundedButton: UIButton, ConfigureViewProtocol {
+final class PrimaryColorRoundedButton: UIButton {
     
     init() {
         super.init(frame: .zero)

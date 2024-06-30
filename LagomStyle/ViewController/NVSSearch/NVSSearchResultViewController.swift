@@ -12,7 +12,7 @@ import Kingfisher
 import SkeletonView
 import SnapKit
 
-final class NVSSearchResultViewController: UIViewController, ConfigureViewProtocol {
+final class NVSSearchResultViewController: BaseViewController {
     
     private let nvsSearchResultView = NVSSearchResultView()
     
@@ -49,18 +49,17 @@ final class NVSSearchResultViewController: UIViewController, ConfigureViewProtoc
         if let query {
             requestNVSSearchAPI(query: query)
         }
-        configureView()
         configureCollectionView()
         
         nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
         configureFilteringButton()
     }
     
-    func configureView() {
+    override func configureView() {
         nvsSearchResultView.emptyView.isHidden = true
     }
     
-    func configureNavigation() {
+    override func configureNavigation() {
         navigationItem.title = query
         configureNavigationBackButton()
     }

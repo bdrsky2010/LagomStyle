@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class BasketViewController: UIViewController, ConfigureViewProtocol {
+final class BasketViewController: BaseViewController {
     
     private let toggleContentView: UIView = {
         let view = UIView()
@@ -21,28 +21,15 @@ final class BasketViewController: UIViewController, ConfigureViewProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
     }
     
-    func configureView() {
-        view.backgroundColor = LagomStyle.Color.lagomWhite
-        configureNavigation()
-        configureHierarchy()
-        configureLayout()
+    override func configureView() {
         configureCollectionView()
         configureTableView()
     }
     
-    func configureNavigation() {
+    override func configureNavigation() {
         navigationItem.title = LagomStyle.phrase.basketViewNavigationTitle
-    }
-    
-    func configureHierarchy() {
-        
-    }
-    
-    func configureLayout() {
-        
     }
     
     private func configureCollectionView() {

@@ -8,7 +8,9 @@
 import UIKit
 
 final class SettingViewController: BaseViewController {
+    
     private let settingView = SettingView()
+    private let userTableRepository = UserTableRepository()
     
     override func loadView() {
         view = settingView
@@ -56,7 +58,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                          message: LagomStyle.Phrase.withDrawAlertMessage,
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
-                UserDefaultsHelper.removeAllUserDefaults()
+//                UserDefaultsHelper.removeAllUserDefaults()
+                if let user = userTableRepository.fetchUser().first {
+                    userTableRepository.deleteItem(user)
+                }
                 
                 let onboardingViewController = OnboardingViewController()
                 changeRootViewController(rootViewController: onboardingViewController)
@@ -79,7 +84,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         if index == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewProfileCell.identifier, for: indexPath) as? SettingTableViewProfileCell else { return UITableViewCell() }
-            cell.configureContent()
+//            cell.configureContent()
+            if let user = userTableRepository.fetchUser().first {
+                cell.configureContent(user: user)
+            }
             return cell
         }
         

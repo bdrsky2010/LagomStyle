@@ -9,7 +9,6 @@ import UIKit
 
 import SnapKit
 
-
 final class ProfileSetupView: BaseView {
     
     let profileImageView = ProfileImageView(imageSelectType: .selected)

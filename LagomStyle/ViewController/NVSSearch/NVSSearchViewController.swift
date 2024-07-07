@@ -12,29 +12,23 @@ import SnapKit
 final class NVSSearchViewController: BaseViewController {
     
     private let nvsSearchView = NVSSearchView()
+    private let userTableRepository = UserTableRepository()
     
     private var recentSearchQueries: [String: Date] {
         get {
             guard let queries =  UserDefaultsHelper.recentSearchQueries else {
-                
                 nvsSearchView.recentSearchTableViewTitleLabel.isHidden = true
                 nvsSearchView.removeAllQueriesButton.isHidden = true
                 nvsSearchView.recentSearchTableView.isHidden = true
-                
                 nvsSearchView.emptyView.isHidden = false
-                
                 return [:]
             }
-            
             nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
             nvsSearchView.removeAllQueriesButton.isHidden = false
             nvsSearchView.recentSearchTableView.isHidden = false
-            
             nvsSearchView.emptyView.isHidden = true
-            
             return queries
         }
-        
         set {
             if !newValue.isEmpty {
                 UserDefaultsHelper.recentSearchQueries = newValue
@@ -67,7 +61,8 @@ final class NVSSearchViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        guard let nickname = UserDefaultsHelper.nickname else { return }
+//        guard let nickname = UserDefaultsHelper.nickname else { return }
+        guard let nickname = userTableRepository.fetchUser().first?.nickname else { return }
         navigationItem.title = nickname + LagomStyle.Phrase.searchViewNavigationTitle
     }
     

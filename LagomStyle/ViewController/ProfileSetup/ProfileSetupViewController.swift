@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RealmSwift
 import SnapKit
 
 enum ValidationError: Error {
@@ -18,6 +19,7 @@ enum ValidationError: Error {
 final class ProfileSetupViewController: BaseViewController {
     
     private let profileSetupView = ProfileSetupView()
+    private let userTableRepository = UserTableRepository()
     
     private var isEnabled = false
     private var selectedImageIndex = Int.random(in: 0...11)
@@ -61,19 +63,29 @@ final class ProfileSetupViewController: BaseViewController {
     private func saveButtonClicked() {
         guard let text = profileSetupView.nicknameTextField.text else { return }
         
-        UserDefaultsHelper.nickname = text
-        UserDefaultsHelper.profileImageIndex = selectedImageIndex
+//        UserDefaultsHelper.nickname = text
+//        UserDefaultsHelper.profileImageIndex = selectedImageIndex
+        if let user = userTableRepository.fetchUser().first {
+            let value: [String: Any] = ["id": user.id, "nickname": text, "proflieImageIndex": selectedImageIndex]
+            userTableRepository.updateItem(value: value)
+        }
         navigationController?.popViewController(animated: true)
     }
     
     func configureContent() {
-        if pfSetupType == .edit,
-            let profileImageIndex = UserDefaultsHelper.profileImageIndex,
-            let nickname = UserDefaultsHelper.nickname {
+//        if pfSetupType == .edit,
+//            let profileImageIndex = UserDefaultsHelper.profileImageIndex,
+//            let nickname = UserDefaultsHelper.nickname {
+//            profileSetupView.completeButton.isHidden = true
+//            selectedImageIndex = profileImageIndex
+//            profileSetupView.nicknameTextField.text = nickname
+//            completeValidateNickname(nickname: nickname)
+//        }
+        if pfSetupType == .edit, let user = userTableRepository.fetchUser().first {
             profileSetupView.completeButton.isHidden = true
-            selectedImageIndex = profileImageIndex
-            profileSetupView.nicknameTextField.text = nickname
-            completeValidateNickname(nickname: nickname)
+            selectedImageIndex = user.proflieImageIndex
+            profileSetupView.nicknameTextField.text = user.nickname
+            completeValidateNickname(nickname: user.nickname)
         }
         let image = LagomStyle.AssetImage.profile(index: selectedImageIndex).imageName
         profileSetupView.profileImageView.configureContent(image: image)
@@ -100,9 +112,13 @@ final class ProfileSetupViewController: BaseViewController {
         guard let text = profileSetupView.nicknameTextField.text else { return }
         
         UserDefaultsHelper.isOnboarding = true
-        UserDefaultsHelper.nickname = text
-        UserDefaultsHelper.profileImageIndex = selectedImageIndex
-        UserDefaultsHelper.signUpDate = Date.convertString
+//        UserDefaultsHelper.nickname = text
+//        UserDefaultsHelper.profileImageIndex = selectedImageIndex
+//        UserDefaultsHelper.signUpDate = Date.convertString
+        
+        let user = UserTable(nickname: text, proflieImageIndex: selectedImageIndex, signupDate: Date())
+        userTableRepository.createUser(user)
+        userTableRepository.printDatebaseURL()
         
         let mainViewController = MainTabBarController()
         changeRootViewController(rootViewController: mainViewController)

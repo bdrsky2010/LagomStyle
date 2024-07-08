@@ -8,6 +8,7 @@
 import UIKit
 
 import IQKeyboardManagerSwift
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         sleep(2) // LaunchScreen을 통한 스플래시 화면 2초간 유지
+        
+        // 데이터베이스 테이블 변경 시 마이그레이션
+        let config = Realm.Configuration(schemaVersion: 1) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 {
+                // 역관계 형성
+            }
+        }
+        Realm.Configuration.defaultConfiguration = config
         
         IQKeyboardManager.shared.enable = true
         

@@ -36,6 +36,10 @@ class Basket: Object {
     @Persisted var webUrlString: String
     @Persisted var imageUrlString: String
     
+    // 역관계 구성
+    @Persisted(originProperty: "detail")
+    var folder: LinkingObjects<Folder>
+    
     convenience init(id: String, name: String, mallName: String, lowPrice: String, webUrlString: String, imageUrlString: String) {
         self.init()
         self.id = id

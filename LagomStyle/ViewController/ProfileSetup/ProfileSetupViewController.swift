@@ -19,7 +19,7 @@ enum ValidationError: Error {
 final class ProfileSetupViewController: BaseViewController {
     
     private let profileSetupView = ProfileSetupView()
-    private let userTableRepository = UserTableRepository()
+    private let userTableRepository = RealmRepository()
     
     private var isEnabled = false
     private var selectedImageIndex = Int.random(in: 0...11)
@@ -65,9 +65,9 @@ final class ProfileSetupViewController: BaseViewController {
         
 //        UserDefaultsHelper.nickname = text
 //        UserDefaultsHelper.profileImageIndex = selectedImageIndex
-        if let user = userTableRepository.fetchUser().first {
+        if let user = userTableRepository.fetchItem(of: UserTable.self).first {
             let value: [String: Any] = ["id": user.id, "nickname": text, "proflieImageIndex": selectedImageIndex]
-            userTableRepository.updateItem(value: value)
+            userTableRepository.updateItem(of: UserTable.self, value: value)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -81,7 +81,7 @@ final class ProfileSetupViewController: BaseViewController {
 //            profileSetupView.nicknameTextField.text = nickname
 //            completeValidateNickname(nickname: nickname)
 //        }
-        if pfSetupType == .edit, let user = userTableRepository.fetchUser().first {
+        if pfSetupType == .edit, let user = userTableRepository.fetchItem(of: UserTable.self).first {
             profileSetupView.completeButton.isHidden = true
             selectedImageIndex = user.proflieImageIndex
             profileSetupView.nicknameTextField.text = user.nickname
@@ -117,7 +117,7 @@ final class ProfileSetupViewController: BaseViewController {
 //        UserDefaultsHelper.signUpDate = Date.convertString
         
         let user = UserTable(nickname: text, proflieImageIndex: selectedImageIndex, signupDate: Date())
-        userTableRepository.createUser(user)
+        userTableRepository.createItem(user)
         userTableRepository.printDatebaseURL()
         
         let mainViewController = MainTabBarController()

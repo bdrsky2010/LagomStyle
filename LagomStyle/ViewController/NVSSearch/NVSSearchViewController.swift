@@ -7,40 +7,57 @@
 
 import UIKit
 
+import RealmSwift
 import SnapKit
 
 final class NVSSearchViewController: BaseViewController {
     
     private let nvsSearchView = NVSSearchView()
-    private let userTableRepository = UserTableRepository()
+    private let realmRepository = RealmRepository()
+    private var recentSearchKeyword: Map<String, Date>!
     
-    private var recentSearchQueries: [String: Date] {
+//    private var recentSearchQueries: [String: Date] {
+//        get {
+//            guard let queries =  UserDefaultsHelper.recentSearchQueries else {
+//                nvsSearchView.recentSearchTableViewTitleLabel.isHidden = true
+//                nvsSearchView.removeAllQueriesButton.isHidden = true
+//                nvsSearchView.recentSearchTableView.isHidden = true
+//                nvsSearchView.emptyView.isHidden = false
+//                return [:]
+//            }
+//            nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
+//            nvsSearchView.removeAllQueriesButton.isHidden = false
+//            nvsSearchView.recentSearchTableView.isHidden = false
+//            nvsSearchView.emptyView.isHidden = true
+//            return queries
+//        }
+//        set {
+//            if !newValue.isEmpty {
+//                UserDefaultsHelper.recentSearchQueries = newValue
+//            } else {
+//                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
+//            }
+//            nvsSearchView.recentSearchTableView.reloadData()
+//        }
+//    }
+    
+    private var recentSearchQueriesArray: [String] {
+//        return recentSearchQueries.sorted(by: { $0.value > $1.value }).map { $0.key }
         get {
-            guard let queries =  UserDefaultsHelper.recentSearchQueries else {
+            guard recentSearchKeyword.count != 0 else {
+                print(recentSearchKeyword.isInvalidated)
                 nvsSearchView.recentSearchTableViewTitleLabel.isHidden = true
                 nvsSearchView.removeAllQueriesButton.isHidden = true
                 nvsSearchView.recentSearchTableView.isHidden = true
                 nvsSearchView.emptyView.isHidden = false
-                return [:]
+                return []
             }
             nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
             nvsSearchView.removeAllQueriesButton.isHidden = false
             nvsSearchView.recentSearchTableView.isHidden = false
             nvsSearchView.emptyView.isHidden = true
-            return queries
+            return recentSearchKeyword.sorted(by: { $0.value > $1.value }).map { $0.key }
         }
-        set {
-            if !newValue.isEmpty {
-                UserDefaultsHelper.recentSearchQueries = newValue
-            } else {
-                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.recentSearchQueries)
-            }
-            nvsSearchView.recentSearchTableView.reloadData()
-        }
-    }
-    
-    private var recentSearchQueriesArray: [String] {
-        return recentSearchQueries.sorted(by: { $0.value > $1.value }).map { $0.key }
     }
     
     override func loadView() {
@@ -49,7 +66,7 @@ final class NVSSearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
+        configureRecentSearch()
         configureTextField()
         configutrRemoveAllButton()
         configureTableView()
@@ -62,8 +79,14 @@ final class NVSSearchViewController: BaseViewController {
     
     override func configureNavigation() {
 //        guard let nickname = UserDefaultsHelper.nickname else { return }
-        guard let nickname = userTableRepository.fetchUser().first?.nickname else { return }
+        guard let nickname = realmRepository.fetchItem(of: UserTable.self).first?.nickname else { return }
         navigationItem.title = nickname + LagomStyle.Phrase.searchViewNavigationTitle
+    }
+    
+    private func configureRecentSearch() {
+        if let user = realmRepository.fetchItem(of: UserTable.self).first {
+            recentSearchKeyword = user.recentSearchKeyword
+        }
     }
     
     private func configureTextField() {
@@ -76,7 +99,11 @@ final class NVSSearchViewController: BaseViewController {
     
     @objc
     private func removeAllButtonClicked() {
-        recentSearchQueries = [:]
+//        recentSearchQueries = [:]
+        realmRepository.updateItem {
+            recentSearchKeyword.removeAll()
+        }
+        nvsSearchView.recentSearchTableView.reloadData()
     }
     
     private func configureTableView() {
@@ -97,8 +124,11 @@ extension NVSSearchViewController: UITextFieldDelegate {
         nvsSearchResultViewController.query = text
         
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
-        
-        recentSearchQueries[text] = Date()
+        realmRepository.updateItem {
+            recentSearchKeyword.setValue(Date(), forKey: text)
+        }
+        nvsSearchView.recentSearchTableView.reloadData()
+//        recentSearchQueries[text] = Date()
         
         textField.text = nil
         return true
@@ -111,14 +141,17 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
         
         let nvsSearchResultViewController = NVSSearchResultViewController()
         nvsSearchResultViewController.query = recentSearchQueriesArray[indexPath.row]
-        
+//        nvsSearchResultViewController.onDisappear = { [weak self] in
+//            guard let self else { return }
+//            nvsSearchView.recentSearchTableView.reloadData()
+//        }
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recentSearchQueries.count
+        return recentSearchQueriesArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,12 +160,16 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
         let row = indexPath.row
         
         cell.row = row
+        print(recentSearchQueriesArray[row])
         cell.configureContent(query: recentSearchQueriesArray[row])
         cell.delegate = self
         return cell
     }
     
     func removeQuery(row: Int) {
-        recentSearchQueries[recentSearchQueriesArray[row]] = nil
+        realmRepository.updateItem {
+            recentSearchKeyword.removeObject(for: recentSearchQueriesArray[row])
+        }
+        nvsSearchView.recentSearchTableView.reloadData()
     }
 }

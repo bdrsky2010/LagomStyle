@@ -10,7 +10,7 @@ import UIKit
 final class SettingViewController: BaseViewController {
     
     private let settingView = SettingView()
-    private let userTableRepository = UserTableRepository()
+    private let userTableRepository = RealmRepository()
     
     override func loadView() {
         view = settingView
@@ -59,7 +59,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
 //                UserDefaultsHelper.removeAllUserDefaults()
-                if let user = userTableRepository.fetchUser().first {
+                if let user = userTableRepository.fetchItem(of: UserTable.self).first {
                     userTableRepository.deleteItem(user)
                 }
                 
@@ -85,7 +85,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if index == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewProfileCell.identifier, for: indexPath) as? SettingTableViewProfileCell else { return UITableViewCell() }
 //            cell.configureContent()
-            if let user = userTableRepository.fetchUser().first {
+            if let user = userTableRepository.fetchItem(of: UserTable.self).first {
                 cell.configureContent(user: user)
             }
             return cell

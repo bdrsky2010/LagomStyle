@@ -53,6 +53,10 @@ final class RealmRepository {
     func deleteItem<T: Object>(_ item: T) {
         do {
             try realm.write {
+                if let folder = item as? Folder {
+                    print("폴더 삭제")
+                    realm.delete(folder.detail)
+                }
                 realm.delete(item)
             }
         } catch {

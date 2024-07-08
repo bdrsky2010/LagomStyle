@@ -9,13 +9,13 @@ import Foundation
 
 import RealmSwift
 
-final class UserTableRepository {
+final class RealmRepository {
     private let realm = try! Realm()
     
-    func createUser(_ user: UserTable) {
+    func createItem<T: Object>(_ item: T) {
         do {
             try realm.write {
-                realm.add(user)
+                realm.add(item)
                 print("Realm Create Succeed")
             }
         } catch {
@@ -23,15 +23,15 @@ final class UserTableRepository {
         }
     }
     
-    func fetchUser() -> Results<UserTable> {
-        let user = realm.objects(UserTable.self)
+    func fetchItem<T: Object>(of type: T.Type) -> Results<T> {
+        let user = realm.objects(type.self)
         return user
     }
     
-    func updateItem(value: [String: Any]) {
+    func updateItem<T: Object>(of type: T.Type, value: [String: Any]) {
         do {
             try realm.write {
-                realm.create(UserTable.self, value: value, update: .modified)
+                realm.create(type.self, value: value, update: .modified)
                 print("Realm Update Succeed")
             }
         } catch {
@@ -39,10 +39,21 @@ final class UserTableRepository {
         }
     }
     
-    func deleteItem(_ user: UserTable) {
+    func updateItem(completionHandler: () -> Void) {
         do {
             try realm.write {
-                realm.delete(user)
+                completionHandler()
+                print("Realm Update Succeed")
+            }
+        } catch {
+            print("Realm Error")
+        }
+    }
+    
+    func deleteItem<T: Object>(_ item: T) {
+        do {
+            try realm.write {
+                realm.delete(item)
             }
         } catch {
             print("Realm Error")

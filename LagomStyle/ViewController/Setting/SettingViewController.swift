@@ -10,7 +10,7 @@ import UIKit
 final class SettingViewController: BaseViewController {
     
     private let settingView = SettingView()
-    private let userTableRepository = RealmRepository()
+    private let realmRepository = RealmRepository()
     
     override func loadView() {
         view = settingView
@@ -49,8 +49,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController?.pushViewController(profileSetupViewController, animated: true)
         }
         if index == 1 {
-            let nvsBasketViewController = NVSBasketViewController()
-            navigationController?.pushViewController(nvsBasketViewController, animated: true)
+            let nvsBasketFolderViewController = NVSBasketFolderViewController()
+            navigationController?.pushViewController(nvsBasketFolderViewController, animated: true)
+//            let nvsBasketViewController = NVSBasketViewController()
+//            navigationController?.pushViewController(nvsBasketViewController, animated: true)
         }
         if index == 5 {
             presentAlert(option: .twoButton, 
@@ -59,8 +61,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
 //                UserDefaultsHelper.removeAllUserDefaults()
-                if let user = userTableRepository.fetchItem(of: UserTable.self).first {
-                    userTableRepository.deleteItem(user)
+                if let user = realmRepository.fetchItem(of: UserTable.self).first {
+                    realmRepository.deleteItem(user)
                 }
                 
                 let onboardingViewController = OnboardingViewController()
@@ -85,7 +87,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if index == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewProfileCell.identifier, for: indexPath) as? SettingTableViewProfileCell else { return UITableViewCell() }
 //            cell.configureContent()
-            if let user = userTableRepository.fetchItem(of: UserTable.self).first {
+            if let user = realmRepository.fetchItem(of: UserTable.self).first {
                 cell.configureContent(user: user)
             }
             return cell

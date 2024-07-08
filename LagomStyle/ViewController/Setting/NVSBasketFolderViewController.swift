@@ -58,6 +58,23 @@ final class NVSBasketFolderViewController: BaseViewController {
 }
 
 extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.row > 0 {
+            let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, success in
+                guard let self else {
+                    success(false)
+                    return
+                }
+                let folder = folder[indexPath.row]
+                realmRepository.deleteItem(folder)
+                nvsBasketFolderView.folderTableView.deleteRows(at: [indexPath], with: .automatic)
+                success(true)
+            }
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        }
+        return nil
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return folder.count
     }

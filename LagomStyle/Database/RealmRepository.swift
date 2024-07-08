@@ -23,9 +23,20 @@ final class RealmRepository {
         }
     }
     
+    func createItem(_ item: Basket, folder: Folder) {
+        do {
+            try realm.write {
+                folder.detail.append(item)
+                print("Realm Create Succeed")
+            }
+        } catch {
+            print("Realm Error")
+        }
+    }
+    
     func fetchItem<T: Object>(of type: T.Type) -> Results<T> {
-        let user = realm.objects(type.self)
-        return user
+        let value = realm.objects(type.self)
+        return value
     }
     
     func updateItem<T: Object>(of type: T.Type, value: [String: Any]) {

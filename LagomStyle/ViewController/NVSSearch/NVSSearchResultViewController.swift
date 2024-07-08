@@ -8,12 +8,14 @@
 import UIKit
 
 import Kingfisher
+import RealmSwift
 import SkeletonView
 import SnapKit
 
 final class NVSSearchResultViewController: BaseViewController {
     
     private let nvsSearchResultView = NVSSearchResultView()
+    private let realmRepository = RealmRepository()
     
     private let searchDisplayCount = 30
     private let nvsSortTypeList = NVSSSort.allCases
@@ -22,6 +24,8 @@ final class NVSSearchResultViewController: BaseViewController {
     private var searchResult: NVSSearch?
     private var nvssStartNumber = 1
     private var nvssIsPagingEnd = false
+    
+    private var basketList: Results<Basket>!
     
     private var likeProductDictionary: [NVSProduct: None] {
         get {
@@ -44,6 +48,7 @@ final class NVSSearchResultViewController: BaseViewController {
         if let query {
             requestNVSSearchAPI(query: query)
         }
+        configureFolder()
         configureCollectionView()
         
         nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
@@ -62,6 +67,10 @@ final class NVSSearchResultViewController: BaseViewController {
     override func configureNavigation() {
         navigationItem.title = query
         configureNavigationBackButton()
+    }
+    
+    private func configureFolder() {
+        basketList = realmRepository.fetchItem(of: Basket.self)
     }
     
     private func configureCollectionView() {
@@ -140,8 +149,25 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
     
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
         guard let product = searchResult?.products[row] else { return }
-        
-        likeProductDictionary[product] = isLike ? None() : nil
+        if isLike {
+            if let etcFolder = realmRepository.fetchItem(of: Folder.self).last {
+                let newBasket = Basket(id: product.productID,
+                                    name: product.title,
+                                    mallName: product.mallName,
+                                    lowPrice: product.lowPrice,
+                                    webUrlString: product.urlString,
+                                    imageUrlString: product.imageUrlString)
+                realmRepository.createItem(newBasket, folder: etcFolder)
+            }
+        } else {
+            for basket in basketList {
+                if basket.id == product.productID {
+                    realmRepository.deleteItem(basket)
+                    break
+                }
+            }
+        }
+//        likeProductDictionary[product] = isLike ? None() : nil
         
         nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
@@ -200,11 +226,19 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         let index = indexPath.row
         guard let product = searchResult?.products[index] else { return cell }
         
-        if likeProductDictionary[product] != nil {
-            cell.isLiske = true
-        } else {
-            cell.isLiske = false
+        var isBasket = false
+        for basket in basketList {
+            if basket.id == product.productID {
+                isBasket = true
+                break
+            }
         }
+        cell.isLiske = isBasket
+//        if likeProductDictionary[product] != nil {
+//            cell.isLiske = true
+//        } else {
+//            cell.isLiske = false
+//        }
         cell.configureContent(product: product)
         cell.highlightingWithQuery(query: query)
         cell.delegate = self

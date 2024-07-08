@@ -17,5 +17,6 @@ extension LagomStyle {
         static let clock = "clock"
         static let xmark = "xmark"
         static let cameraFill = "camera.fill"
+        static let plus = "plus"
     }
 }

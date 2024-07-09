@@ -31,6 +31,7 @@ final class AddOrMoveBasketFolderViewController: BaseViewController {
     }
     
     override func configureNavigation() {
+        navigationItem.title = "폴더 선택"
         let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: LagomStyle.SystemImage.xmark), style: .plain, target: self, action: #selector(dismissButtonClicked))
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.leftBarButtonItem?.tintColor = LagomStyle.AssetColor.lagomBlack
@@ -73,9 +74,7 @@ extension AddOrMoveBasketFolderViewController: UITableViewDelegate, UITableViewD
         let folder = folderList[indexPath.row + 1]
         let isBasket = folder.detail.contains(where: { $0.id == productID })
         cell.configureTitle(title: folder.name)
-        cell.configureImage(checkBoxImage: isBasket ? UIImage(systemName: "checkmark.square.fill") : UIImage(systemName: "square"))
+        cell.configureImage(checkBoxImage: isBasket ? UIImage(systemName: "checkmark") : nil)
         return cell
     }
-    
-    
 }

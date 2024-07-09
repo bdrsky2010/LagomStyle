@@ -7,23 +7,33 @@
 
 import UIKit
 
+import RealmSwift
+
+// NVSProduct 타입과 Basket 타입을 연결해주는 공통 타입
+struct CommonProduct {
+    let title: String
+    let mallName: String
+    let lowPrice: String
+    let imageUrlString: String
+}
+
 final class NVSBasketViewController: BaseViewController {
     
     private let nvsBasketView = NVSBasketView()
+    private let realmRepository = RealmRepository()
     
-    private var likeProductDictionary: [NVSProduct: None] {
-        get {
-            guard let dict = UserDefaultsHelper.likeProducts else { return [:] }
-            return dict
-        }
-        set {
-            UserDefaultsHelper.likeProducts = newValue
+    private var isTotalFolder: Bool {
+        if let totalFolder = realmRepository.fetchItem(of: Folder.self).first, let folder {
+            return totalFolder.id == folder.id
+        } else {
+            return false
         }
     }
     
-    private var likeProductArray: [NVSProduct] {
-        return likeProductDictionary.map { $0.key }.sorted(by: { $0 < $1 })
-    }
+    var onDeleteBasket: (() -> Void)?
+    var folder: Folder?
+    var totalBasketList: Results<Basket>!
+    var folderBasketList = List<Basket>()
     
     override func loadView() {
         view = nvsBasketView
@@ -31,6 +41,8 @@ final class NVSBasketViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureData()
+        configureCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,12 +50,15 @@ final class NVSBasketViewController: BaseViewController {
         nvsBasketView.nvsBasketCollectionView.reloadData()
     }
     
-    override func configureView() {
-        configureCollectionView()
+    override func configureNavigation() {
+        navigationItem.title = folder?.name
     }
     
-    override func configureNavigation() {
-        navigationItem.title = LagomStyle.Phrase.basketViewNavigationTitle
+    private func configureData() {
+        if let folder {
+            folderBasketList = folder.detail
+        }
+        totalBasketList = realmRepository.fetchItem(of: Basket.self)
     }
     
     private func configureCollectionView() {
@@ -56,47 +71,69 @@ final class NVSBasketViewController: BaseViewController {
 extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index = indexPath.row
-        let product = likeProductArray[index]
-        
         let nvsProductDetailViewController = NVSProductDetailViewController()
         
-        if likeProductDictionary[product] != nil {
-            nvsProductDetailViewController.isLike = true
+        let index = indexPath.row
+        if isTotalFolder {
+            let product = totalBasketList[index]
+            nvsProductDetailViewController.productID = product.id
+            nvsProductDetailViewController.productTitle = product.name
+            nvsProductDetailViewController.productLink = product.webUrlString
         } else {
-            nvsProductDetailViewController.isLike = false
+            let product = folderBasketList[index]
+            nvsProductDetailViewController.productID = product.id
+            nvsProductDetailViewController.productTitle = product.name
+            nvsProductDetailViewController.productLink = product.webUrlString
         }
         nvsProductDetailViewController.delegate = self
-        nvsProductDetailViewController.productTitle = product.title
-        nvsProductDetailViewController.productLink = product.urlString
         nvsProductDetailViewController.row = index
-        
+        nvsProductDetailViewController.isLike = true
+        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, _, _ in
+            guard let self else { return }
+            setLikeButtonImageToggle(row: row, isLike: isBasket)
+        }
         navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return likeProductArray.count
+        if isTotalFolder {
+            return totalBasketList.count
+        } else {
+            return folderBasketList.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
-        let product = likeProductArray[index]
-        
         cell.isLiske = true
         cell.row = indexPath.row
-        cell.configureContent(product: product)
         cell.delegate = self
         
+        if isTotalFolder {
+            let product = totalBasketList[index]
+            let commonProduct = CommonProduct(title: product.name, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
+            cell.configureContent(product: commonProduct)
+        } else {
+            let product = folderBasketList[index]
+            let commonProduct = CommonProduct(title: product.name, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
+            cell.configureContent(product: commonProduct)
+        }
         return cell
     }
 }
 
 extension NVSBasketViewController: NVSSearchDelegate {
-    
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
-        let product = likeProductArray[row]
-        likeProductDictionary[product] = isLike ? None() : nil
+        if isTotalFolder {
+            let basket = totalBasketList[row]
+            realmRepository.deleteItem(basket)
+        } else {
+            let basket = folderBasketList[row]
+            realmRepository.deleteItem(basket)
+        }
+        configureData() // 데이터 다시 받아오기
         nvsBasketView.nvsBasketCollectionView.reloadData()
+        onDeleteBasket?()
     }
 }

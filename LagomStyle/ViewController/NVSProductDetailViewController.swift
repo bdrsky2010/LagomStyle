@@ -11,6 +11,7 @@ import RealmSwift
 
 final class NVSProductDetailViewController: BaseViewController {
     private let nvsProductDetailView = NVSProductDetailView()
+    private let realmRepository = RealmRepository()
     
     var delegate: NVSSearchDelegate?
     var row: Int?
@@ -18,7 +19,7 @@ final class NVSProductDetailViewController: BaseViewController {
     var productID: String?
     var productTitle: String?
     var productLink: String?
-    var onChangeBasket: ((_ row: Int, _ isLike: Bool, _ folder: Folder) -> Void)?
+    var onChangeBasket: ((_ row: Int, _ isBasket: Bool, _ oldFolder: Folder?, _ newFolder: Folder) -> Void)?
     
     override func loadView() {
         view = nvsProductDetailView
@@ -34,9 +35,10 @@ final class NVSProductDetailViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        guard let productTitle, let isLike else { return }
+        guard let productTitle, let productID else { return }
         navigationItem.title = productTitle
-        let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal),
+        let isBasket = realmRepository.fetchItem(of: Basket.self).contains(where: { $0.id == productID })
+        let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)?.withRenderingMode(.alwaysOriginal),
                                                 style: .plain,
                                                 target: self,
                                                 action: #selector(likeButtonClicked))
@@ -45,15 +47,27 @@ final class NVSProductDetailViewController: BaseViewController {
     
     @objc
     private func likeButtonClicked() {
-        isLike?.toggle()
-        guard let isLike, let row else { return }
-        navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal)
-//        delegate?.setLikeButtonImageToggle(row: row, isLike: isLike)
+        guard let productID, let row else { return }
         let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
-        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] folder in
+        addOrMoveBasketFolderViewController.productID = productID
+        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
             guard let self else { return }
-            print(folder.name)
-            onChangeBasket?(row, isLike, folder)
+            var isBasket = false
+            var oldFolder: Folder?
+            let basketList = realmRepository.fetchItem(of: Basket.self)
+            for basket in basketList {
+                if basket.id == productID {
+                    isBasket = true
+                    oldFolder = basket.folder.first
+                    break
+                }
+            }
+            if let oldFolder {
+                navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: oldFolder.id != newFolder.id).imageName)?.withRenderingMode(.alwaysOriginal)
+            } else {
+                navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: true).imageName)?.withRenderingMode(.alwaysOriginal)
+            }
+            onChangeBasket?(row, isBasket, oldFolder, newFolder)
         }
         let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
         present(navigationController, animated: true)

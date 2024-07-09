@@ -140,7 +140,7 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
         delegate?.setLikeButtonImageToggle(row: row, isLike: isLiske)
     }
     
-    func configureContent(product: NVSProduct) {
+    func configureContent(product: CommonProduct) {
         if let url = URL(string: product.imageUrlString) {
             thumbnailImageView.configureImageWithKF(url: url)
         }

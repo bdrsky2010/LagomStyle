@@ -51,8 +51,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if index == 1 {
             let nvsBasketFolderViewController = NVSBasketFolderViewController()
             navigationController?.pushViewController(nvsBasketFolderViewController, animated: true)
-//            let nvsBasketViewController = NVSBasketViewController()
-//            navigationController?.pushViewController(nvsBasketViewController, animated: true)
         }
         if index == 5 {
             presentAlert(option: .twoButton, 
@@ -60,9 +58,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                          message: LagomStyle.Phrase.withDrawAlertMessage,
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
-//                UserDefaultsHelper.removeAllUserDefaults()
                 if let user = realmRepository.fetchItem(of: UserTable.self).first {
                     realmRepository.deleteItem(user)
+                    
+                    let folder = realmRepository.fetchItem(of: Folder.self)
+                    folder.forEach { [weak self] in
+                        guard let self else { return }
+                        realmRepository.deleteItem($0)
+                    }
                 }
                 
                 let onboardingViewController = OnboardingViewController()
@@ -86,7 +89,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         if index == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewProfileCell.identifier, for: indexPath) as? SettingTableViewProfileCell else { return UITableViewCell() }
-//            cell.configureContent()
             if let user = realmRepository.fetchItem(of: UserTable.self).first {
                 cell.configureContent(user: user)
             }
@@ -95,8 +97,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         if index == 1 {
-            let likeProductsCount = UserDefaultsHelper.likeProducts?.count
-            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index], likeProductsCount: likeProductsCount ?? 0)
+            let basketCount = realmRepository.fetchItem(of: Basket.self).count
+            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index], likeProductsCount: basketCount)
         } else {
             cell.configureContent(option: LagomStyle.Phrase.settingOptions[index])
         }

@@ -38,7 +38,7 @@ final class AddOrMoveFolderTableViewCell: BaseTableViewCell {
     }
     
     private func configureUI() {
-        checkBoxImageView.preferredSymbolConfiguration = .init(pointSize: 16, weight: .bold)
+        checkBoxImageView.preferredSymbolConfiguration = .init(pointSize: 20, weight: .bold)
         checkBoxImageView.tintColor = LagomStyle.AssetColor.lagomPrimaryColor
     }
     

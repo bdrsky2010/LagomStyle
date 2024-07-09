@@ -27,16 +27,6 @@ final class NVSSearchResultViewController: BaseViewController {
     
     private var basketList: Results<Basket>!
     
-    private var likeProductDictionary: [NVSProduct: None] {
-        get {
-            guard let dict = UserDefaultsHelper.likeProducts else { return [:] }
-            return dict
-        }
-        set {
-            UserDefaultsHelper.likeProducts = newValue
-        }
-    }
-    
     var query: String?
     
     override func loadView() {
@@ -169,8 +159,6 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
                 }
             }
         }
-//        likeProductDictionary[product] = isLike ? None() : nil
-        
         nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
 }
@@ -205,25 +193,40 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         guard let product = searchResult?.products[index] else { return }
         
         let nvsProductDetailViewController = NVSProductDetailViewController()
-        
-        if likeProductDictionary[product] != nil {
-            nvsProductDetailViewController.isLike = true
-        } else {
-            nvsProductDetailViewController.isLike = false
-        }
         nvsProductDetailViewController.delegate = self
         nvsProductDetailViewController.productID = product.productID
         nvsProductDetailViewController.productTitle = product.title
         nvsProductDetailViewController.productLink = product.urlString
         nvsProductDetailViewController.row = index
-        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isLike, folder in
+        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
             guard let self else { return }
-            // TODO: 장바구니 버튼 로직
+            guard let product = searchResult?.products[row] else { return }
+            let newBasket = Basket(id: product.productID,
+                                name: product.title,
+                                mallName: product.mallName,
+                                lowPrice: product.lowPrice,
+                                webUrlString: product.urlString,
+                                imageUrlString: product.imageUrlString)
             // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
-            // 2. 담겨있지않다면 받아온 폴더에 담아주기
-            // 3. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
-            // 4. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
-            // 5. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
+            if isBasket, let oldFolder {
+                for basket in basketList {
+                    if basket.id == product.productID {
+                        realmRepository.deleteItem(basket)
+                        break
+                    }
+                }
+                // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
+                if oldFolder.id == newFolder.id {
+                    // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
+                    return
+                } else {
+                    // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
+                    realmRepository.createItem(newBasket, folder: newFolder)
+                }
+            } else {
+                // 5. 담겨있지않다면 받아온 폴더에 담아주기
+                realmRepository.createItem(newBasket, folder: newFolder)
+            }
             nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
         }
         
@@ -238,6 +241,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
         guard let product = searchResult?.products[index] else { return cell }
+        let commonProduct = CommonProduct(title: product.title, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
         
         var isBasket = false
         for basket in basketList {
@@ -247,12 +251,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
             }
         }
         cell.isLiske = isBasket
-//        if likeProductDictionary[product] != nil {
-//            cell.isLiske = true
-//        } else {
-//            cell.isLiske = false
-//        }
-        cell.configureContent(product: product)
+        cell.configureContent(product: commonProduct)
         cell.highlightingWithQuery(query: query)
         cell.delegate = self
         cell.row = index

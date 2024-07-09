@@ -75,6 +75,18 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
         return nil
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let folder = folder[indexPath.row]
+        let nvsBasketViewController = NVSBasketViewController()
+        nvsBasketViewController.folder = folder
+        nvsBasketViewController.onDeleteBasket = { [weak self] in
+            guard let self else { return }
+            nvsBasketFolderView.folderTableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+        navigationController?.pushViewController(nvsBasketViewController, animated: true)
+        nvsBasketFolderView.folderTableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return folder.count
     }
@@ -82,7 +94,12 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FolderTableViewCell.identifier, for: indexPath) as? FolderTableViewCell else { return UITableViewCell() }
         let folder = self.folder[indexPath.row]
-        cell.configureContent(title: folder.name, option: folder.option, count: folder.detail.count)
+        
+        if indexPath.row == 0 {
+            cell.configureContent(title: folder.name, option: folder.option, count: realmRepository.fetchItem(of: Basket.self).count)
+        } else {
+            cell.configureContent(title: folder.name, option: folder.option, count: folder.detail.count)
+        }
         return cell
     }
 }

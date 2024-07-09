@@ -59,7 +59,7 @@ final class NVSBasketFolderViewController: BaseViewController {
 
 extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.row > 0 && indexPath.row < folder.count - 1 {
+        if indexPath.row > 1 {
             let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, success in
                 guard let self else {
                     success(false)

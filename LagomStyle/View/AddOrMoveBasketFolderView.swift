@@ -15,6 +15,7 @@ final class AddOrMoveBasketFolderView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = UIColor.secondarySystemBackground
     }
     
     override func configureHierarchy() {

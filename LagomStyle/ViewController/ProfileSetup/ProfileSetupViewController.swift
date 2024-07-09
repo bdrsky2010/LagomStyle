@@ -112,12 +112,20 @@ final class ProfileSetupViewController: BaseViewController {
         guard let text = profileSetupView.nicknameTextField.text else { return }
         
         UserDefaultsHelper.isOnboarding = true
-//        UserDefaultsHelper.nickname = text
-//        UserDefaultsHelper.profileImageIndex = selectedImageIndex
-//        UserDefaultsHelper.signUpDate = Date.convertString
         
         let user = UserTable(nickname: text, proflieImageIndex: selectedImageIndex, signupDate: Date())
         realmRepository.createItem(user)
+        
+        let totalFolder = Folder()
+        totalFolder.name = "전체"
+        totalFolder.option = "장바구니 전체 목록 (*삭제불가)"
+        realmRepository.createItem(totalFolder)
+        
+        let etcFolder = Folder()
+        etcFolder.name = "그 외"
+        etcFolder.option = "나머지 (*삭제불가)"
+        realmRepository.createItem(etcFolder)
+        
         realmRepository.printDatebaseURL()
         
         let mainViewController = MainTabBarController()

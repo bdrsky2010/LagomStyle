@@ -150,7 +150,9 @@ extension NVSSearchResultViewController: NVSSearchDelegate {
     func setLikeButtonImageToggle(row: Int, isLike: Bool) {
         guard let product = searchResult?.products[row] else { return }
         if isLike {
-            if let etcFolder = realmRepository.fetchItem(of: Folder.self).last {
+            let folder = realmRepository.fetchItem(of: Folder.self)
+            if folder.count > 2 {
+                let etcFolder = folder[1]
                 let newBasket = Basket(id: product.productID,
                                     name: product.title,
                                     mallName: product.mallName,
@@ -210,9 +212,20 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
             nvsProductDetailViewController.isLike = false
         }
         nvsProductDetailViewController.delegate = self
+        nvsProductDetailViewController.productID = product.productID
         nvsProductDetailViewController.productTitle = product.title
         nvsProductDetailViewController.productLink = product.urlString
         nvsProductDetailViewController.row = index
+        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isLike, folder in
+            guard let self else { return }
+            // TODO: 장바구니 버튼 로직
+            // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
+            // 2. 담겨있지않다면 받아온 폴더에 담아주기
+            // 3. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
+            // 4. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
+            // 5. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
+            nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        }
         
         navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }

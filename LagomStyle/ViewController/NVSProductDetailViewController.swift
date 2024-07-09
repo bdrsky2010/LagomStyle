@@ -7,14 +7,18 @@
 
 import UIKit
 
+import RealmSwift
+
 final class NVSProductDetailViewController: BaseViewController {
     private let nvsProductDetailView = NVSProductDetailView()
     
     var delegate: NVSSearchDelegate?
     var row: Int?
     var isLike: Bool?
+    var productID: String?
     var productTitle: String?
     var productLink: String?
+    var onChangeBasket: ((_ row: Int, _ isLike: Bool, _ folder: Folder) -> Void)?
     
     override func loadView() {
         view = nvsProductDetailView
@@ -44,7 +48,15 @@ final class NVSProductDetailViewController: BaseViewController {
         isLike?.toggle()
         guard let isLike, let row else { return }
         navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)?.withRenderingMode(.alwaysOriginal)
-        delegate?.setLikeButtonImageToggle(row: row, isLike: isLike)
+//        delegate?.setLikeButtonImageToggle(row: row, isLike: isLike)
+        let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
+        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] folder in
+            guard let self else { return }
+            print(folder.name)
+            onChangeBasket?(row, isLike, folder)
+        }
+        let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
+        present(navigationController, animated: true)
     }
     
     private func requestWebView() {

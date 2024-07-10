@@ -21,7 +21,7 @@ final class ProfileSetupViewController: BaseViewController {
     private let profileSetupView = ProfileSetupView()
     private let realmRepository = RealmRepository()
     
-    private var isEnabled = false
+    private var isValid = false
     private var selectedImageIndex = Int.random(in: 0...11)
     
     var pfSetupType: LagomStyle.PFSetupOption?
@@ -63,8 +63,6 @@ final class ProfileSetupViewController: BaseViewController {
     private func saveButtonClicked() {
         guard let text = profileSetupView.nicknameTextField.text else { return }
         
-//        UserDefaultsHelper.nickname = text
-//        UserDefaultsHelper.profileImageIndex = selectedImageIndex
         if let user = realmRepository.fetchItem(of: UserTable.self).first {
             let value: [String: Any] = ["id": user.id, "nickname": text, "proflieImageIndex": selectedImageIndex]
             realmRepository.updateItem(of: UserTable.self, value: value)
@@ -96,7 +94,7 @@ final class ProfileSetupViewController: BaseViewController {
     }
     
     private func configureCompleteButton() {
-        profileSetupView.completeButton.isEnabled = isEnabled
+        profileSetupView.completeButton.isEnabled = isValid
         profileSetupView.completeButton.addTarget(self, action: #selector(completeButtonClicked), for: .touchUpInside)
     }
     
@@ -142,56 +140,52 @@ extension ProfileSetupViewController: UITextFieldDelegate {
         guard let text = textField.text else { return }
         textField.text = textField.text?.filter { $0 != " " }
         defer {
-            profileSetupView.completeButton.isEnabled = isEnabled
-            navigationItem.rightBarButtonItem?.isEnabled = isEnabled
+            profileSetupView.completeButton.isEnabled = isValid
+            navigationItem.rightBarButtonItem?.isEnabled = isValid
         }
         completeValidateNickname(nickname: text)
     }
     
     private func completeValidateNickname(nickname: String) {
-        do {
-            let isEnabled = try validateNickname(nickname: nickname)
-            
-            if isEnabled {
-                self.isEnabled = isEnabled
+        validateNickname(nickname: nickname) { result in
+            switch result {
+            case .success(let isValid):
+                self.isValid = isValid
                 profileSetupView.warningLabel.text = LagomStyle.Phrase.availableNickname
                 profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomBlack
+            case .failure(let error):
+                self.isValid = false
+                profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
+                switch error {
+                case .numberOfCharacter:
+                    profileSetupView.warningLabel.text = LagomStyle.Phrase.numberOfCharacterX
+                case .specialCharacter:
+                    profileSetupView.warningLabel.text = LagomStyle.Phrase.specialCharacterX
+                case .includeNumbers:
+                    profileSetupView.warningLabel.text = LagomStyle.Phrase.includeNumbers
+                }
             }
-            
-        } catch ValidationError.numberOfCharacter {
-            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.Phrase.numberOfCharacterX
-            isEnabled = false
-        } catch ValidationError.specialCharacter {
-            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.Phrase.specialCharacterX
-            isEnabled = false
-        } catch ValidationError.includeNumbers {
-            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.Phrase.includeNumbers
-            isEnabled = false
-        } catch {
-            profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
-            profileSetupView.warningLabel.text = LagomStyle.Phrase.unknownError
-            isEnabled = false
         }
     }
     
-    private func validateNickname(nickname: String) throws -> Bool {
+    private func validateNickname(nickname: String, completionHandler: (Result<Bool, ValidationError>) -> Void) {
         guard nickname.count >= 2, nickname.count < 10 else {
-            throw ValidationError.numberOfCharacter
+            completionHandler(.failure(.numberOfCharacter))
+            return
         }
         
         for char in nickname {
             let string = String(char)
             if let _ = string.range(of: "^[@#$%]*$", options: .regularExpression) {
-                throw ValidationError.specialCharacter
+                completionHandler(.failure(.specialCharacter))
+                return
             }
             if let _ = string.range(of: "^[0-9]*$", options: .regularExpression) {
-                throw ValidationError.includeNumbers
+                completionHandler(.failure(.includeNumbers))
+                return
             }
         }
-        return true
+        completionHandler(.success(true))
     }
 }
 

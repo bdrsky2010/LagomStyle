@@ -13,7 +13,6 @@ final class NVSProductDetailViewController: BaseViewController {
     private let nvsProductDetailView = NVSProductDetailView()
     private let realmRepository = RealmRepository()
     
-    var delegate: NVSSearchDelegate?
     var row: Int?
     var isBasket: Bool?
     var productID: String?
@@ -41,12 +40,12 @@ final class NVSProductDetailViewController: BaseViewController {
         let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)?.withRenderingMode(.alwaysOriginal),
                                                 style: .plain,
                                                 target: self,
-                                                action: #selector(likeButtonClicked))
+                                                action: #selector(basketButtonClicked))
         navigationItem.rightBarButtonItem = likeBarButtonItem
     }
     
     @objc
-    private func likeButtonClicked() {
+    private func basketButtonClicked() {
         guard let productID, let row else { return }
         let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
         addOrMoveBasketFolderViewController.productID = productID

@@ -24,7 +24,6 @@ final class NVSSearchResultViewController: BaseViewController {
     private var searchResult: NVSSearch?
     private var nvssStartNumber = 1
     private var nvssIsPagingEnd = false
-    
     private var basketList: Results<Basket>!
     
     var query: String?
@@ -133,32 +132,23 @@ final class NVSSearchResultViewController: BaseViewController {
             requestNVSSearchAPI(query: query)
         }
     }
+    
+    private func isProductExistOnBasket(_ product: NVSProduct) -> Bool {
+        var isBasket = false
+        for basket in basketList {
+            if basket.id == product.productID {
+                isBasket = true
+                break
+            }
+        }
+        return isBasket
+    }
 }
 
 extension NVSSearchResultViewController: NVSSearchDelegate {
     
     func setLikeButtonImageToggle(row: Int, isBasket: Bool) {
-        guard let product = searchResult?.products[row] else { return }
-        if isBasket {
-            let folder = realmRepository.fetchItem(of: Folder.self)
-            if folder.count > 2 {
-                let etcFolder = folder[1]
-                let newBasket = Basket(id: product.productID,
-                                    name: product.title,
-                                    mallName: product.mallName,
-                                    lowPrice: product.lowPrice,
-                                    webUrlString: product.urlString,
-                                    imageUrlString: product.imageUrlString)
-                realmRepository.createItem(newBasket, folder: etcFolder)
-            }
-        } else {
-            for basket in basketList {
-                if basket.id == product.productID {
-                    realmRepository.deleteItem(basket)
-                    break
-                }
-            }
-        }
+        saveBasketData(row: row, isBasket: isBasket)
         nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
 }
@@ -240,23 +230,58 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
+        
         guard let product = searchResult?.products[index] else { return cell }
+        
+        let isBasket = isProductExistOnBasket(product)
         let commonProduct = CommonProduct(title: product.title, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
         
-        var isBasket = false
-        for basket in basketList {
-            if basket.id == product.productID {
-                isBasket = true
-                break
-            }
-        }
-        cell.isBasket = isBasket
-        cell.configureContent(product: commonProduct)
+        cell.configureContent(product: commonProduct, isBasket: isBasket)
         cell.highlightingWithQuery(query: query)
-        cell.delegate = self
-        cell.row = index
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(basketButtonTapped))
+        cell.basketForegroundButtonView.tag = index
+        cell.basketForegroundButtonView.isUserInteractionEnabled = true
+        cell.basketForegroundButtonView.addGestureRecognizer(tapGesture)
         
         return cell
+    }
+    
+    @objc
+    private func basketButtonTapped(sender: UITapGestureRecognizer) {
+        guard let row = sender.view?.tag else { return }
+        guard let product = searchResult?.products[row] else { return }
+        
+        let isBasket = !isProductExistOnBasket(product)
+        saveBasketData(row: row, isBasket: isBasket)
+        
+        if let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? SearchResultCollectionViewCell {
+            cell.configureBasketContent(isBasket: isBasket)
+        }
+    }
+    
+    private func saveBasketData(row: Int, isBasket: Bool) {
+        guard let product = searchResult?.products[row] else { return }
+        if isBasket {
+            let folder = realmRepository.fetchItem(of: Folder.self)
+            if folder.count > 2 {
+                let etcFolder = folder[1]
+                let newBasket = Basket(id: product.productID,
+                                    name: product.title,
+                                    mallName: product.mallName,
+                                    lowPrice: product.lowPrice,
+                                    webUrlString: product.urlString,
+                                    imageUrlString: product.imageUrlString)
+                realmRepository.createItem(newBasket, folder: etcFolder)
+            }
+        } else {
+            for basket in basketList {
+                if basket.id == product.productID {
+                    realmRepository.deleteItem(basket)
+                    break
+                }
+            }
+        }
     }
 }
 

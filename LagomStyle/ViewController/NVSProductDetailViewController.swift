@@ -15,7 +15,7 @@ final class NVSProductDetailViewController: BaseViewController {
     
     var delegate: NVSSearchDelegate?
     var row: Int?
-    var isLike: Bool?
+    var isBasket: Bool?
     var productID: String?
     var productTitle: String?
     var productLink: String?

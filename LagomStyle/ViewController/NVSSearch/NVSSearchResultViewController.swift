@@ -137,9 +137,9 @@ final class NVSSearchResultViewController: BaseViewController {
 
 extension NVSSearchResultViewController: NVSSearchDelegate {
     
-    func setLikeButtonImageToggle(row: Int, isLike: Bool) {
+    func setLikeButtonImageToggle(row: Int, isBasket: Bool) {
         guard let product = searchResult?.products[row] else { return }
-        if isLike {
+        if isBasket {
             let folder = realmRepository.fetchItem(of: Folder.self)
             if folder.count > 2 {
                 let etcFolder = folder[1]
@@ -250,7 +250,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
                 break
             }
         }
-        cell.isLiske = isBasket
+        cell.isBasket = isBasket
         cell.configureContent(product: commonProduct)
         cell.highlightingWithQuery(query: query)
         cell.delegate = self

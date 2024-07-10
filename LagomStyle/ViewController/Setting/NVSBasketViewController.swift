@@ -87,10 +87,10 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
         }
         nvsProductDetailViewController.delegate = self
         nvsProductDetailViewController.row = index
-        nvsProductDetailViewController.isLike = true
+        nvsProductDetailViewController.isBasket = true
         nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, _, _ in
             guard let self else { return }
-            setLikeButtonImageToggle(row: row, isLike: isBasket)
+            setLikeButtonImageToggle(row: row, isBasket: isBasket)
         }
         navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }
@@ -106,7 +106,7 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
-        cell.isLiske = true
+        cell.isBasket = true
         cell.row = indexPath.row
         cell.delegate = self
         
@@ -124,7 +124,7 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
 }
 
 extension NVSBasketViewController: NVSSearchDelegate {
-    func setLikeButtonImageToggle(row: Int, isLike: Bool) {
+    func setLikeButtonImageToggle(row: Int, isBasket: Bool) {
         if isTotalFolder {
             let basket = totalBasketList[row]
             realmRepository.deleteItem(basket)

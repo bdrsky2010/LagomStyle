@@ -69,14 +69,6 @@ final class SettingTableViewProfileCell: BaseTableViewCell {
     }
     
     func configureContent(user: UserTable) {
-//        guard let profileImageIndex = UserDefaultsHelper.profileImageIndex else { return }
-//        guard let nickname = UserDefaultsHelper.nickname else { return }
-//        guard let signUpDate = UserDefaultsHelper.signUpDate else { return }
-//        
-//        profileImageView.configureContent(image: LagomStyle.AssetImage.profile(index: profileImageIndex).imageName)
-//        nicknameLabel.text = nickname
-//        signUpDateLabel.text = signUpDate + " 가입"
-        
         profileImageView.configureContent(image: LagomStyle.AssetImage.profile(index: user.proflieImageIndex).imageName)
         nicknameLabel.text = user.nickname
         signUpDateLabel.text = user.signupDate.convertString + " 가입"

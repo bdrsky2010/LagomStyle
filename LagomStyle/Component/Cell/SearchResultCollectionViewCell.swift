@@ -45,7 +45,7 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
     private let priceLabel = UILabel.blackBlack16()
     
     var row: Int?
-    var isLiske: Bool?
+    var isBasket: Bool?
     var delegate: NVSSearchDelegate?
     
     override init(frame: CGRect) {
@@ -113,7 +113,7 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
     
     @objc
     private func likeButtonTapped() {
-        isLiske?.toggle()
+        isBasket?.toggle()
         changeBasketContent()
     }
     
@@ -128,16 +128,16 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
         priceLabel.isSkeletonable = true
     }
     
-    private func configureBasketContent(isLike: Bool) {
-        basketBackgroundView.backgroundColor = isLike ? LagomStyle.AssetColor.lagomWhite.withAlphaComponent(1) : LagomStyle.AssetColor.lagomBlack.withAlphaComponent(0.5)
-        basketImageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: isLike).imageName)
+    private func configureBasketContent(isBasket: Bool) {
+        basketBackgroundView.backgroundColor = isBasket ? LagomStyle.AssetColor.lagomWhite.withAlphaComponent(1) : LagomStyle.AssetColor.lagomBlack.withAlphaComponent(0.5)
+        basketImageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)
     }
     
     private func changeBasketContent() {
-        guard let isLiske, let row else { return }
+        guard let isBasket, let row else { return }
         
-        configureBasketContent(isLike: isLiske)
-        delegate?.setLikeButtonImageToggle(row: row, isLike: isLiske)
+        configureBasketContent(isBasket: isBasket)
+        delegate?.setLikeButtonImageToggle(row: row, isBasket: isBasket)
     }
     
     func configureContent(product: CommonProduct) {
@@ -145,8 +145,8 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
             thumbnailImageView.configureImageWithKF(url: url)
         }
         
-        if let isLiske {
-            configureBasketContent(isLike: isLiske)
+        if let isBasket {
+            configureBasketContent(isBasket: isBasket)
         }
         
         mallNameLabel.text = product.mallName

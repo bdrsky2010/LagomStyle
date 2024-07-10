@@ -13,21 +13,6 @@ enum UserDefaultsHelper {
     @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.isOnboarding)
     static var isOnboarding: Bool?
     
-    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.nickname)
-    static var nickname: String?
-    
-    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.signUpDate)
-    static var signUpDate: String?
-    
-    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.profileImageIndex)
-    static var profileImageIndex: Int?
-    
-    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.recentSearchQueries)
-    static var recentSearchQueries: [String: Date]?
-    
-    @UserDefaultWrapper(key: LagomStyle.UserDefaultsKey.likeProducts)
-    static var likeProducts: [NVSProduct: None]?
-    
     static func removeUserDefaults(forKey: String) {
         UserDefaults.standard.removeObject(forKey: forKey)
     }

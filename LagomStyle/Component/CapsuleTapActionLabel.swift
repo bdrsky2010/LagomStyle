@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 final class CapsuleTapActionButton: BaseView {
+    
     private let label = UILabel.blackRegular14()
     
     init() {

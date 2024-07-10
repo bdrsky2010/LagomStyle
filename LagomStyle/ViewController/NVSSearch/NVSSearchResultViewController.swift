@@ -145,14 +145,6 @@ final class NVSSearchResultViewController: BaseViewController {
     }
 }
 
-extension NVSSearchResultViewController: NVSSearchDelegate {
-    
-    func setLikeButtonImageToggle(row: Int, isBasket: Bool) {
-        saveBasketData(row: row, isBasket: isBasket)
-        nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
-    }
-}
-
 extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         guard let query, !nvssIsPagingEnd else { return }
@@ -183,7 +175,6 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         guard let product = searchResult?.products[index] else { return }
         
         let nvsProductDetailViewController = NVSProductDetailViewController()
-        nvsProductDetailViewController.delegate = self
         nvsProductDetailViewController.productID = product.productID
         nvsProductDetailViewController.productTitle = product.title
         nvsProductDetailViewController.productLink = product.urlString
@@ -239,10 +230,10 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         cell.configureContent(product: commonProduct, isBasket: isBasket)
         cell.highlightingWithQuery(query: query)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(basketButtonTapped))
+        let basketButtonTapGesture = UITapGestureRecognizer(target: self, action: #selector(basketButtonTapped))
         cell.basketForegroundButtonView.tag = index
         cell.basketForegroundButtonView.isUserInteractionEnabled = true
-        cell.basketForegroundButtonView.addGestureRecognizer(tapGesture)
+        cell.basketForegroundButtonView.addGestureRecognizer(basketButtonTapGesture)
         
         return cell
     }

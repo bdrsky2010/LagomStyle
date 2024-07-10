@@ -85,46 +85,74 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
             nvsProductDetailViewController.productTitle = product.name
             nvsProductDetailViewController.productLink = product.webUrlString
         }
-        nvsProductDetailViewController.delegate = self
         nvsProductDetailViewController.row = index
         nvsProductDetailViewController.isBasket = true
-        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, _, _ in
+        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
             guard let self else { return }
-            setLikeButtonImageToggle(row: row, isBasket: isBasket)
+            // 장바구니 데이터에 대한 object에 대해 삭제가 일어나면 해당 객체에 대한 접근이 안되기 때문에
+            let oldBasket = isTotalFolder ? totalBasketList[index] : folderBasketList[index]
+            // 새로 Basket 인스턴스 생성
+            let newBasket = Basket(id: oldBasket.id,
+                                   name: oldBasket.name,
+                                   mallName: oldBasket.mallName,
+                                   lowPrice: oldBasket.lowPrice,
+                                   webUrlString: oldBasket.webUrlString,
+                                   imageUrlString: oldBasket.imageUrlString)
+            // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
+            let basketList = realmRepository.fetchItem(of: Basket.self)
+            if isBasket, let oldFolder {
+                for basket in basketList {
+                    if basket.id == oldBasket.id {
+                        realmRepository.deleteItem(basket)
+                        break
+                    }
+                }
+                // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
+                if oldFolder.id == newFolder.id {
+                    // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
+                    return
+                } else {
+                    // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
+                    realmRepository.createItem(newBasket, folder: newFolder)
+                }
+            } else {
+                // 5. 담겨있지않다면 받아온 폴더에 담아주기
+                realmRepository.createItem(newBasket, folder: newFolder)
+            }
+            nvsBasketView.nvsBasketCollectionView.reloadData()
         }
         navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isTotalFolder {
-            return totalBasketList.count
-        } else {
-            return folderBasketList.count
-        }
+        return isTotalFolder ? totalBasketList.count : folderBasketList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
-        cell.isBasket = true
-        cell.row = indexPath.row
-        cell.delegate = self
+        let basket = isTotalFolder ? totalBasketList[index] : folderBasketList[index]
+        let commonProduct = CommonProduct(title: basket.name, mallName: basket.mallName, lowPrice: basket.lowPrice, imageUrlString: basket.imageUrlString)
         
-        if isTotalFolder {
-            let product = totalBasketList[index]
-            let commonProduct = CommonProduct(title: product.name, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
-            cell.configureContent(product: commonProduct)
-        } else {
-            let product = folderBasketList[index]
-            let commonProduct = CommonProduct(title: product.name, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
-            cell.configureContent(product: commonProduct)
-        }
+        cell.configureContent(product: commonProduct, isBasket: true)
+        
+        let basketButtonTapGesture = UITapGestureRecognizer(target: self, action: #selector(basketButtonTapped))
+        cell.basketForegroundButtonView.tag = index
+        cell.basketForegroundButtonView.isUserInteractionEnabled = true
+        cell.basketForegroundButtonView.addGestureRecognizer(basketButtonTapGesture)
+        
         return cell
     }
-}
-
-extension NVSBasketViewController: NVSSearchDelegate {
-    func setLikeButtonImageToggle(row: Int, isBasket: Bool) {
+    
+    @objc
+    private func basketButtonTapped(sender: UITapGestureRecognizer) {
+        guard let row = sender.view?.tag else { return }
+        saveBasketData(row: row)
+        nvsBasketView.nvsBasketCollectionView.reloadData()
+        onDeleteBasket?()
+    }
+    
+    private func saveBasketData(row: Int) {
         if isTotalFolder {
             let basket = totalBasketList[row]
             realmRepository.deleteItem(basket)
@@ -132,8 +160,5 @@ extension NVSBasketViewController: NVSSearchDelegate {
             let basket = folderBasketList[row]
             realmRepository.deleteItem(basket)
         }
-        configureData() // 데이터 다시 받아오기
-        nvsBasketView.nvsBasketCollectionView.reloadData()
-        onDeleteBasket?()
     }
 }

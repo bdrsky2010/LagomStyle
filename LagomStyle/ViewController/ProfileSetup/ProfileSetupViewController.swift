@@ -73,15 +73,8 @@ final class ProfileSetupViewController: BaseViewController {
     }
     
     func configureContent() {
-//        if pfSetupType == .edit,
-//            let profileImageIndex = UserDefaultsHelper.profileImageIndex,
-//            let nickname = UserDefaultsHelper.nickname {
-//            profileSetupView.completeButton.isHidden = true
-//            selectedImageIndex = profileImageIndex
-//            profileSetupView.nicknameTextField.text = nickname
-//            completeValidateNickname(nickname: nickname)
-//        }
-        if pfSetupType == .edit, let user = realmRepository.fetchItem(of: UserTable.self).first {
+        if pfSetupType == .edit,
+           let user = realmRepository.fetchItem(of: UserTable.self).first {
             profileSetupView.completeButton.isHidden = true
             selectedImageIndex = user.proflieImageIndex
             profileSetupView.nicknameTextField.text = user.nickname
@@ -147,7 +140,7 @@ extension ProfileSetupViewController: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        
+        textField.text = textField.text?.filter { $0 != " " }
         defer {
             profileSetupView.completeButton.isEnabled = isEnabled
             navigationItem.rightBarButtonItem?.isEnabled = isEnabled

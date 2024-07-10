@@ -75,6 +75,18 @@ final class RealmRepository {
         }
     }
     
+    func deleteDatabase() {
+        if let user = fetchItem(of: UserTable.self).first {
+            deleteItem(user)
+            
+            let folder = fetchItem(of: Folder.self)
+            folder.forEach { [weak self] in
+                guard let self else { return }
+                deleteItem($0)
+            }
+        }
+    }
+    
     func printSchemaVersion() {
         // Realm Schema Version 확인
         do {

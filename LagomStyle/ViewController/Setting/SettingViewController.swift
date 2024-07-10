@@ -58,16 +58,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                          message: LagomStyle.Phrase.withDrawAlertMessage,
                          checkAlertTitle: "확인") { [weak self] _ in
                 guard let self else { return }
-                if let user = realmRepository.fetchItem(of: UserTable.self).first {
-                    realmRepository.deleteItem(user)
-                    
-                    let folder = realmRepository.fetchItem(of: Folder.self)
-                    folder.forEach { [weak self] in
-                        guard let self else { return }
-                        realmRepository.deleteItem($0)
-                    }
-                }
-                
+                realmRepository.deleteDatabase()
+                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.isOnboarding)
                 let onboardingViewController = OnboardingViewController()
                 changeRootViewController(rootViewController: onboardingViewController)
             }

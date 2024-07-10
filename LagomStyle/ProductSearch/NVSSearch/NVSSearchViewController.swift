@@ -14,7 +14,7 @@ final class NVSSearchViewController: BaseViewController {
     
     private let nvsSearchView = NVSSearchView()
     private let realmRepository = RealmRepository()
-    private var recentSearchKeyword: Map<String, Date>!
+    private var recentSearchKeyword = Map<String, Date>()
     
 //    private var recentSearchQueries: [String: Date] {
 //        get {

@@ -19,6 +19,9 @@
 		7B0857B42C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0857B32C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift */; };
 		7B0857B62C3CB04E008422EA /* AddOrMoveBasketFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */; };
 		7B0857B82C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0857B72C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift */; };
+		7B65E1BB2C3EBB5B00A55ACF /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BA2C3EBB5B00A55ACF /* Observable.swift */; };
+		7B65E1BD2C3EBE5A00A55ACF /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BC2C3EBE5A00A55ACF /* OnboardingViewModel.swift */; };
+		7B65E1BF2C3EC2F200A55ACF /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BE2C3EC2F200A55ACF /* ProfileSetupViewModel.swift */; };
 		7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */; };
 		7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */; };
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
@@ -109,6 +112,9 @@
 		7B0857B32C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrMoveBasketFolderViewController.swift; sourceTree = "<group>"; };
 		7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrMoveBasketFolderView.swift; sourceTree = "<group>"; };
 		7B0857B72C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrMoveFolderTableViewCell.swift; sourceTree = "<group>"; };
+		7B65E1BA2C3EBB5B00A55ACF /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		7B65E1BC2C3EBE5A00A55ACF /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		7B65E1BE2C3EC2F200A55ACF /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
 		7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LagomStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,6 +203,113 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		7B65E1AB2C3EB91200A55ACF /* ProfileImageSetup */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBB52C2ACE530082AE38 /* ProfileImageSetupView.swift */,
+				7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */,
+			);
+			path = ProfileImageSetup;
+			sourceTree = "<group>";
+		};
+		7B65E1AC2C3EB91500A55ACF /* ProfileSetup */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBB72C2ACE5F0082AE38 /* ProfileSetupView.swift */,
+				7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */,
+				7B65E1BE2C3EC2F200A55ACF /* ProfileSetupViewModel.swift */,
+			);
+			path = ProfileSetup;
+			sourceTree = "<group>";
+		};
+		7B65E1AE2C3EB9D100A55ACF /* NVSSearchResult */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBBB2C2ACE8B0082AE38 /* NVSSearchResultView.swift */,
+				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
+			);
+			path = NVSSearchResult;
+			sourceTree = "<group>";
+		};
+		7B65E1AF2C3EB9D400A55ACF /* NVSSearch */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBB92C2ACE730082AE38 /* NVSSearchView.swift */,
+				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
+			);
+			path = NVSSearch;
+			sourceTree = "<group>";
+		};
+		7B65E1B02C3EB9F000A55ACF /* NVSBasket */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */,
+				7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */,
+			);
+			path = NVSBasket;
+			sourceTree = "<group>";
+		};
+		7B65E1B12C3EB9F300A55ACF /* AddBasketFolder */ = {
+			isa = PBXGroup;
+			children = (
+				7B0857B12C3C387E008422EA /* AddBasketFolderView.swift */,
+				7B0857AF2C3C3811008422EA /* AddBasketFolderViewController.swift */,
+			);
+			path = AddBasketFolder;
+			sourceTree = "<group>";
+		};
+		7B65E1B22C3EB9F500A55ACF /* NVSBasketFolder */ = {
+			isa = PBXGroup;
+			children = (
+				7B0857AB2C3C240D008422EA /* NVSBasketFolderView.swift */,
+				7B0857A92C3C23F8008422EA /* NVSBasketFolderViewController.swift */,
+			);
+			path = NVSBasketFolder;
+			sourceTree = "<group>";
+		};
+		7B65E1B32C3EB9F800A55ACF /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBBF2C2ACEB40082AE38 /* SettingView.swift */,
+				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		7B65E1B42C3EBA5300A55ACF /* AddOrMoveBasketFolder */ = {
+			isa = PBXGroup;
+			children = (
+				7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */,
+				7B0857B32C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift */,
+			);
+			path = AddOrMoveBasketFolder;
+			sourceTree = "<group>";
+		};
+		7B65E1B52C3EBA5600A55ACF /* NVSProductDetail */ = {
+			isa = PBXGroup;
+			children = (
+				7B9BCBBD2C2ACE9D0082AE38 /* NVSProductDetailView.swift */,
+				7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */,
+			);
+			path = NVSProductDetail;
+			sourceTree = "<group>";
+		};
+		7B65E1B62C3EBAA800A55ACF /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */,
+			);
+			path = MainTabBar;
+			sourceTree = "<group>";
+		};
+		7B65E1B92C3EBB3600A55ACF /* Observable */ = {
+			isa = PBXGroup;
+			children = (
+				7B65E1BA2C3EBB5B00A55ACF /* Observable.swift */,
+			);
+			path = Observable;
+			sourceTree = "<group>";
+		};
 		7B6BB9BC2C1ADFFB00BC85F8 = {
 			isa = PBXGroup;
 			children = (
@@ -222,10 +335,18 @@
 				7B6BB9FB2C1AE9FE00BC85F8 /* Resource */,
 				7B9BCBA52C2AC1970082AE38 /* Base */,
 				7B6BBA0A2C1DE74E00BC85F8 /* Component */,
+				7B823D3E2C223F29009567EE /* Cell */,
 				7B0857A22C3B545E008422EA /* Database */,
+				7B6BBA1A2C1F01FF00BC85F8 /* Delegate */,
+				7B65E1B92C3EBB3600A55ACF /* Observable */,
 				7B6BB9FE2C1DD2FD00BC85F8 /* Model */,
-				7B9BCBAE2C2AC38F0082AE38 /* View */,
-				7B6BBA012C1DD35C00BC85F8 /* ViewController */,
+				7B65E1B62C3EBAA800A55ACF /* MainTabBar */,
+				7B9BCBAF2C2AC9AD0082AE38 /* Onboarding */,
+				7B9BCBB22C2AC9CD0082AE38 /* ProfileSetting */,
+				7B9BCBB12C2AC9C10082AE38 /* ProductSearch */,
+				7B9BCBB02C2AC9B90082AE38 /* AppSetting */,
+				7B65E1B52C3EBA5600A55ACF /* NVSProductDetail */,
+				7B65E1B42C3EBA5300A55ACF /* AddOrMoveBasketFolder */,
 				7B6BBA212C1F13EB00BC85F8 /* Helper */,
 				7B6BB9E92C1AE5BB00BC85F8 /* Extension */,
 				7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */,
@@ -274,25 +395,9 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		7B6BBA012C1DD35C00BC85F8 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				7B6BBA1A2C1F01FF00BC85F8 /* Delegate */,
-				7B823D452C225204009567EE /* Onboarding */,
-				7B823D462C225213009567EE /* ProfileSetup */,
-				7B823D472C22523C009567EE /* NVSSearch */,
-				7B823D482C225249009567EE /* Setting */,
-				7B6BBA242C1F221A00BC85F8 /* MainTabBarController.swift */,
-				7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */,
-				7B0857B32C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		7B6BBA0A2C1DE74E00BC85F8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				7B823D3E2C223F29009567EE /* Cell */,
 				7B6BBA0B2C1DE76D00BC85F8 /* ProfileImageView.swift */,
 				7B6BBA0D2C1DE7A800BC85F8 /* PrimaryColorRoundedButton.swift */,
 				7B6BBA172C1EA2BC00BC85F8 /* CapsuleTapActionLabel.swift */,
@@ -335,43 +440,6 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		7B823D452C225204009567EE /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		7B823D462C225213009567EE /* ProfileSetup */ = {
-			isa = PBXGroup;
-			children = (
-				7B6BBA042C1DE6CC00BC85F8 /* ProfileSetupViewController.swift */,
-				7B6BBA062C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift */,
-			);
-			path = ProfileSetup;
-			sourceTree = "<group>";
-		};
-		7B823D472C22523C009567EE /* NVSSearch */ = {
-			isa = PBXGroup;
-			children = (
-				7B6BBA082C1DE6E700BC85F8 /* NVSSearchViewController.swift */,
-				7B6BBA0F2C1DE83200BC85F8 /* NVSSearchResultViewController.swift */,
-			);
-			path = NVSSearch;
-			sourceTree = "<group>";
-		};
-		7B823D482C225249009567EE /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				7B6BBA132C1DE86900BC85F8 /* SettingViewController.swift */,
-				7B0857A92C3C23F8008422EA /* NVSBasketFolderViewController.swift */,
-				7B0857AF2C3C3811008422EA /* AddBasketFolderViewController.swift */,
-				7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
 		7B9BCBA52C2AC1970082AE38 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,54 +451,43 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		7B9BCBAE2C2AC38F0082AE38 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				7B9BCBAF2C2AC9AD0082AE38 /* Onboarding */,
-				7B9BCBB22C2AC9CD0082AE38 /* ProfileSetup */,
-				7B9BCBB12C2AC9C10082AE38 /* NVSSearch */,
-				7B9BCBB02C2AC9B90082AE38 /* Setting */,
-				7B9BCBBD2C2ACE9D0082AE38 /* NVSProductDetailView.swift */,
-				7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		7B9BCBAF2C2AC9AD0082AE38 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				7B9BCBB32C2AC9F50082AE38 /* OnboardingView.swift */,
+				7B6BBA022C1DE66600BC85F8 /* OnboardingViewController.swift */,
+				7B65E1BC2C3EBE5A00A55ACF /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		7B9BCBB02C2AC9B90082AE38 /* Setting */ = {
+		7B9BCBB02C2AC9B90082AE38 /* AppSetting */ = {
 			isa = PBXGroup;
 			children = (
-				7B9BCBBF2C2ACEB40082AE38 /* SettingView.swift */,
-				7B0857AB2C3C240D008422EA /* NVSBasketFolderView.swift */,
-				7B0857B12C3C387E008422EA /* AddBasketFolderView.swift */,
-				7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */,
+				7B65E1B32C3EB9F800A55ACF /* Setting */,
+				7B65E1B22C3EB9F500A55ACF /* NVSBasketFolder */,
+				7B65E1B12C3EB9F300A55ACF /* AddBasketFolder */,
+				7B65E1B02C3EB9F000A55ACF /* NVSBasket */,
 			);
-			path = Setting;
+			path = AppSetting;
 			sourceTree = "<group>";
 		};
-		7B9BCBB12C2AC9C10082AE38 /* NVSSearch */ = {
+		7B9BCBB12C2AC9C10082AE38 /* ProductSearch */ = {
 			isa = PBXGroup;
 			children = (
-				7B9BCBB92C2ACE730082AE38 /* NVSSearchView.swift */,
-				7B9BCBBB2C2ACE8B0082AE38 /* NVSSearchResultView.swift */,
+				7B65E1AF2C3EB9D400A55ACF /* NVSSearch */,
+				7B65E1AE2C3EB9D100A55ACF /* NVSSearchResult */,
 			);
-			path = NVSSearch;
+			path = ProductSearch;
 			sourceTree = "<group>";
 		};
-		7B9BCBB22C2AC9CD0082AE38 /* ProfileSetup */ = {
+		7B9BCBB22C2AC9CD0082AE38 /* ProfileSetting */ = {
 			isa = PBXGroup;
 			children = (
-				7B9BCBB72C2ACE5F0082AE38 /* ProfileSetupView.swift */,
-				7B9BCBB52C2ACE530082AE38 /* ProfileImageSetupView.swift */,
+				7B65E1AC2C3EB91500A55ACF /* ProfileSetup */,
+				7B65E1AB2C3EB91200A55ACF /* ProfileImageSetup */,
 			);
-			path = ProfileSetup;
+			path = ProfileSetting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -521,6 +578,7 @@
 			files = (
 				7B0857B62C3CB04E008422EA /* AddOrMoveBasketFolderView.swift in Sources */,
 				7B6BBA622C20644500BC85F8 /* SettingTableViewCell.swift in Sources */,
+				7B65E1BF2C3EC2F200A55ACF /* ProfileSetupViewModel.swift in Sources */,
 				7B6BBA272C1F358B00BC85F8 /* RecentSearchTableViewCell.swift in Sources */,
 				7B0857AA2C3C23F8008422EA /* NVSBasketFolderViewController.swift in Sources */,
 				7B8BD3DA2C317C0D007A7E63 /* Resource + UserDefaultsKey.swift in Sources */,
@@ -531,6 +589,7 @@
 				7B9BCBB42C2AC9F50082AE38 /* OnboardingView.swift in Sources */,
 				7B823D442C224A12009567EE /* UILabel+.swift in Sources */,
 				7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */,
+				7B65E1BB2C3EBB5B00A55ACF /* Observable.swift in Sources */,
 				7B9BCBBC2C2ACE8B0082AE38 /* NVSSearchResultView.swift in Sources */,
 				7B8BD3DC2C317C24007A7E63 /* Resource + PFSetup.swift in Sources */,
 				7B9BCBBA2C2ACE730082AE38 /* NVSSearchView.swift in Sources */,
@@ -561,6 +620,7 @@
 				7B0857AE2C3C285D008422EA /* FolderTableViewCell.swift in Sources */,
 				7B6BB9ED2C1AE61D00BC85F8 /* UIViewController+.swift in Sources */,
 				7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */,
+				7B65E1BD2C3EBE5A00A55ACF /* OnboardingViewModel.swift in Sources */,
 				7B6BBA252C1F221A00BC85F8 /* MainTabBarController.swift in Sources */,
 				7B6BBA032C1DE66600BC85F8 /* OnboardingViewController.swift in Sources */,
 				7B8BD3CC2C314B52007A7E63 /* UIView+.swift in Sources */,

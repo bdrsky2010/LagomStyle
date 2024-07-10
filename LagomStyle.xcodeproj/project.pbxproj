@@ -50,7 +50,6 @@
 		7B6BBA292C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */; };
 		7B6BBA2C2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BBA2B2C1F3A0E00BC85F8 /* IQKeyboardManagerSwift */; };
 		7B6BBA5C2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */; };
-		7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */; };
 		7B6BBA602C20643A00BC85F8 /* SettingTableViewProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */; };
 		7B6BBA622C20644500BC85F8 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */; };
 		7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BBA632C2065DB00BC85F8 /* Date+.swift */; };
@@ -140,7 +139,6 @@
 		7B6BBA262C1F358B00BC85F8 /* RecentSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCell.swift; sourceTree = "<group>"; };
 		7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchQueryDelegate.swift; sourceTree = "<group>"; };
 		7B6BBA5B2C200B6E00BC85F8 /* SearchResultCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCollectionViewCell.swift; sourceTree = "<group>"; };
-		7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchDelegate.swift; sourceTree = "<group>"; };
 		7B6BBA5F2C20643A00BC85F8 /* SettingTableViewProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewProfileCell.swift; sourceTree = "<group>"; };
 		7B6BBA612C20644400BC85F8 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		7B6BBA632C2065DB00BC85F8 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 			children = (
 				7B6BBA1D2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift */,
 				7B6BBA282C1F366B00BC85F8 /* RecentSearchQueryDelegate.swift */,
-				7B6BBA5D2C200EC800BC85F8 /* NVSSearchDelegate.swift */,
 				7B6BBA652C206BB300BC85F8 /* SettingDelegate.swift */,
 			);
 			path = Delegate;
@@ -576,7 +573,6 @@
 				7B6BBA642C2065DB00BC85F8 /* Date+.swift in Sources */,
 				7B9BCBAD2C2AC1BA0082AE38 /* BaseCollectionViewCell.swift in Sources */,
 				7B0857B82C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift in Sources */,
-				7B6BBA5E2C200EC800BC85F8 /* NVSSearchDelegate.swift in Sources */,
 				7B0857A62C3B5789008422EA /* RealmRepository.swift in Sources */,
 				7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */,
 				7B9BCBB82C2ACE5F0082AE38 /* ProfileSetupView.swift in Sources */,

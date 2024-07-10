@@ -33,7 +33,6 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
         return imageView
     }()
     
-    private let basketForgroundView = UIView()
     private let mallNameLabel = UILabel.lightGrayRegular13()
     private let productTitleLabel: UILabel = {
         let label = UILabel()
@@ -44,24 +43,18 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
     }()
     private let priceLabel = UILabel.blackBlack16()
     
-    var row: Int?
-    var isBasket: Bool?
-    var delegate: NVSSearchDelegate?
+    let basketForegroundButtonView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureSkeleton()
     }
     
-    override func configureView() {
-        configureBasket()
-    }
-    
     override func configureHierarchy() {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(basketBackgroundView)
         basketBackgroundView.addSubview(basketImageView)
-        basketBackgroundView.addSubview(basketForgroundView)
+        basketBackgroundView.addSubview(basketForegroundButtonView)
         
         contentView.addSubview(mallNameLabel)
         contentView.addSubview(productTitleLabel)
@@ -84,7 +77,7 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
             make.horizontalEdges.verticalEdges.equalToSuperview().inset(4)
         }
         
-        basketForgroundView.snp.makeConstraints { make in
+        basketForegroundButtonView.snp.makeConstraints { make in
             make.horizontalEdges.verticalEdges.equalToSuperview().inset(4)
         }
         
@@ -104,57 +97,32 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    private func configureBasket() {
-        basketForgroundView.isUserInteractionEnabled = true
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(likeButtonTapped))
-        basketForgroundView.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc
-    private func likeButtonTapped() {
-        isBasket?.toggle()
-        changeBasketContent()
-    }
-    
     private func configureSkeleton() {
         isSkeletonable = true
         thumbnailImageView.isSkeletonable = true
         basketBackgroundView.isSkeletonable = true
         basketImageView.isSkeletonable = true
-        basketForgroundView.isSkeletonable = true
+        basketForegroundButtonView.isSkeletonable = true
         mallNameLabel.isSkeletonable = true
         productTitleLabel.isSkeletonable = true
         priceLabel.isSkeletonable = true
     }
     
-    private func configureBasketContent(isBasket: Bool) {
-        basketBackgroundView.backgroundColor = isBasket ? LagomStyle.AssetColor.lagomWhite.withAlphaComponent(1) : LagomStyle.AssetColor.lagomBlack.withAlphaComponent(0.5)
-        basketImageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)
-    }
-    
-    private func changeBasketContent() {
-        guard let isBasket, let row else { return }
-        
-        configureBasketContent(isBasket: isBasket)
-        delegate?.setLikeButtonImageToggle(row: row, isBasket: isBasket)
-    }
-    
-    func configureContent(product: CommonProduct) {
+    func configureContent(product: CommonProduct, isBasket: Bool) {
         if let url = URL(string: product.imageUrlString) {
             thumbnailImageView.configureImageWithKF(url: url)
         }
-        
-        if let isBasket {
-            configureBasketContent(isBasket: isBasket)
-        }
-        
-        mallNameLabel.text = product.mallName
-        productTitleLabel.text = product.title
-        
         if let price = Int(product.lowPrice)?.formatted() {
             priceLabel.text = price + "원"
         }
+        mallNameLabel.text = product.mallName
+        productTitleLabel.text = product.title
+        configureBasketContent(isBasket: isBasket)
+    }
+    
+    func configureBasketContent(isBasket: Bool) {
+        basketBackgroundView.backgroundColor = isBasket ? LagomStyle.AssetColor.lagomWhite.withAlphaComponent(1) : LagomStyle.AssetColor.lagomBlack.withAlphaComponent(0.5)
+        basketImageView.image = UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)
     }
     
     func highlightingWithQuery(query: String?) {

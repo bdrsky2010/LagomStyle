@@ -10,6 +10,7 @@ import UIKit
 final class OnboardingViewController: BaseViewController {
     
     private let onboardingView = OnboardingView()
+    private let onboardingViewModel = OnboardingViewModel()
     
     override func loadView() {
         view = onboardingView
@@ -17,7 +18,7 @@ final class OnboardingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        bindData()
         configureButton()
     }
     
@@ -35,15 +36,21 @@ final class OnboardingViewController: BaseViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    private func bindData() {
+        onboardingViewModel.outputProfileSetupOption.bind { [weak self] option in
+            guard let self else { return }
+            let profileSetupViewController = ProfileSetupViewController()
+            profileSetupViewController.pfSetupType = option
+            navigationController?.pushViewController(profileSetupViewController, animated: true)
+        }
+    }
+    
     private func configureButton() {
         onboardingView.startButton.addTarget(self, action: #selector(startButtonClicked), for: .touchUpInside)
     }
     
     @objc
     private func startButtonClicked() {
-        let profileSetupViewController = ProfileSetupViewController()
-        profileSetupViewController.pfSetupType = .setup
-        
-        navigationController?.pushViewController(profileSetupViewController, animated: true)
+        onboardingViewModel.inputStartButtonTrigger.value = ()
     }
 }

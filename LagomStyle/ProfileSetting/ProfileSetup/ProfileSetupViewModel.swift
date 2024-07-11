@@ -11,16 +11,23 @@ enum ValidationError: Error {
     case numberOfCharacter
     case specialCharacter
     case includeNumbers
+    
+    var warningPhrase: String {
+        switch self {
+        case .numberOfCharacter:
+            return "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
+        case .specialCharacter:
+            return "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
+        case .includeNumbers:
+            return "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
+        }
+    }
 }
 
 final class ProfileSetupViewModel {
-    private let totalFolderName = "전체"
-    private let totalFolderOption = "장바구니 전체 목록 (*삭제불가)"
-    private let etcFolderName = "그 외"
-    private let etcFolderOption = "나머지 (*삭제불가)"
-    private let realmRepository = RealmRepository()
+    private let realmRepository: RealmRepository
     
-    private(set) var outputIsCompleteButtonHidden: Observable<Bool?> = Observable(nil)
+    private(set) var outputIsEditOption: Observable<(isHidden: Bool, nickname: String)?> = Observable(nil)
     private(set) var outputSelectedImage = Observable("")
     private(set) var outputTrimmedText: Observable<String> = Observable("")
     private(set) var outputIsValidNickname = Observable(false)
@@ -37,6 +44,11 @@ final class ProfileSetupViewModel {
     var inputSaveDatabaseTrigger: Observable<LagomStyle.PFSetupOption?> = Observable(nil)
     
     init() {
+        self.realmRepository = RealmRepository()
+        bindData()
+    }
+    
+    private func bindData() {
         inputViewDidLoadTrigger.bind { [weak self] pfSetupType in
             guard let self, let pfSetupType else { return }
             switch pfSetupType {
@@ -46,8 +58,8 @@ final class ProfileSetupViewModel {
                 if let user = realmRepository.fetchItem(of: UserTable.self).first {
                     inputSelectedImageIndex.value = user.proflieImageIndex
                     inputNickname.value = user.nickname
+                    outputIsEditOption.value = (true, user.nickname)
                 }
-                outputIsCompleteButtonHidden.value = true
             }
         }
         
@@ -124,13 +136,13 @@ final class ProfileSetupViewModel {
         realmRepository.createItem(user)
         
         let totalFolder = Folder()
-        totalFolder.name = totalFolderName
-        totalFolder.option = totalFolderOption
+        totalFolder.name = "전체"
+        totalFolder.option = "장바구니 전체 목록 (*삭제불가)"
         realmRepository.createItem(totalFolder)
         
         let etcFolder = Folder()
-        etcFolder.name = etcFolderName
-        etcFolder.option = etcFolderOption
+        etcFolder.name = "그 외"
+        etcFolder.option = "나머지 (*삭제불가)"
         realmRepository.createItem(etcFolder)
         
         realmRepository.printDatebaseURL()

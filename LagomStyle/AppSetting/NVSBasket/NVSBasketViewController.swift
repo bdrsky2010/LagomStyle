@@ -148,8 +148,8 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
                                lowPrice: oldBasket.lowPrice,
                                webUrlString: oldBasket.webUrlString,
                                imageUrlString: oldBasket.imageUrlString)
-        realmRepository.deleteItem(oldBasket)
         // 1. 담겨있는 폴더와 같은 폴더를 받아왔는지?
+        realmRepository.deleteItem(oldBasket)
         if oldFolder.id == newFolder.id {
             // 2. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
             return

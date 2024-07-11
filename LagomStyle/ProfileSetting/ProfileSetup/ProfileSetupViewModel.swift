@@ -27,21 +27,21 @@ enum ValidationError: Error {
 final class ProfileSetupViewModel {
     private let realmRepository: RealmRepository
     
-    private(set) var outputIsEditOption: Observable<(isHidden: Bool, nickname: String)?> = Observable(nil)
-    private(set) var outputSelectedImage = Observable("")
-    private(set) var outputTrimmedText: Observable<String> = Observable("")
-    private(set) var outputIsValidNickname = Observable(false)
-    private(set) var outputValidError: Observable<ValidationError?> = Observable(nil)
-    private(set) var outputPushNavigationTrigger: Observable<Int?> = Observable(nil)
-    private(set) var outputChangeRootViewTrigger: Observable<Void?> = Observable(nil)
-    private(set) var outputPopViewTrigger: Observable<Void?> = Observable(nil)
-    
     var inputViewDidLoadTrigger: Observable<LagomStyle.PFSetupOption?> = Observable(nil)
     var inputSelectedImageIndex = Observable(0)
-    var inputDidChangeText: Observable<String> = Observable("")
+    var inputChangeText: Observable<String> = Observable("")
     var inputNickname: Observable<String> = Observable("")
     var inputImageTapTrigger: Observable<Void?> = Observable(nil)
     var inputSaveDatabaseTrigger: Observable<LagomStyle.PFSetupOption?> = Observable(nil)
+    
+    private(set) var outputDidCheckIsEditOption: Observable<(isHidden: Bool, nickname: String)?> = Observable(nil)
+    private(set) var outputDidSelectedImage = Observable("")
+    private(set) var outputDidTrimmedText: Observable<String> = Observable("")
+    private(set) var outputDidCheckIsValidNickname = Observable(false)
+    private(set) var outputDidSendValidError: Observable<ValidationError?> = Observable(nil)
+    private(set) var outputDidPushNavigationTrigger: Observable<Int?> = Observable(nil)
+    private(set) var outputDidChangeRootViewTrigger: Observable<Void?> = Observable(nil)
+    private(set) var outputDidPopViewTrigger: Observable<Void?> = Observable(nil)
     
     init() {
         self.realmRepository = RealmRepository()
@@ -58,19 +58,19 @@ final class ProfileSetupViewModel {
                 if let user = realmRepository.fetchItem(of: UserTable.self).first {
                     inputSelectedImageIndex.value = user.proflieImageIndex
                     inputNickname.value = user.nickname
-                    outputIsEditOption.value = (true, user.nickname)
+                    outputDidCheckIsEditOption.value = (true, user.nickname)
                 }
             }
         }
         
         inputSelectedImageIndex.bind { [weak self] selectedIndex in
             guard let self else { return }
-            outputSelectedImage.value = LagomStyle.AssetImage.profile(index: selectedIndex).imageName
+            outputDidSelectedImage.value = LagomStyle.AssetImage.profile(index: selectedIndex).imageName
         }
         
-        inputDidChangeText.bind { [weak self] text in
+        inputChangeText.bind { [weak self] text in
             guard let self else { return }
-            outputTrimmedText.value = text.filter { $0 != " " }
+            outputDidTrimmedText.value = text.filter { $0 != " " }
         }
         
         inputNickname.bind { [weak self] nickname in
@@ -80,7 +80,7 @@ final class ProfileSetupViewModel {
         
         inputImageTapTrigger.bind { [weak self] _ in
             guard let self else { return }
-            outputPushNavigationTrigger.value = inputSelectedImageIndex.value
+            outputDidPushNavigationTrigger.value = inputSelectedImageIndex.value
         }
         
         inputSaveDatabaseTrigger.bind { [weak self] pfSetupType in
@@ -100,9 +100,9 @@ final class ProfileSetupViewModel {
         validateNickname(nickname) { result in
             switch result {
             case .success(let isValid):
-                outputIsValidNickname.value = isValid
+                outputDidCheckIsValidNickname.value = isValid
             case .failure(let error):
-                outputValidError.value = error
+                outputDidSendValidError.value = error
             }
         }
     }
@@ -147,7 +147,7 @@ final class ProfileSetupViewModel {
         
         realmRepository.printDatebaseURL()
         
-        outputChangeRootViewTrigger.value = ()
+        outputDidChangeRootViewTrigger.value = ()
     }
     
     private func updateDatabase() {
@@ -159,6 +159,6 @@ final class ProfileSetupViewModel {
             ]
             realmRepository.updateItem(of: UserTable.self, value: value)
         }
-        outputPopViewTrigger.value = ()
+        outputDidPopViewTrigger.value = ()
     }
 }

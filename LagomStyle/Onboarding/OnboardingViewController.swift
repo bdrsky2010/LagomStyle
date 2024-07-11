@@ -10,11 +10,11 @@ import UIKit
 final class OnboardingViewController: BaseViewController {
     
     private let onboardingView: OnboardingView
-    private let onboardingViewModel: OnboardingViewModel
+    private let viewModel: OnboardingViewModel
     
     override init() {
         self.onboardingView = OnboardingView()
-        self.onboardingViewModel = OnboardingViewModel()
+        self.viewModel = OnboardingViewModel()
         super.init()
     }
     
@@ -43,7 +43,7 @@ final class OnboardingViewController: BaseViewController {
     }
     
     private func bindData() {
-        onboardingViewModel.outputProfileSetupOption.bind { [weak self] option in
+        viewModel.outputDidSendPfSetupOption.bind { [weak self] option in
             guard let self, let option else { return }
             let profileSetupViewController = ProfileSetupViewController(pfSetupOption: option)
             navigationController?.pushViewController(profileSetupViewController, animated: true)
@@ -56,6 +56,6 @@ final class OnboardingViewController: BaseViewController {
     
     @objc
     private func startButtonClicked() {
-        onboardingViewModel.inputStartButtonTrigger.value = ()
+        viewModel.inputStartButtonTrigger.value = ()
     }
 }

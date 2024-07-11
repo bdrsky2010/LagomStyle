@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol PFImageSetupDelegate {
+protocol PFImageSetupDelegate: AnyObject {
     func setupPFImage(selectedIndex: Int)
 }

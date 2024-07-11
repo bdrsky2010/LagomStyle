@@ -10,16 +10,15 @@ import UIKit
 import SnapKit
 
 final class ProfileImageSetupViewController: BaseViewController {
-    private let profileImageSetupView = ProfileImageSetupView()
-    private let profileImageSetupViewModel = ProfileImageSetupViewModel()
+    private let profileImageSetupView: ProfileImageSetupView
+    private let viewModel: ProfileImageSetupViewModel
     private let pfImageSetupOption: LagomStyle.PFSetupOption
     
-    var selectedImageIndex: Int?
+    weak var delegate: PFImageSetupDelegate?
     
-    var delegate: PFImageSetupDelegate?
-    
-    init(pfImageSetupOption: LagomStyle.PFSetupOption) {
-        print("ProfileImageSetupViewController")
+    init(pfImageSetupOption: LagomStyle.PFSetupOption, selectedImageIndex: Int) {
+        self.profileImageSetupView = ProfileImageSetupView()
+        self.viewModel = ProfileImageSetupViewModel(selectedImageIndex: selectedImageIndex)
         self.pfImageSetupOption = pfImageSetupOption
         super.init()
     }
@@ -30,27 +29,30 @@ final class ProfileImageSetupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureNavigation()
-        configureContent()
-        configureCollectionView()
+        bindData()
+        viewModel.inputViewDidLoadTrigger.value = ()
     }
     
     override func configureView() {
         super.configureView()
     }
     
-    override func configureNavigation() {
-        navigationItem.title = pfImageSetupOption.title
+    private func bindData() {
+        viewModel.outputDidConfigureProfileImage.bind { [weak self] index in
+            guard let self, let index else { return }
+            let image = LagomStyle.AssetImage.profile(index: index).imageName
+            profileImageSetupView.profileImage.configureContent(image: image)
+            
+            navigationItem.title = pfImageSetupOption.title
+            configureNavigationBackButton()
+            configureCollectionView()
+        }
         
-        configureNavigationBackButton()
-    }
-    
-    private func configureContent() {
-        guard let selectedImageIndex else { return }
-        
-        let image = LagomStyle.AssetImage.profile(index: selectedImageIndex).imageName
-        profileImageSetupView.profileImage.configureContent(image: image)
+        viewModel.outputDidSelectedImageIndex.bind { [weak self] index in
+            guard let self, let index else { return }
+            profileImageSetupView.profileImage.configureContent(image: LagomStyle.AssetImage.profile(index: index).imageName)
+            delegate?.setupPFImage(selectedIndex: index)
+        }
     }
     
     private func configureCollectionView() {
@@ -66,22 +68,15 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.row
+        guard let selectedImageIndex = viewModel.inputSelectedImageIndex.value, index != selectedImageIndex else { return }
         
-        guard index != selectedImageIndex else { return }
-        
-        if let selectedImageIndex, let originSelectedCell = collectionView.cellForItem(at: IndexPath(row: selectedImageIndex, section: 0)) as? ImageCollectionViewCell {
+        if let originSelectedCell = collectionView.cellForItem(at: IndexPath(row: selectedImageIndex, section: 0)) as? ImageCollectionViewCell {
             originSelectedCell.changeContentStatus(imageSelectType: .unselect)
         }
         
         if let newSelectedCell = collectionView.cellForItem(at: IndexPath(row: index, section: 0)) as? ImageCollectionViewCell {
             newSelectedCell.changeContentStatus(imageSelectType: .select)
-            profileImageSetupView.profileImage.configureContent(image: LagomStyle.AssetImage.profile(index: index).imageName)
-            
-            selectedImageIndex = index
-            
-            if let selectedImageIndex {
-                delegate?.setupPFImage(selectedIndex: selectedImageIndex)
-            }
+            viewModel.inputSelectedImageIndex.value = index
         }
     }
     
@@ -90,19 +85,14 @@ extension ProfileImageSetupViewController: UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as? ImageCollectionViewCell else {  return UICollectionViewCell() }
-        
-        let index = indexPath.row
-        
-        let image = LagomStyle.AssetImage.profile(index: index).imageName
-        
-        if let selectedImageIndex, selectedImageIndex == index {
-            cell.configureContent(image: image, imageSelectType: .select)
-            
-        } else {
-            cell.configureContent(image: image, imageSelectType: .unselect)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.identifier, for: indexPath) as? ImageCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        
+        let index = indexPath.row
+        let image = LagomStyle.AssetImage.profile(index: index).imageName
+        if let selectedImageIndex = viewModel.inputSelectedImageIndex.value {
+            cell.configureContent(image: image, imageSelectType: selectedImageIndex == index ? .select : .unselect)
+        }
         return cell
     }
 }

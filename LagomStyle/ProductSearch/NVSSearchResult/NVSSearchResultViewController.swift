@@ -181,33 +181,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         nvsProductDetailViewController.row = index
         nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
             guard let self else { return }
-            guard let product = searchResult?.products[row] else { return }
-            let newBasket = Basket(id: product.productID,
-                                name: product.title,
-                                mallName: product.mallName,
-                                lowPrice: product.lowPrice,
-                                webUrlString: product.urlString,
-                                imageUrlString: product.imageUrlString)
-            // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
-            if isBasket, let oldFolder {
-                for basket in basketList {
-                    if basket.id == product.productID {
-                        realmRepository.deleteItem(basket)
-                        break
-                    }
-                }
-                // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
-                if oldFolder.id == newFolder.id {
-                    // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
-                    return
-                } else {
-                    // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
-                    realmRepository.createItem(newBasket, folder: newFolder)
-                }
-            } else {
-                // 5. 담겨있지않다면 받아온 폴더에 담아주기
-                realmRepository.createItem(newBasket, folder: newFolder)
-            }
+            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
             nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
         }
         
@@ -243,36 +217,62 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         guard let row = sender.view?.tag else { return }
         guard let product = searchResult?.products[row] else { return }
         
-        let isBasket = !isProductExistOnBasket(product)
-        saveBasketData(row: row, isBasket: isBasket)
-        
-        if let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? SearchResultCollectionViewCell {
-            cell.configureBasketContent(isBasket: isBasket)
+        let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
+        addOrMoveBasketFolderViewController.productID = product.productID
+        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
+            guard let self else { return }
+            var isBasket = false
+            var oldFolder: Folder?
+            let basketList = realmRepository.fetchItem(of: Basket.self)
+            for basket in basketList {
+                if basket.id == product.productID {
+                    isBasket = true
+                    oldFolder = basket.folder.first
+                    break
+                }
+            }
+            if let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? SearchResultCollectionViewCell {
+                if let oldFolder {
+                    cell.configureBasketContent(isBasket: oldFolder.id != newFolder.id)
+                } else {
+                    cell.configureBasketContent(isBasket: true)
+                }
+            }
+            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
         }
+        let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
+        present(navigationController, animated: true)
     }
     
-    private func saveBasketData(row: Int, isBasket: Bool) {
+    private func saveBasketData(row: Int, isBasket: Bool, oldFolder: Folder?, newFolder: Folder) {
         guard let product = searchResult?.products[row] else { return }
-        if isBasket {
-            let folder = realmRepository.fetchItem(of: Folder.self)
-            if folder.count > 2 {
-                let etcFolder = folder[1]
-                let newBasket = Basket(id: product.productID,
-                                    name: product.title,
-                                    mallName: product.mallName,
-                                    lowPrice: product.lowPrice,
-                                    webUrlString: product.urlString,
-                                    imageUrlString: product.imageUrlString)
-                realmRepository.createItem(newBasket, folder: etcFolder)
-            }
-        } else {
+        let newBasket = Basket(id: product.productID,
+                            name: product.title,
+                            mallName: product.mallName,
+                            lowPrice: product.lowPrice,
+                            webUrlString: product.urlString,
+                            imageUrlString: product.imageUrlString)
+        // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
+        if isBasket, let oldFolder {
             for basket in basketList {
                 if basket.id == product.productID {
                     realmRepository.deleteItem(basket)
                     break
                 }
             }
+            // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
+            if oldFolder.id == newFolder.id {
+                // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
+                return
+            } else {
+                // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
+                realmRepository.createItem(newBasket, folder: newFolder)
+            }
+        } else {
+            // 5. 담겨있지않다면 받아온 폴더에 담아주기
+            realmRepository.createItem(newBasket, folder: newFolder)
         }
+        nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
     }
 }
 

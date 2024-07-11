@@ -79,9 +79,9 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
         let folder = folder[indexPath.row]
         let nvsBasketViewController = NVSBasketViewController()
         nvsBasketViewController.folder = folder
-        nvsBasketViewController.onDeleteBasket = { [weak self] in
+        nvsBasketViewController.onChangeFolder = { [weak self] in
             guard let self else { return }
-            nvsBasketFolderView.folderTableView.reloadRows(at: [indexPath], with: .automatic)
+            nvsBasketFolderView.folderTableView.reloadData()
         }
         navigationController?.pushViewController(nvsBasketViewController, animated: true)
         nvsBasketFolderView.folderTableView.reloadRows(at: [indexPath], with: .automatic)

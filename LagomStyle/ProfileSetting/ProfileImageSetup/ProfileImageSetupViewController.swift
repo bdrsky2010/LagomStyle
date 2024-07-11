@@ -11,10 +11,18 @@ import SnapKit
 
 final class ProfileImageSetupViewController: BaseViewController {
     private let profileImageSetupView = ProfileImageSetupView()
+    private let profileImageSetupViewModel = ProfileImageSetupViewModel()
+    private let pfImageSetupOption: LagomStyle.PFSetupOption
     
     var selectedImageIndex: Int?
-    var pfImageSetupType: LagomStyle.PFSetupOption?
+    
     var delegate: PFImageSetupDelegate?
+    
+    init(pfImageSetupOption: LagomStyle.PFSetupOption) {
+        print("ProfileImageSetupViewController")
+        self.pfImageSetupOption = pfImageSetupOption
+        super.init()
+    }
     
     override func loadView() {
         view = profileImageSetupView
@@ -33,8 +41,7 @@ final class ProfileImageSetupViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        guard let setupType = pfImageSetupType else { return }
-        navigationItem.title = setupType.title
+        navigationItem.title = pfImageSetupOption.title
         
         configureNavigationBackButton()
     }

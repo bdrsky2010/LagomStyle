@@ -11,10 +11,16 @@ import SnapKit
 
 final class ProfileSetupViewController: BaseViewController {
     
-    private let profileSetupView = ProfileSetupView()
-    private let profileSetupViewModel = ProfileSetupViewModel()
+    private let profileSetupView: ProfileSetupView
+    private let profileSetupViewModel: ProfileSetupViewModel
+    private let pfSetupOption: LagomStyle.PFSetupOption
     
-    var pfSetupType: LagomStyle.PFSetupOption?
+    init(pfSetupOption: LagomStyle.PFSetupOption) {
+        self.profileSetupView = ProfileSetupView()
+        self.profileSetupViewModel = ProfileSetupViewModel()
+        self.pfSetupOption = pfSetupOption
+        super.init()
+    }
     
     override func loadView() {
         view = profileSetupView
@@ -34,12 +40,10 @@ final class ProfileSetupViewController: BaseViewController {
     }
     
     override func configureNavigation() {
-        guard let setupType = pfSetupType else { return }
-        
         navigationController?.navigationBar.isHidden = false
-        navigationItem.title = setupType.title
+        navigationItem.title = pfSetupOption.title
         
-        if setupType == .edit {
+        if pfSetupOption == .edit {
             let rightBarButtonItem = UIBarButtonItem(title: "저장",
                                                      style: .plain,
                                                      target: self,
@@ -52,13 +56,14 @@ final class ProfileSetupViewController: BaseViewController {
     
     @objc
     private func saveButtonClicked() {
-        profileSetupViewModel.inputSaveDatabaseTrigger.value = pfSetupType
+        profileSetupViewModel.inputSaveDatabaseTrigger.value = pfSetupOption
     }
     
     private func bindData() {
-        profileSetupViewModel.outputIsCompleteButtonHidden.bind { [weak self] isHidden in
-            guard let self ,let isHidden else { return }
-            profileSetupView.completeButton.isHidden = isHidden
+        profileSetupViewModel.outputIsEditOption.bind { [weak self] tuple in
+            guard let self ,let tuple else { return }
+            profileSetupView.completeButton.isHidden = tuple.isHidden
+            profileSetupView.nicknameTextField.text = tuple.nickname
         }
         
         profileSetupViewModel.outputSelectedImage.bind { [weak self] image in
@@ -72,8 +77,8 @@ final class ProfileSetupViewController: BaseViewController {
         }
         
         profileSetupViewModel.outputIsValidNickname.bind { [weak self] isValidNickname in
-            guard let self, let pfSetupType else { return }
-            switch pfSetupType {
+            guard let self else { return }
+            switch pfSetupOption {
             case .edit:
                 navigationItem.rightBarButtonItem?.isEnabled = isValidNickname
             case .setup:
@@ -89,22 +94,12 @@ final class ProfileSetupViewController: BaseViewController {
         profileSetupViewModel.outputValidError.bind { [weak self] error in
             guard let self else { return }
             profileSetupView.warningLabel.textColor = LagomStyle.AssetColor.lagomPrimaryColor
-            switch error {
-            case .numberOfCharacter:
-                profileSetupView.warningLabel.text = LagomStyle.Phrase.numberOfCharacterX
-            case .specialCharacter:
-                profileSetupView.warningLabel.text = LagomStyle.Phrase.specialCharacterX
-            case .includeNumbers:
-                profileSetupView.warningLabel.text = LagomStyle.Phrase.includeNumbers
-            case nil:
-                return
-            }
+            profileSetupView.warningLabel.text = error?.warningPhrase
         }
         
         profileSetupViewModel.outputPushNavigationTrigger.bind { [weak self] imageIndex in
             guard let self else { return }
-            let profileImageSetupViewController = ProfileImageSetupViewController()
-            profileImageSetupViewController.pfImageSetupType = pfSetupType
+            let profileImageSetupViewController = ProfileImageSetupViewController(pfImageSetupOption: pfSetupOption)
             profileImageSetupViewController.selectedImageIndex = imageIndex
             profileImageSetupViewController.delegate = self
             navigationController?.pushViewController(profileImageSetupViewController, animated: true)
@@ -123,7 +118,7 @@ final class ProfileSetupViewController: BaseViewController {
     }
     
     func configureContent() {
-        profileSetupViewModel.inputViewDidLoadTrigger.value = pfSetupType
+        profileSetupViewModel.inputViewDidLoadTrigger.value = pfSetupOption
     }
     
     private func configureTextField() {
@@ -145,7 +140,7 @@ final class ProfileSetupViewController: BaseViewController {
     
     @objc
     private func completeButtonClicked() {
-        profileSetupViewModel.inputSaveDatabaseTrigger.value = pfSetupType
+        profileSetupViewModel.inputSaveDatabaseTrigger.value = pfSetupOption
     }
     
     @objc

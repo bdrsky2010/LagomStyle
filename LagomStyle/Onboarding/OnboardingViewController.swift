@@ -9,8 +9,14 @@ import UIKit
 
 final class OnboardingViewController: BaseViewController {
     
-    private let onboardingView = OnboardingView()
-    private let onboardingViewModel = OnboardingViewModel()
+    private let onboardingView: OnboardingView
+    private let onboardingViewModel: OnboardingViewModel
+    
+    override init() {
+        self.onboardingView = OnboardingView()
+        self.onboardingViewModel = OnboardingViewModel()
+        super.init()
+    }
     
     override func loadView() {
         view = onboardingView
@@ -38,9 +44,8 @@ final class OnboardingViewController: BaseViewController {
     
     private func bindData() {
         onboardingViewModel.outputProfileSetupOption.bind { [weak self] option in
-            guard let self else { return }
-            let profileSetupViewController = ProfileSetupViewController()
-            profileSetupViewController.pfSetupType = option
+            guard let self, let option else { return }
+            let profileSetupViewController = ProfileSetupViewController(pfSetupOption: option)
             navigationController?.pushViewController(profileSetupViewController, animated: true)
         }
     }

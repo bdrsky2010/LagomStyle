@@ -80,7 +80,7 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
         nvsProductDetailViewController.row = index
         nvsProductDetailViewController.isBasket = true
         nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
-            guard let self else { return }
+            guard let self, let oldFolder else { return }
             saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
             self.onChangeFolder?()
         }
@@ -126,16 +126,16 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
                     break
                 }
             }
-            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
-            self.onChangeFolder?()
+            if let oldFolder {
+                saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
+                self.onChangeFolder?()
+            }
         }
         let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
         present(navigationController, animated: true)
     }
     
-    private func saveBasketData(row: Int, isBasket: Bool, oldFolder: Folder?, newFolder: Folder) {
-        // TODO: 여기 뷰는 어차피 장바구니에 담겨있는 데이터만 가져오기 때문에 담겨있는 상태인지에 대한 판단이 필요없음
-        // TODO: 해당 조건에 대한 로직 지워줄 것
+    private func saveBasketData(row: Int, isBasket: Bool, oldFolder: Folder, newFolder: Folder) {
         defer {
             nvsBasketView.nvsBasketCollectionView.reloadData()
         }
@@ -148,25 +148,13 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
                                lowPrice: oldBasket.lowPrice,
                                webUrlString: oldBasket.webUrlString,
                                imageUrlString: oldBasket.imageUrlString)
-        // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
-        let basketList = realmRepository.fetchItem(of: Basket.self)
-        if isBasket, let oldFolder {
-            for basket in basketList {
-                if basket.id == oldBasket.id {
-                    realmRepository.deleteItem(basket)
-                    break
-                }
-            }
-            // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
-            if oldFolder.id == newFolder.id {
-                // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
-                return
-            } else {
-                // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
-                realmRepository.createItem(newBasket, folder: newFolder)
-            }
+        realmRepository.deleteItem(oldBasket)
+        // 1. 담겨있는 폴더와 같은 폴더를 받아왔는지?
+        if oldFolder.id == newFolder.id {
+            // 2. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
+            return
         } else {
-            // 5. 담겨있지않다면 받아온 폴더에 담아주기
+            // 3. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
             realmRepository.createItem(newBasket, folder: newFolder)
         }
     }

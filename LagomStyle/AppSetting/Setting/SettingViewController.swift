@@ -44,8 +44,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         let index = indexPath.row
         
         if index == 0 {
-            let profileSetupViewController = ProfileSetupViewController()
-            profileSetupViewController.pfSetupType = .edit
+            let profileSetupViewController = ProfileSetupViewController(pfSetupOption: .edit)
             navigationController?.pushViewController(profileSetupViewController, animated: true)
         }
         if index == 1 {

@@ -12,30 +12,13 @@ import SnapKit
 
 final class NVSSearchViewController: BaseViewController {
     
-    private let nvsSearchView = NVSSearchView()
-    private let realmRepository = RealmRepository()
-    
-    private var recentSearchKeyword = Map<String, Date>()
-    private var recentSearchQueriesArray: [String] {
-        get {
-            guard recentSearchKeyword.count != 0 else {
-                nvsSearchView.recentSearchTableViewTitleLabel.isHidden = true
-                nvsSearchView.removeAllQueriesButton.isHidden = true
-                nvsSearchView.recentSearchTableView.isHidden = true
-                nvsSearchView.emptyView.isHidden = false
-                return []
-            }
-            nvsSearchView.recentSearchTableViewTitleLabel.isHidden = false
-            nvsSearchView.removeAllQueriesButton.isHidden = false
-            nvsSearchView.recentSearchTableView.isHidden = false
-            nvsSearchView.emptyView.isHidden = true
-            return recentSearchKeyword.sorted(by: { $0.value > $1.value }).map { $0.key }
-        }
-    }
+    private let nvsSearchView: NVSSearchView
+    private let viewModel: NVSSearchViewModel
     
     override init() {
+        self.nvsSearchView = NVSSearchView()
+        self.viewModel = NVSSearchViewModel()
         super.init()
-        
     }
     
     override func loadView() {
@@ -44,25 +27,43 @@ final class NVSSearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureRecentSearch()
-        configureTextField()
-        configutrRemoveAllButton()
-        configureTableView()
+        bindData()
+        viewModel.inputViewDidLoadTrigger.value = ()
+        viewModel.inputTableViewReloadTrigger.value = ()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNavigation()
+        viewModel.inputViewWillAppearTrigger.value = ()
     }
     
-    override func configureNavigation() {
-        guard let nickname = realmRepository.fetchItem(of: UserTable.self).first?.nickname else { return }
-        navigationItem.title = nickname + LagomStyle.Phrase.searchViewNavigationTitle
-    }
-    
-    private func configureRecentSearch() {
-        if let user = realmRepository.fetchItem(of: UserTable.self).first {
-            recentSearchKeyword = user.recentSearchKeyword
+    private func bindData() {
+        viewModel.outputDidConfigureViewTrigger.bind { [weak self] _ in
+            guard let self else { return }
+            configureTextField()
+            configutrRemoveAllButton()
+            configureTableView()
+        }
+        
+        viewModel.outputDidChangeNavigationTitle.bind { [weak self] title in
+            guard let self else { return }
+            navigationItem.title = title
+        }
+        
+        viewModel.outputDidChangeRecentSearchList.bind { [weak self] list in
+            guard let self else { return }
+            let isHidden = list.isEmpty
+            nvsSearchView.recentSearchTableViewTitleLabel.isHidden = isHidden
+            nvsSearchView.removeAllQueriesButton.isHidden = isHidden
+            nvsSearchView.recentSearchTableView.isHidden = isHidden
+            nvsSearchView.emptyView.isHidden = !isHidden
+            if !isHidden { nvsSearchView.recentSearchTableView.reloadData() }
+        }
+        
+        viewModel.outputDidPushSearchResultViewTrigger.bind { [weak self] query in
+            guard let self else { return }
+            let nvsSearchResultViewController = NVSSearchResultViewController(query: query)
+            navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         }
     }
     
@@ -76,10 +77,8 @@ final class NVSSearchViewController: BaseViewController {
     
     @objc
     private func removeAllButtonClicked() {
-        realmRepository.updateItem {
-            recentSearchKeyword.removeAll()
-        }
-        nvsSearchView.recentSearchTableView.reloadData()
+        viewModel.inputClickedRemoveAllButton.value = ()
+        viewModel.inputTableViewReloadTrigger.value = ()
     }
     
     private func configureTableView() {
@@ -95,27 +94,19 @@ extension NVSSearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let text = textField.text else { return true }
-        
-        let nvsSearchResultViewController = NVSSearchResultViewController()
-        nvsSearchResultViewController.query = text
-        
-        navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
-        realmRepository.updateItem {
-            recentSearchKeyword.setValue(Date(), forKey: text)
-        }
-        nvsSearchView.recentSearchTableView.reloadData()
-        
+        viewModel.inputTextFieldShouldReturn.value = text
+        viewModel.inputTableViewReloadTrigger.value = ()
+        viewModel.inputPushSearchResultViewTrigger.value = text
         textField.text = nil
         return true
     }
 }
 
-extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, RecentSearchQueryDelegate {
+extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let nvsSearchResultViewController = NVSSearchResultViewController()
-        nvsSearchResultViewController.query = recentSearchQueriesArray[indexPath.row]
+        let query = viewModel.outputDidChangeRecentSearchList.value[indexPath.row]
+        let nvsSearchResultViewController = NVSSearchResultViewController(query: query)
         
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
@@ -123,24 +114,25 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource, R
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recentSearchQueriesArray.count
+        return viewModel.outputDidChangeRecentSearchList.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchTableViewCell.identifier, for: indexPath) as? RecentSearchTableViewCell else { return UITableViewCell() }
         
         let row = indexPath.row
+        let query = viewModel.outputDidChangeRecentSearchList.value[row]
         
-        cell.row = row
-        cell.configureContent(query: recentSearchQueriesArray[row])
-        cell.delegate = self
+        cell.configureContent(query: query)
+        cell.removeButton.tag = row
+        cell.removeButton.addTarget(self, action: #selector(removeButtonClicked), for: .touchUpInside)
         return cell
     }
     
-    func removeQuery(row: Int) {
-        realmRepository.updateItem {
-            recentSearchKeyword.removeObject(for: recentSearchQueriesArray[row])
-        }
-        nvsSearchView.recentSearchTableView.reloadData()
+    @objc
+    private func removeButtonClicked(sender: UIButton) {
+        let index = sender.tag
+        viewModel.inputClickedRemoveButton.value = index
+        viewModel.inputTableViewReloadTrigger.value = ()
     }
 }

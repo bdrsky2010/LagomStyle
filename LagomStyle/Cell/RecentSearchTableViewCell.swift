@@ -19,7 +19,7 @@ class RecentSearchTableViewCell: BaseTableViewCell {
     
     private let queryLabel = UILabel.blackRegular13()
     
-    private let removeButton: UIButton = {
+    let removeButton: UIButton = {
         let button = UIButton(type: .system)
         button.configuration = .plain()
         button.configuration?.image = UIImage(systemName: LagomStyle.SystemImage.xmark)
@@ -27,15 +27,8 @@ class RecentSearchTableViewCell: BaseTableViewCell {
         return button
     }()
     
-    var row: Int?
-    var delegate: RecentSearchQueryDelegate?
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    override func configureView() {
-        configureButton()
     }
     
     override func configureHierarchy() {
@@ -62,16 +55,6 @@ class RecentSearchTableViewCell: BaseTableViewCell {
             make.trailing.equalTo(removeButton.snp.leading).offset(-16)
             make.centerY.equalToSuperview()
         }
-    }
-    
-    private func configureButton() {
-        removeButton.addTarget(self, action: #selector(removeButtonClicked), for: .touchUpInside)
-    }
-    
-    @objc
-    private func removeButtonClicked() {
-        guard let row else { return }
-        delegate?.removeQuery(row: row)
     }
     
     func configureContent(query: String) {

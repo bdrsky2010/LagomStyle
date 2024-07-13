@@ -21,6 +21,7 @@ final class NVSSearchResultView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        emptyView.isHidden = true
     }
     
     override func configureView() {

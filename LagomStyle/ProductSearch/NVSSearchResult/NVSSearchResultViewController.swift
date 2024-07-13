@@ -14,9 +14,10 @@ import SnapKit
 
 final class NVSSearchResultViewController: BaseViewController {
     
-    private let nvsSearchResultView = NVSSearchResultView()
+    private let nvsSearchResultView: NVSSearchResultView
+    private let viewModel: NVSSearchResultViewModel
+    private let query: String
     private let realmRepository = RealmRepository()
-    
     private let searchDisplayCount = 30
     private let nvsSortTypeList = NVSSSort.allCases
     
@@ -26,17 +27,36 @@ final class NVSSearchResultViewController: BaseViewController {
     private var nvssIsPagingEnd = false
     private var basketList: Results<Basket>!
     
-    var query: String?
-    
     override func loadView() {
         view = nvsSearchResultView
     }
     
+    init(query: String) {
+        self.nvsSearchResultView = NVSSearchResultView()
+        self.viewModel = NVSSearchResultViewModel()
+        self.query = query
+        super.init()
+        bindData()
+        viewModel.inputReceiveQueryString.value = query
+    }
+    
+    private func bindData() {
+        viewModel.outputDidSetNavigationTitle.bind { [weak self] title in
+            guard let self else { return }
+            navigationItem.title = title
+            configureNavigationBackButton()
+        }
+        
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let query {
-            requestNVSSearchAPI(query: query)
-        }
+        viewModel.inputViewDidLoadTrigger.value = ()
+        requestNVSSearchAPI(query: query)
         configureFolder()
         configureCollectionView()
         
@@ -47,15 +67,6 @@ final class NVSSearchResultViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nvsSearchResultView.searchResultCollectionView.reloadData()
-    }
-    
-    override func configureView() {
-        nvsSearchResultView.emptyView.isHidden = true
-    }
-    
-    override func configureNavigation() {
-        navigationItem.title = query
-        configureNavigationBackButton()
     }
     
     private func configureFolder() {
@@ -77,10 +88,10 @@ final class NVSSearchResultViewController: BaseViewController {
         nvsSearchResultView.priceAscFilteringButton.isUserInteractionEnabled = true
         nvsSearchResultView.priceDscFilteringButton.isUserInteractionEnabled = true
         
-        let accuracyGesture = UITapGestureRecognizer(target: self, action: #selector(accuracyButtonClicked))
-        let dateGesture = UITapGestureRecognizer(target: self, action: #selector(dateButtonClicked))
-        let priceAscGesture = UITapGestureRecognizer(target: self, action: #selector(priceAscButtonClicked))
-        let priceDscGesture = UITapGestureRecognizer(target: self, action: #selector(priceDscButtonClicked))
+        let accuracyGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
+        let dateGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
+        let priceAscGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
+        let priceDscGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
         
         nvsSearchResultView.accuracyFilteringButton.addGestureRecognizer(accuracyGesture)
         nvsSearchResultView.dateFilteringButton.addGestureRecognizer(dateGesture)
@@ -89,32 +100,15 @@ final class NVSSearchResultViewController: BaseViewController {
     }
     
     @objc
-    private func accuracyButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(nvsSearchResultView.accuracyFilteringButton)
-    }
-    
-    @objc
-    private func dateButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(nvsSearchResultView.dateFilteringButton)
-    }
-    
-    @objc
-    private func priceAscButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(nvsSearchResultView.priceAscFilteringButton)
-    }
-    
-    @objc
-    private func priceDscButtonClicked(sender: UITapGestureRecognizer) {
-        filteringButtonClicked(nvsSearchResultView.priceDscFilteringButton)
-    }
-    
-    private func filteringButtonClicked(_ sender: CapsuleTapActionButton) {
+    private func filteringButtonClicked(sender: UITapGestureRecognizer) {
+        guard let filteringButton = sender.view as? CapsuleTapActionButton else { return }
+        
         // 컬렉션뷰 숨겨져 있으면 위로 스크롤 X
         if !nvsSearchResultView.searchResultCollectionView.isHidden {
             nvsSearchResultView.searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
-        guard selectedButtonTag != sender.tag else { return }
+        guard selectedButtonTag != filteringButton.tag else { return }
         nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
         let filteringButtonList = [
             nvsSearchResultView.accuracyFilteringButton,
@@ -123,14 +117,11 @@ final class NVSSearchResultViewController: BaseViewController {
             nvsSearchResultView.priceDscFilteringButton
         ]
         filteringButtonList[selectedButtonTag].unSelectUI()
-        sender.selectUI()
-        selectedButtonTag = sender.tag
+        filteringButton.selectUI()
+        selectedButtonTag = filteringButton.tag
         searchResult = nil
         nvssStartNumber = 1
-        
-        if let query {
-            requestNVSSearchAPI(query: query)
-        }
+        requestNVSSearchAPI(query: query)
     }
     
     private func isProductExistOnBasket(_ product: NVSProduct) -> Bool {
@@ -147,7 +138,7 @@ final class NVSSearchResultViewController: BaseViewController {
 
 extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard let query, !nvssIsPagingEnd else { return }
+        guard !nvssIsPagingEnd else { return }
         for indexPath in indexPaths {
             let row = indexPath.row
             if row == nvssStartNumber - 10 {
@@ -216,7 +207,6 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     private func basketButtonTapped(sender: UITapGestureRecognizer) {
         guard let row = sender.view?.tag else { return }
         guard let product = searchResult?.products[row] else { return }
-        
         let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
         addOrMoveBasketFolderViewController.productID = product.productID
         addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
@@ -231,6 +221,8 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
                     break
                 }
             }
+            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
+            
             if let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? SearchResultCollectionViewCell {
                 if let oldFolder {
                     cell.configureBasketContent(isBasket: oldFolder.id != newFolder.id)
@@ -238,7 +230,6 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
                     cell.configureBasketContent(isBasket: true)
                 }
             }
-            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
         }
         let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
         present(navigationController, animated: true)

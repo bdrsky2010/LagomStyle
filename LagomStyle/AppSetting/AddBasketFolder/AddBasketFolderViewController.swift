@@ -9,13 +9,16 @@ import UIKit
 
 final class AddBasketFolderViewController: BaseViewController {
     
-    private let addBasketFolderView = AddBasketFolderView()
-    private let realmRepository = RealmRepository()
-    
-    private var isTitleTextEmpty = true
-    private var isOptionTextEmpty = true
+    private let addBasketFolderView: AddBasketFolderView
+    private let viewModel: AddBasketFolderViewModel
     
     var onAddButtonClicked: (() -> Void)?
+    
+    override init() {
+        self.addBasketFolderView = AddBasketFolderView()
+        self.viewModel = AddBasketFolderViewModel()
+        super.init()
+    }
     
     override func loadView() {
         view = addBasketFolderView
@@ -23,20 +26,45 @@ final class AddBasketFolderViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureModalSize()
-        configureTextField()
-        configureAddButton()
+        bindData()
+        viewModel.inputViewDidLoad.value = ()
     }
     
-    override func configureNavigation() {
-        let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: LagomStyle.SystemImage.xmark), style: .plain, target: self, action: #selector(dismissButtonClicked))
-        navigationItem.leftBarButtonItem = leftBarButtonItem
-        navigationItem.leftBarButtonItem?.tintColor = LagomStyle.AssetColor.lagomBlack
+    private func bindData() {
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            configureModalSize()
+            configureTextField()
+            configureAddButton()
+        }
+        
+        viewModel.outputDidConfigureNavigation.bind { [weak self] image in
+            guard let self else { return }
+            let leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: image), style: .plain, target: self, action: #selector(dismissButtonClicked))
+            navigationItem.leftBarButtonItem = leftBarButtonItem
+            navigationItem.leftBarButtonItem?.tintColor = LagomStyle.AssetColor.lagomBlack
+        }
+        
+        viewModel.outputDidDismiss.bind { [weak self] _ in
+            guard let self else { return }
+            dismiss(animated: true)
+        }
+        
+        
+        viewModel.outputDidDismissWithAddFolder.bind { [weak self] _ in
+            guard let self else { return }
+            dismiss(animated: true, completion: onAddButtonClicked)
+        }
+        
+        viewModel.outputDidCheckIsEnabledAddButton.bind { [weak self] isEnabled in
+            guard let self else { return }
+            addBasketFolderView.addButton.isEnabled = isEnabled
+        }
     }
     
     @objc
     private func dismissButtonClicked() {
-        dismiss(animated: true)
+        viewModel.inputDismissButtonClicked.value = ()
     }
     
     private func configureModalSize() {
@@ -57,15 +85,10 @@ final class AddBasketFolderViewController: BaseViewController {
     
     @objc
     private func addButtonClicked() {
-        let folder = Folder()
         if let title = addBasketFolderView.titleTextField.text,
            let option = addBasketFolderView.optionTextField.text {
-            folder.name = title
-            folder.option = option
-            folder.regDate = Date()
-            realmRepository.createItem(folder)
+            viewModel.inputAddButtonClicked.value = (title, option)
         }
-        dismiss(animated: true, completion: onAddButtonClicked)
     }
 }
 
@@ -73,15 +96,14 @@ extension AddBasketFolderViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == addBasketFolderView.titleTextField {
             if let text = textField.text {
-                isTitleTextEmpty = text.isEmpty
+                viewModel.inputIsEmptyTitleText.value = text.isEmpty
             }
         }
-        
         if textField == addBasketFolderView.optionTextField {
             if let text = textField.text {
-                isOptionTextEmpty = text.isEmpty
+                viewModel.inputIsEmptyOptionText.value = text.isEmpty
             }
         }
-        addBasketFolderView.addButton.isEnabled = (isTitleTextEmpty == false) && (isOptionTextEmpty == false)
+        viewModel.inputCheckTextFields.value = ()
     }
 }

@@ -11,10 +11,18 @@ import RealmSwift
 
 final class NVSBasketFolderViewController: BaseViewController {
     
-    private let nvsBasketFolderView = NVSBasketFolderView()
-    private let realmRepository = RealmRepository()
+    private let nvsBasketFolderView: NVSBasketFolderView
+    private let viewModel: NVSBasketFolderViewModel
+    private let realmRepository: RealmRepository
     
     private var folder: Results<Folder>!
+    
+    override init() {
+        self.nvsBasketFolderView = NVSBasketFolderView()
+        self.viewModel = NVSBasketFolderViewModel()
+        self.realmRepository = RealmRepository()
+        super.init()
+    }
     
     override func loadView() {
         view = nvsBasketFolderView
@@ -22,30 +30,72 @@ final class NVSBasketFolderViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureFolder()
-        configureTableView()
+        bindData()
+        viewModel.inputViewDidLoad.value = ()
     }
     
-    override func configureNavigation() {
-        navigationItem.title = "장바구니 폴더 목록"
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputViewWillAppear.value = ()
+    }
+    
+    private func bindData() {
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            configureTableView()
+        }
         
-        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: LagomStyle.SystemImage.plus), style: .plain, target: self, action: #selector(plusButtonClicked))
-        navigationItem.rightBarButtonItem = rightBarButtonItem
+        viewModel.outputDidConfigureNavigation.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            navigationItem.title = tuple.title
+            
+            let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: tuple.image), style: .plain, target: self, action: #selector(plusButtonClicked))
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        }
+        
+        viewModel.outputDidTableViewReloadData.bind { [weak self] _ in
+            guard let self else { return }
+            nvsBasketFolderView.folderTableView.reloadData()
+        }
+        
+        viewModel.outputDidTableViewReloadRows.bind { [weak self] indexPaths in
+            guard let self else { return }
+            nvsBasketFolderView.folderTableView.reloadRows(at: indexPaths, with: .automatic)
+        }
+        
+        viewModel.outputDidTableViewDeleteRows.bind { [weak self] indexPaths in
+            guard let self else { return }
+            nvsBasketFolderView.folderTableView.deleteRows(at: indexPaths, with: .automatic)
+            viewModel.inputTableViewReloadData.value = ()
+        }
+        
+        viewModel.outputDidPresentAddFolderView.bind { [weak self] _ in
+            guard let self else { return }
+            let addBasketFolderViewController = AddBasketFolderViewController()
+            addBasketFolderViewController.onAddButtonClicked = { [weak self] in
+                guard let self else { return }
+                viewModel.inputTableViewReloadData.value = ()
+            }
+            let navigationController = UINavigationController(rootViewController: addBasketFolderViewController)
+            present(navigationController, animated: true)
+        }
+        
+        viewModel.outputDidPushNavigation.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            let nvsBasketViewController = NVSBasketViewController()
+            nvsBasketViewController.folder = tuple.folder
+            nvsBasketViewController.onChangeFolder = { [weak self] in
+                guard let self else { return }
+                viewModel.inputTableViewReloadData.value = ()
+            }
+            navigationController?.pushViewController(nvsBasketViewController, animated: true)
+            viewModel.inputTableViewReloadRows.value = [tuple.indexPath]
+        }
     }
     
     @objc
     private func plusButtonClicked() {
-        let addBasketFolderViewController = AddBasketFolderViewController()
-        addBasketFolderViewController.onAddButtonClicked = { [weak self] in
-            guard let self else { return }
-            nvsBasketFolderView.folderTableView.reloadData()
-        }
-        let navigationController = UINavigationController(rootViewController: addBasketFolderViewController)
-        present(navigationController, animated: true)
-    }
-    
-    private func configureFolder() {
-        folder = realmRepository.fetchItem(of: Folder.self)
+        viewModel.inputPlusButtonClicked.value = ()
     }
     
     private func configureTableView() {
@@ -65,9 +115,7 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
                     success(false)
                     return
                 }
-                let folder = folder[indexPath.row]
-                realmRepository.deleteItem(folder)
-                nvsBasketFolderView.folderTableView.deleteRows(at: [indexPath], with: .automatic)
+                viewModel.inputDeleteFolder.value = indexPath
                 success(true)
             }
             return UISwipeActionsConfiguration(actions: [deleteAction])
@@ -76,27 +124,19 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let folder = folder[indexPath.row]
-        let nvsBasketViewController = NVSBasketViewController()
-        nvsBasketViewController.folder = folder
-        nvsBasketViewController.onChangeFolder = { [weak self] in
-            guard let self else { return }
-            nvsBasketFolderView.folderTableView.reloadData()
-        }
-        navigationController?.pushViewController(nvsBasketViewController, animated: true)
-        nvsBasketFolderView.folderTableView.reloadRows(at: [indexPath], with: .automatic)
+        viewModel.inputDidSelectRowAt.value = indexPath
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return folder.count
+        return viewModel.outputDidFetchFolderData.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FolderTableViewCell.identifier, for: indexPath) as? FolderTableViewCell else { return UITableViewCell() }
-        let folder = self.folder[indexPath.row]
+        let folder = viewModel.outputDidFetchFolderData.value[indexPath.row]
         
         if indexPath.row == 0 {
-            cell.configureContent(title: folder.name, option: folder.option, count: realmRepository.fetchItem(of: Basket.self).count)
+            cell.configureContent(title: folder.name, option: folder.option, count: viewModel.outputDidFetchBasketData.value.count)
         } else {
             cell.configureContent(title: folder.name, option: folder.option, count: folder.detail.count)
         }

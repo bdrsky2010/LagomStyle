@@ -14,12 +14,19 @@ final class NVSSearchResultView: BaseView {
     let dateFilteringButton = CapsuleTapActionButton(title: NVSSSort.date.segmentedTitle, tag: 1)
     let priceAscFilteringButton = CapsuleTapActionButton(title: NVSSSort.dsc.segmentedTitle, tag: 2)
     let priceDscFilteringButton = CapsuleTapActionButton(title: NVSSSort.asc.segmentedTitle, tag: 3)
+    let filteringButtonList: [CapsuleTapActionButton]
     
     let searchResultCountLabel = UILabel.primaryBold13()
     let searchResultCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.layoutWith2X2())
     let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchEmptyResult)
     
     override init(frame: CGRect) {
+        self.filteringButtonList = [
+            accuracyFilteringButton,
+            dateFilteringButton,
+            priceAscFilteringButton,
+            priceDscFilteringButton
+        ]
         super.init(frame: frame)
         emptyView.isHidden = true
     }

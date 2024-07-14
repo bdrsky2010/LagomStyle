@@ -16,16 +16,6 @@ final class NVSSearchResultViewController: BaseViewController {
     
     private let nvsSearchResultView: NVSSearchResultView
     private let viewModel: NVSSearchResultViewModel
-    private let query: String
-    private let realmRepository = RealmRepository()
-    private let searchDisplayCount = 30
-    private let nvsSortTypeList = NVSSSort.allCases
-    
-    private var selectedButtonTag = 0
-    private var searchResult: NVSSearch?
-    private var nvssStartNumber = 1
-    private var nvssIsPagingEnd = false
-    private var basketList: Results<Basket>!
     
     override func loadView() {
         view = nvsSearchResultView
@@ -34,7 +24,6 @@ final class NVSSearchResultViewController: BaseViewController {
     init(query: String) {
         self.nvsSearchResultView = NVSSearchResultView()
         self.viewModel = NVSSearchResultViewModel()
-        self.query = query
         super.init()
         bindData()
         viewModel.inputReceiveQueryString.value = query
@@ -49,28 +38,97 @@ final class NVSSearchResultViewController: BaseViewController {
         
         viewModel.outputDidConfigureView.bind { [weak self] _ in
             guard let self else { return }
+            viewModel.inputRequestAPI.value = ()
             
+            configureCollectionView()
+            nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
+            configureFilteringButton()
+        }
+        
+        viewModel.outputDidRequestAPI.bind { [weak self] _ in
+            guard let self else { return }
+            requestNVSSearchAPI()
+        }
+        
+        viewModel.outputDidSendSearchResultCount.bind { [weak self] count in
+            guard let self else { return }
+            nvsSearchResultView.searchResultCountLabel.text = count.formatted() + LagomStyle.Phrase.searchResultCount
+            // 검색 결과 없으면 콜렉션뷰 숨김
+            if count == 0 {
+                nvsSearchResultView.searchResultCollectionView.isHidden = true
+                nvsSearchResultView.emptyView.isHidden = false
+            } else {
+                nvsSearchResultView.searchResultCollectionView.isHidden = false
+                nvsSearchResultView.emptyView.isHidden = true
+            }
+        }
+        
+        viewModel.outputDidStopSkeletonAnimation.bind { [weak self] _ in
+            guard let self else { return }
+            nvsSearchResultView.searchResultCollectionView.stopSkeletonAnimation()
+            nvsSearchResultView.searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+        }
+        
+        viewModel.outputDidTableViewReloadData.bind { [weak self] _ in
+            guard let self else { return }
+            nvsSearchResultView.searchResultCollectionView.reloadData()
+        }
+        
+        viewModel.outputDidFailureAPIRequest.bind { [weak self] _ in
+            guard let self else { return }
+            nvsSearchResultView.searchResultCollectionView.isHidden = true
+            nvsSearchResultView.emptyView.isHidden = false
+        }
+        
+        viewModel.outputDidPushNavigation.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            
+            let nvsProductDetailViewController = NVSProductDetailViewController()
+            nvsProductDetailViewController.productID = tuple.product.productID
+            nvsProductDetailViewController.productTitle = tuple.product.title
+            nvsProductDetailViewController.productLink = tuple.product.urlString
+            nvsProductDetailViewController.row = tuple.index
+            nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
+                guard let self else { return }
+                viewModel.inputOnChangeBasket.value = (row, isBasket, oldFolder, newFolder)
+                nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+            }
+            
+            navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
+        }
+        
+        viewModel.outputDidReconfigureBasketContent.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            guard let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: tuple.row, section: 0)) as? SearchResultCollectionViewCell else { return }
+            
+            if let oldFolder = tuple.oldFolder {
+                cell.configureBasketContent(isBasket: oldFolder.id != tuple.newFolder.id)
+            } else {
+                cell.configureBasketContent(isBasket: true)
+            }
+        }
+        
+        viewModel.outputDidPresentFolderModal.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
+            addOrMoveBasketFolderViewController.productID = tuple.product.productID
+            addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
+                guard let self else { return }
+                viewModel.inputOnChangeFolder.value = (newFolder, tuple.index)
+            }
+            let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
+            present(navigationController, animated: true)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.inputViewDidLoadTrigger.value = ()
-        requestNVSSearchAPI(query: query)
-        configureFolder()
-        configureCollectionView()
-        
-        nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
-        configureFilteringButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         nvsSearchResultView.searchResultCollectionView.reloadData()
-    }
-    
-    private func configureFolder() {
-        basketList = realmRepository.fetchItem(of: Basket.self)
     }
     
     private func configureCollectionView() {
@@ -83,20 +141,12 @@ final class NVSSearchResultViewController: BaseViewController {
     }
     
     private func configureFilteringButton() {
-        nvsSearchResultView.accuracyFilteringButton.isUserInteractionEnabled = true
-        nvsSearchResultView.dateFilteringButton.isUserInteractionEnabled = true
-        nvsSearchResultView.priceAscFilteringButton.isUserInteractionEnabled = true
-        nvsSearchResultView.priceDscFilteringButton.isUserInteractionEnabled = true
-        
-        let accuracyGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
-        let dateGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
-        let priceAscGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
-        let priceDscGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
-        
-        nvsSearchResultView.accuracyFilteringButton.addGestureRecognizer(accuracyGesture)
-        nvsSearchResultView.dateFilteringButton.addGestureRecognizer(dateGesture)
-        nvsSearchResultView.priceAscFilteringButton.addGestureRecognizer(priceAscGesture)
-        nvsSearchResultView.priceDscFilteringButton.addGestureRecognizer(priceDscGesture)
+        nvsSearchResultView.filteringButtonList.forEach {
+            $0.isUserInteractionEnabled = true
+
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(filteringButtonClicked))
+            $0.addGestureRecognizer(tapGesture)
+        }
     }
     
     @objc
@@ -108,43 +158,24 @@ final class NVSSearchResultViewController: BaseViewController {
             nvsSearchResultView.searchResultCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
         
-        guard selectedButtonTag != filteringButton.tag else { return }
+        guard viewModel.inputSelectedButtonTag.value != filteringButton.tag else { return }
+        
+        // UI처리
         nvsSearchResultView.searchResultCollectionView.showGradientSkeleton()
-        let filteringButtonList = [
-            nvsSearchResultView.accuracyFilteringButton,
-            nvsSearchResultView.dateFilteringButton,
-            nvsSearchResultView.priceAscFilteringButton,
-            nvsSearchResultView.priceDscFilteringButton
-        ]
-        filteringButtonList[selectedButtonTag].unSelectUI()
+        nvsSearchResultView.filteringButtonList[viewModel.inputSelectedButtonTag.value].unSelectUI()
         filteringButton.selectUI()
-        selectedButtonTag = filteringButton.tag
-        searchResult = nil
-        nvssStartNumber = 1
-        requestNVSSearchAPI(query: query)
-    }
-    
-    private func isProductExistOnBasket(_ product: NVSProduct) -> Bool {
-        var isBasket = false
-        for basket in basketList {
-            if basket.id == product.productID {
-                isBasket = true
-                break
-            }
-        }
-        return isBasket
+        
+        // 데이터 처리
+        viewModel.inputSelectedButtonTag.value = filteringButton.tag
+        viewModel.inputNVSSResult.value = nil
+        viewModel.inputNVSSStartNumber.value = 1
+        viewModel.inputRequestAPI.value = ()
     }
 }
 
 extension NVSSearchResultViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        guard !nvssIsPagingEnd else { return }
-        for indexPath in indexPaths {
-            let row = indexPath.row
-            if row == nvssStartNumber - 10 {
-                requestNVSSearchAPI(query: query)
-            }
-        }
+        viewModel.inputAPIRequestNextPage.value = indexPaths
     }
 }
 
@@ -155,7 +186,7 @@ extension NVSSearchResultViewController: SkeletonCollectionViewDelegate,
     }
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return viewModel.searchDisplayCount
     }
 }
 
@@ -163,37 +194,25 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.row
-        guard let product = searchResult?.products[index] else { return }
-        
-        let nvsProductDetailViewController = NVSProductDetailViewController()
-        nvsProductDetailViewController.productID = product.productID
-        nvsProductDetailViewController.productTitle = product.title
-        nvsProductDetailViewController.productLink = product.urlString
-        nvsProductDetailViewController.row = index
-        nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
-            guard let self else { return }
-            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
-            nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
-        }
-        
-        navigationController?.pushViewController(nvsProductDetailViewController, animated: true)
+        guard let product = viewModel.inputNVSSResult.value?.products[index] else { return }
+        viewModel.inputDidTapProduct.value = (product, index)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchResult?.products.count ?? 0
+        return viewModel.inputNVSSResult.value?.products.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
         
-        guard let product = searchResult?.products[index] else { return cell }
+        guard let product = viewModel.inputNVSSResult.value?.products[index] else { return cell }
         
-        let isBasket = isProductExistOnBasket(product)
+        let isBasket = viewModel.isProductExistOnBasket(product)
         let commonProduct = CommonProduct(title: product.title, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
         
         cell.configureContent(product: commonProduct, isBasket: isBasket)
-        cell.highlightingWithQuery(query: query)
+        cell.highlightingWithQuery(query: viewModel.inputReceiveQueryString.value)
         
         let basketButtonTapGesture = UITapGestureRecognizer(target: self, action: #selector(basketButtonTapped))
         cell.basketForegroundButtonView.tag = index
@@ -206,114 +225,24 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
     @objc
     private func basketButtonTapped(sender: UITapGestureRecognizer) {
         guard let row = sender.view?.tag else { return }
-        guard let product = searchResult?.products[row] else { return }
-        let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
-        addOrMoveBasketFolderViewController.productID = product.productID
-        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
-            guard let self else { return }
-            var isBasket = false
-            var oldFolder: Folder?
-            let basketList = realmRepository.fetchItem(of: Basket.self)
-            for basket in basketList {
-                if basket.id == product.productID {
-                    isBasket = true
-                    oldFolder = basket.folder.first
-                    break
-                }
-            }
-            saveBasketData(row: row, isBasket: isBasket, oldFolder: oldFolder, newFolder: newFolder)
-            
-            if let cell = nvsSearchResultView.searchResultCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? SearchResultCollectionViewCell {
-                if let oldFolder {
-                    cell.configureBasketContent(isBasket: oldFolder.id != newFolder.id)
-                } else {
-                    cell.configureBasketContent(isBasket: true)
-                }
-            }
-        }
-        let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
-        present(navigationController, animated: true)
-    }
-    
-    private func saveBasketData(row: Int, isBasket: Bool, oldFolder: Folder?, newFolder: Folder) {
-        guard let product = searchResult?.products[row] else { return }
-        let newBasket = Basket(id: product.productID,
-                            name: product.title,
-                            mallName: product.mallName,
-                            lowPrice: product.lowPrice,
-                            webUrlString: product.urlString,
-                            imageUrlString: product.imageUrlString)
-        // 1. 먼저 전체 장바구니에 담겨있는 상태인지?
-        if isBasket, let oldFolder {
-            for basket in basketList {
-                if basket.id == product.productID {
-                    realmRepository.deleteItem(basket)
-                    break
-                }
-            }
-            // 2. 담겨있다면 담겨있는 폴더와 같은 폴더를 받아왔는지?
-            if oldFolder.id == newFolder.id {
-                // 3. 같은 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제'
-                return
-            } else {
-                // 4. 다른 폴더를 받아왔다면 '전체 장바구니에서 해당 상품 삭제' 후 받아온 폴더에 추가
-                realmRepository.createItem(newBasket, folder: newFolder)
-            }
-        } else {
-            // 5. 담겨있지않다면 받아온 폴더에 담아주기
-            realmRepository.createItem(newBasket, folder: newFolder)
-        }
-        nvsSearchResultView.searchResultCollectionView.reloadItems(at: [IndexPath(row: row, section: 0)])
+        viewModel.inputDidTapBasketButton.value = row
     }
 }
 
 extension NVSSearchResultViewController {
-    
-    private func requestNVSSearchAPI(query: String) {
-        
-        NetworkHelper.shared.requestAPIWithAlertOnViewController(api: .naverShopping(query,
-                                                                                     searchDisplayCount, nvssStartNumber,
-                                                                                     nvsSortTypeList[selectedButtonTag].parameter),
+    private func requestNVSSearchAPI() {
+        NetworkHelper.shared.requestAPIWithAlertOnViewController(api: .naverShopping(viewModel.inputReceiveQueryString.value,
+                                                                                     viewModel.searchDisplayCount,
+                                                                                     viewModel.inputNVSSStartNumber.value,
+                                                                                     viewModel.inputNVSSSortTypeList.value[viewModel.inputSelectedButtonTag.value].parameter),
                                                                  of: NVSSearch.self,
                                                                  viewController: self) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let value):
-                var value = value
-                value.products.indices.forEach { i in
-                    let title = value.products[i].title.removeHtmlTag
-                    value.products[i].title = title
-                }
-                nvsSearchResultView.searchResultCountLabel.text = value.total.formatted() + LagomStyle.Phrase.searchResultCount
-                
-                guard value.total != 0 else { // 검색 결과 없으면 콜렉션뷰 숨김
-                    nvsSearchResultView.searchResultCollectionView.isHidden = true
-                    nvsSearchResultView.emptyView.isHidden = false
-                    return
-                }
-                
-                nvsSearchResultView.searchResultCollectionView.isHidden = false
-                nvsSearchResultView.emptyView.isHidden = true
-                if let result = searchResult {
-                    if result.total <= result.products.count {
-                        nvssIsPagingEnd = true
-                    }
-                    
-                    if !nvssIsPagingEnd {
-                        searchResult?.products.append(contentsOf: value.products)
-                        nvssStartNumber += searchDisplayCount
-                    }
-                } else {
-                    searchResult = value
-                    nvssStartNumber += searchDisplayCount
-                }
-                nvsSearchResultView.searchResultCollectionView.reloadData()
-                nvsSearchResultView.searchResultCollectionView.stopSkeletonAnimation()
-                nvsSearchResultView.searchResultCollectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
-                
+                viewModel.inputAPIRequestResult.value = value
             case .failure:
-                nvsSearchResultView.searchResultCollectionView.isHidden = true
-                nvsSearchResultView.emptyView.isHidden = false
+                viewModel.inputAPIRequestFailure.value = ()
             }
         }
     }

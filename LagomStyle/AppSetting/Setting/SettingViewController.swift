@@ -137,6 +137,4 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configureContent(option: optionPhrase, likeProductsCount: index == 1 ? count : nil)
         return cell
     }
-    
-    
 }

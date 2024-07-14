@@ -27,6 +27,7 @@
 		7B65E1D22C41410800A55ACF /* NVSSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D12C41410800A55ACF /* NVSSearchViewModel.swift */; };
 		7B65E1D42C42AE8900A55ACF /* NVSSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D32C42AE8900A55ACF /* NVSSearchResultViewModel.swift */; };
 		7B65E1D62C440AE700A55ACF /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D52C440AE700A55ACF /* SettingViewModel.swift */; };
+		7B65E1D82C44206A00A55ACF /* NVSBasketFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */; };
 		7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */; };
 		7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */; };
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
@@ -124,6 +125,7 @@
 		7B65E1D12C41410800A55ACF /* NVSSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchViewModel.swift; sourceTree = "<group>"; };
 		7B65E1D32C42AE8900A55ACF /* NVSSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchResultViewModel.swift; sourceTree = "<group>"; };
 		7B65E1D52C440AE700A55ACF /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketFolderViewModel.swift; sourceTree = "<group>"; };
 		7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LagomStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 			children = (
 				7B0857AB2C3C240D008422EA /* NVSBasketFolderView.swift */,
 				7B0857A92C3C23F8008422EA /* NVSBasketFolderViewController.swift */,
+				7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */,
 			);
 			path = NVSBasketFolder;
 			sourceTree = "<group>";
@@ -606,6 +609,7 @@
 				7B9BCBBC2C2ACE8B0082AE38 /* NVSSearchResultView.swift in Sources */,
 				7B8BD3DC2C317C24007A7E63 /* Resource + PFSetup.swift in Sources */,
 				7B9BCBBA2C2ACE730082AE38 /* NVSSearchView.swift in Sources */,
+				7B65E1D82C44206A00A55ACF /* NVSBasketFolderViewModel.swift in Sources */,
 				7B0857B22C3C387E008422EA /* AddBasketFolderView.swift in Sources */,
 				7B6BBA1E2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift in Sources */,
 				7B9BCBC02C2ACEB40082AE38 /* SettingView.swift in Sources */,

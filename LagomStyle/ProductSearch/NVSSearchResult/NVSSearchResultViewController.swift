@@ -17,16 +17,16 @@ final class NVSSearchResultViewController: BaseViewController {
     private let nvsSearchResultView: NVSSearchResultView
     private let viewModel: NVSSearchResultViewModel
     
-    override func loadView() {
-        view = nvsSearchResultView
-    }
-    
     init(query: String) {
         self.nvsSearchResultView = NVSSearchResultView()
         self.viewModel = NVSSearchResultViewModel()
         super.init()
         bindData()
         viewModel.inputReceiveQueryString.value = query
+    }
+    
+    override func loadView() {
+        view = nvsSearchResultView
     }
     
     private func bindData() {

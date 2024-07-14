@@ -8,9 +8,16 @@
 import UIKit
 
 final class SettingViewController: BaseViewController {
+    private let settingView: SettingView
+    private let viewModel: SettingViewModel
+    private let realmRepository: RealmRepository
     
-    private let settingView = SettingView()
-    private let realmRepository = RealmRepository()
+    override init() {
+        self.settingView = SettingView()
+        self.viewModel = SettingViewModel()
+        self.realmRepository = RealmRepository()
+        super.init()
+    }
     
     override func loadView() {
         view = settingView
@@ -18,16 +25,65 @@ final class SettingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
+        bindData()
+        viewModel.inputViewDidLoad.value = ()
+    }
+    
+    private func bindData() {
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            configureTableView()
+        }
+        
+        viewModel.outputDidConfigureNavigationBarTitle.bind { [weak self] title in
+            guard let self else { return }
+            navigationItem.title = title
+        }
+        
+        viewModel.outputDidTableViewReloadData.bind { [weak self] _ in
+            guard let self else { return }
+            settingView.settingTableView.reloadData()
+        }
+        
+        viewModel.outputDidTableViewReloadRows.bind { [weak self] indexPaths in
+            guard let self else { return }
+            settingView.settingTableView.reloadRows(at: indexPaths, with: .automatic)
+        }
+        
+        viewModel.outputDidPushNavigation.bind { [weak self] router in
+            guard let self, let router else { return }
+            var viewController: UIViewController
+            switch router {
+            case .profileEdit:
+                viewController = ProfileSetupViewController(pfSetupOption: .edit)
+            case .basketFolder:
+                viewController = NVSBasketFolderViewController()
+            }
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+        
+        viewModel.outputDidPresentWithdrawalAlert.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            presentAlert(option: .twoButton,
+                         title: tuple.title,
+                         message: tuple.message,
+                         checkAlertTitle: "확인") { [weak self] _ in
+                guard let self else { return }
+                viewModel.inputDeleteDatabase.value = ()
+                viewModel.inputChangeRootView.value = ()
+            }
+        }
+        
+        viewModel.outputDidChangeRootView.bind { [weak self] _ in
+            guard let self else { return }
+            let onboardingViewController = OnboardingViewController()
+            changeRootViewController(rootViewController: onboardingViewController)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        settingView.settingTableView.reloadData()
-    }
-    
-    override func configureNavigation() {
-        navigationItem.title = LagomStyle.Phrase.settingViewNavigationTitle
+        viewModel.inputTableViewReloadData.value = ()
     }
     
     private func configureTableView() {
@@ -44,35 +100,24 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         let index = indexPath.row
         
         if index == 0 {
-            let profileSetupViewController = ProfileSetupViewController(pfSetupOption: .edit)
-            navigationController?.pushViewController(profileSetupViewController, animated: true)
+            viewModel.inputPushNavigation.value = .profileEdit
         }
         if index == 1 {
-            let nvsBasketFolderViewController = NVSBasketFolderViewController()
-            navigationController?.pushViewController(nvsBasketFolderViewController, animated: true)
+            viewModel.inputPushNavigation.value = .basketFolder
         }
         if index == 5 {
-            presentAlert(option: .twoButton, 
-                         title: LagomStyle.Phrase.withDrawAlertTitle,
-                         message: LagomStyle.Phrase.withDrawAlertMessage,
-                         checkAlertTitle: "확인") { [weak self] _ in
-                guard let self else { return }
-                realmRepository.deleteDatabase()
-                UserDefaultsHelper.removeUserDefaults(forKey: LagomStyle.UserDefaultsKey.isOnboarding)
-                let onboardingViewController = OnboardingViewController()
-                changeRootViewController(rootViewController: onboardingViewController)
-            }
+            viewModel.inputDidWithdrawal.value = ()
         }
         
-        settingView.settingTableView.reloadRows(at: [indexPath], with: .automatic)
+        viewModel.inputTableViewReloadRows.value = [indexPath]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LagomStyle.Phrase.settingOptions.count
+        return viewModel.getOptionPhraseCount()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 120 : 44
+        return CGFloat(viewModel.getTableViewRowHeight(row: indexPath.row))
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -80,19 +125,16 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         if index == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewProfileCell.identifier, for: indexPath) as? SettingTableViewProfileCell else { return UITableViewCell() }
-            if let user = realmRepository.fetchItem(of: UserTable.self).first {
+            if let user = viewModel.outputDidUserDataFetch.value {
                 cell.configureContent(user: user)
             }
             return cell
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
-        if index == 1 {
-            let basketCount = realmRepository.fetchItem(of: Basket.self).count
-            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index], likeProductsCount: basketCount)
-        } else {
-            cell.configureContent(option: LagomStyle.Phrase.settingOptions[index])
-        }
+        let optionPhrase = viewModel.getOptionPhrase(index: index)
+        let count = viewModel.outputDidBasketDataFetch.value
+        cell.configureContent(option: optionPhrase, likeProductsCount: index == 1 ? count : nil)
         return cell
     }
     

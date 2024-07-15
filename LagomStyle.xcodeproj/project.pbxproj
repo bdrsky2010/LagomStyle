@@ -28,6 +28,8 @@
 		7B65E1D42C42AE8900A55ACF /* NVSSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D32C42AE8900A55ACF /* NVSSearchResultViewModel.swift */; };
 		7B65E1D62C440AE700A55ACF /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D52C440AE700A55ACF /* SettingViewModel.swift */; };
 		7B65E1D82C44206A00A55ACF /* NVSBasketFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */; };
+		7B65E1DA2C4479B300A55ACF /* AddBasketFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D92C4479B300A55ACF /* AddBasketFolderViewModel.swift */; };
+		7B65E1DC2C44827000A55ACF /* NVSBasketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1DB2C44827000A55ACF /* NVSBasketViewModel.swift */; };
 		7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */; };
 		7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */; };
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
@@ -126,6 +128,8 @@
 		7B65E1D32C42AE8900A55ACF /* NVSSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSSearchResultViewModel.swift; sourceTree = "<group>"; };
 		7B65E1D52C440AE700A55ACF /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketFolderViewModel.swift; sourceTree = "<group>"; };
+		7B65E1D92C4479B300A55ACF /* AddBasketFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBasketFolderViewModel.swift; sourceTree = "<group>"; };
+		7B65E1DB2C44827000A55ACF /* NVSBasketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketViewModel.swift; sourceTree = "<group>"; };
 		7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LagomStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -258,6 +262,7 @@
 			children = (
 				7B9BCBC12C2ACEBF0082AE38 /* NVSBasketView.swift */,
 				7B823D3F2C223FF3009567EE /* NVSBasketViewController.swift */,
+				7B65E1DB2C44827000A55ACF /* NVSBasketViewModel.swift */,
 			);
 			path = NVSBasket;
 			sourceTree = "<group>";
@@ -267,6 +272,7 @@
 			children = (
 				7B0857B12C3C387E008422EA /* AddBasketFolderView.swift */,
 				7B0857AF2C3C3811008422EA /* AddBasketFolderViewController.swift */,
+				7B65E1D92C4479B300A55ACF /* AddBasketFolderViewModel.swift */,
 			);
 			path = AddBasketFolder;
 			sourceTree = "<group>";
@@ -614,6 +620,8 @@
 				7B6BBA1E2C1F11BA00BC85F8 /* PFImageSetupDelegate.swift in Sources */,
 				7B9BCBC02C2ACEB40082AE38 /* SettingView.swift in Sources */,
 				7B8BD3D02C317B42007A7E63 /* Resource + AssetColor.swift in Sources */,
+				7B65E1DA2C4479B300A55ACF /* AddBasketFolderViewModel.swift in Sources */,
+				7B65E1DC2C44827000A55ACF /* NVSBasketViewModel.swift in Sources */,
 				7B9BCBAB2C2AC1B40082AE38 /* BaseTableViewCell.swift in Sources */,
 				7B6BBA142C1DE86900BC85F8 /* SettingViewController.swift in Sources */,
 				7B9BCBA72C2AC1A70082AE38 /* BaseViewController.swift in Sources */,

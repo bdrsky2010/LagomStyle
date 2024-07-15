@@ -68,7 +68,155 @@
 <summary><h2>📚 구현하면서 생긴 문제</summary>
 <div markdown="1">
 
+# 📕 딕셔너리의 키 값에 커스텀 타입을 담아준 경우 에러가 발생
 
+- 커스텀 타입
+```swift
+// MARK: 최근 검색어를 저장 및 시간순으로 정렬해주기 위한 데이터 모델
+struct NVSSKeyword  { }
+
+private var recentSearchQueries: [NVSSKeyword: Void] { }
+// Type 'NVSSKeyword' does not conform to protocol 'Hashable'
+```
+
+### 📌 왜 'Hashable' 프로토콜을 채택하지 않았냐고 에러를 뱉는 걸까?
+
+ - 딕셔너리의 키값은 유일성을 가져야한다.
+ - 그 이유는 해시 테이블의 개념을 봐야한다.
+ - 그렇기에 커스텀 타입은 유일성을 가질 수 없기 때문에 Hashable 프로토콜을 채택하여 hash함수를 통해 해시값을 얻을 수 있게 해줘야 한다.
+ - 기본 테이터타입(Int, Double, String...)은 기본적으로 Hashable을 따르고 있어 따로 hash함수를 구현해줄 필요가 없다
+
+# 📗 최근 검색어 처리를 배열에서 딕셔너리로 변경하면서 생긴 장점
+
+- 코드의 양 자체가 줄면서 가독성이 줄어들었다
+- 배열일 때
+```swift
+if !queries.contains(text) { // 최근 검색어에 새로 검색한 키워드가 없다면
+    queries.insert(text, at: 0)
+    recentSearchQueries = queries
+    
+    if queries.count > 10 {
+        for i in (10..<queries.count).reversed() {
+            removeQuery(row: i)
+        }
+    }
+} else {
+    for i in 0..<queries.count {
+        if queries[i] == text {
+            queries.remove(at: i)
+            break
+        }
+    }
+    queries.insert(text, at: 0)
+    recentSearchQueries = queries
+}
+```
+
+- 이 위의 코드가 단 1줄로 줄어들었다.
+```swift
+recentSearchQueries[text] = Date()
+```
+
+- 값이 존재할 때라던가 예외처리를 해줄 필요가 없어 코드의 양이 줄었고, 물론 배열에서 딕셔너리로 변경하게 되면서 퍼포먼스적인 향상이 이뤄질 수 밖에 없기도 하다.
+    - 배열에서 검색, 추가, 삭제를 하기 위해서는 해당 데이터를 순회하며 찾아야 하며 최악의 경우 전체 인덱스를 다 순회해야하기 때문에 O(N)이 걸린다,
+    - 딕셔너리에서 검색, 추가, 삭제의 경우 해시함수를 통해 동작이 이뤄지기 때문에 시간복잡도가 O(1)로 빠르게 작동한다.
+
+# 📘 테이블뷰 셀에서 늘어나지 않아야 할 뷰가 늘어난 경우
+
+- 갯수를 나타내는 레이블이 오른쪽 이미지와 붙어있어야 하는데 제약조건을 주면서 늘어나버린 상황
+![[Pasted image 20240708234557.png]]
+
+- 하이어라키를 확인해보면 늘어나있는 것을 볼 수 있음
+ ![[Pasted image 20240708234804.png]]
+ 
+- 걸려있는 제약조건
+```swift
+titleLabel.snp.makeConstraints { make in
+    make.bottom.equalTo(contentView.snp.centerY)
+    make.leading.equalToSuperview().offset(20)
+    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
+}
+
+optionLabel.snp.makeConstraints { make in
+    make.top.equalTo(contentView.snp.centerY)
+    make.leading.equalToSuperview().offset(20)
+    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
+}
+
+countLabel.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalTo(forwardImageView.snp.leading).offset(-4)
+}
+
+forwardImageView.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalToSuperview().offset(-20)
+}
+```
+
+### 해결 방법
+- hugging priority 가 더 높은 뷰는 intrinsicSize 를 유지하려고 하는 특성이 있음
+- UILabel hugging priority의 default 값은 251
+- countLabel 과 forwardImageView 의 hugging priority 값을 252로 설정
+
+### 결과
+- 시뮬레이터
+![[Pasted image 20240708235432.png]]
+
+- 하이어라키
+![[Pasted image 20240708235458.png]]
+
+- 소스코드
+```swift
+titleLabel.snp.makeConstraints { make in
+    make.bottom.equalTo(contentView.snp.centerY)
+    make.leading.equalToSuperview().offset(20)
+    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
+}
+
+optionLabel.snp.makeConstraints { make in
+    make.top.equalTo(contentView.snp.centerY)
+    make.leading.equalToSuperview().offset(20)
+    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
+}
+
+countLabel.setContentHuggingPriority(.init(252), for: .horizontal)
+countLabel.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalTo(forwardImageView.snp.leading).offset(-4)
+}
+
+forwardImageView.setContentHuggingPriority(.init(252), for: .horizontal)
+forwardImageView.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalToSuperview().offset(-20)
+}
+```
+
+# 📙 닉네임 입력 및 변경 시 공백제거에 대한 문제점
+
+###### 📌 처음에는 textField의 text 변경에 대한 감지가 일어났을 경우, 공백을 제거해주는 메서드를 활용하여 공백을 제거하려했음.
+- 해당 메서드 사용 소스코드
+```swift
+func textFieldDidChangeSelection(_ textField: UITextField) {
+    guard let text = textField.text else { return }
+    textField.text = text.trimmingCharacters(in: .whitespaces)
+}
+```
+
+- 잘 돌아가는 것처럼 보였으나 아래의 문제가 발생
+- 이유를 확인해보려 공식문서를 확인해보니 `in` 의 조건에 해당하는 문자열을 문자열의 끝에서 제거하여 새 문자열을 반환해주는 메서드였던 것이다.
+![[Pasted image 20240710173621.png]]
+
+![[Pasted image 20240710172919.png]]
+
+##### 📌 아예 모든 공백을 필터링하여 Text를 교체해주는 방식으로 변경
+```swift
+func textFieldDidChangeSelection(_ textField: UITextField) {
+    guard let text = textField.text else { return }
+    textField.text = textField.text?.filter { $0 != " " }
+}
+```
 
 </div>
 </details>

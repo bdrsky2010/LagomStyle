@@ -32,7 +32,7 @@
                                         <string key="text">Lagom
 Style</string>
                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="50"/>
-                                        <color key="textColor" name="lagomOrange"/>
+                                        <color key="textColor" name="lagomRed"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -43,22 +43,14 @@ Style</string>
                                     <constraint firstAttribute="width" secondItem="UJm-yY-4d7" secondAttribute="height" id="mlv-8U-zj2"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="김민재" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OeV-hi-MlU">
-                                <rect key="frame" x="164" y="607.66666666666663" width="65" height="30"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <color key="textColor" name="lagomOrange"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="OeV-hi-MlU" firstAttribute="top" secondItem="hAH-Jj-A3Z" secondAttribute="bottom" constant="20" id="1KP-Lt-t9r"/>
                             <constraint firstItem="hAH-Jj-A3Z" firstAttribute="top" secondItem="UJm-yY-4d7" secondAttribute="bottom" id="3NT-xz-Uvh"/>
                             <constraint firstItem="UJm-yY-4d7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8xA-T0-Con"/>
                             <constraint firstItem="UJm-yY-4d7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="FI0-fI-B6S"/>
                             <constraint firstItem="hAH-Jj-A3Z" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fTT-eD-rBO"/>
-                            <constraint firstItem="OeV-hi-MlU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ljf-Dm-vOr"/>
                             <constraint firstItem="hAH-Jj-A3Z" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="0.35" id="tjL-1C-jPX"/>
                             <constraint firstItem="hAH-Jj-A3Z" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="uMS-it-GXg"/>
                         </constraints>
@@ -71,8 +63,8 @@ Style</string>
     </scenes>
     <resources>
         <image name="launch" width="350" height="263.33334350585938"/>
-        <namedColor name="lagomOrange">
-            <color red="0.93725490196078431" green="0.53725490196078429" blue="0.27843137254901962" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        <namedColor name="lagomRed">
+            <color red="0.77647058823529413" green="0.050980392156862744" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

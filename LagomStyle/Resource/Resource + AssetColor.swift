@@ -10,7 +10,7 @@ import UIKit.UIColor
 // MARK: App에서 사용되는 UIColor Data
 extension LagomStyle {
     enum AssetColor {
-        static let lagomPrimaryColor = UIColor.lagomOrange
+        static let lagomPrimaryColor = UIColor.lagomRed
         static let lagomBlack = UIColor.lagomBlack
         static let lagomGray = UIColor.lagomGray
         static let lagomDarkGray = UIColor.lagomDarkGray

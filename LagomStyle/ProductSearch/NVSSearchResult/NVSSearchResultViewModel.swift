@@ -121,9 +121,8 @@ final class NVSSearchResultViewModel {
         
         inputOnChangeFolder.bind { [weak self] tuple in
             guard let self, let tuple, let product = inputNVSSResult.value?.products[tuple.row] else { return }
-            var isBasket = false
             var oldFolder: Folder?
-            isBasket = isProductExistOnBasket(product) { folder in
+            let isBasket = isProductExistOnBasket(product) { folder in
                 oldFolder = folder
             }
             saveBasketData(row: tuple.row, isBasket: isBasket, oldFolder: oldFolder, newFolder: tuple.newFolder)

@@ -127,6 +127,7 @@ recentSearchQueries[text] = Date()
 <img width="371" alt="Pasted image 20240708234557" src="https://github.com/user-attachments/assets/ff1f9726-f927-4963-8d8b-9f0a82ad5757">
 
 - 하이어라키를 확인해보면 늘어나있는 것을 볼 수 있음
+ 
  ![Pasted image 20240708234804](https://github.com/user-attachments/assets/ccca573c-6b3c-4212-9c17-b4f7412ebec7)
  
 - 걸려있는 제약조건
@@ -164,6 +165,7 @@ forwardImageView.snp.makeConstraints { make in
 <img width="378" alt="Pasted image 20240708235432" src="https://github.com/user-attachments/assets/0a52749d-25da-494c-a427-20ce841a6437">
 
 - 하이어라키
+
 ![Pasted image 20240708235458](https://github.com/user-attachments/assets/7501473a-bd17-4af7-a6c5-c56ace71594b)
 
 - 소스코드
@@ -206,6 +208,7 @@ func textFieldDidChangeSelection(_ textField: UITextField) {
 
 - 잘 돌아가는 것처럼 보였으나 아래의 문제가 발생
 - 이유를 확인해보려 공식문서를 확인해보니 `in` 의 조건에 해당하는 문자열을 문자열의 끝에서 제거하여 새 문자열을 반환해주는 메서드였던 것이다.
+
 ![Pasted image 20240710173621](https://github.com/user-attachments/assets/12a7689d-4432-42f3-8f33-f01b056866df)
 
 ![Pasted image 20240710172919](https://github.com/user-attachments/assets/c20b2bc6-79e6-4ebd-a9fa-cc342fc2cd50)

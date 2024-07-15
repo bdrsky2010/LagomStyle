@@ -5,7 +5,7 @@
 - UIKit, MVVM, Input-Output, CodeBasedUI, URLSession, Repository
 - Kingfisher, Snapkit, IQKeyboardManagerSwift, RealmSwift
 
-### 실행화면
+### 📚 실행화면
 |시작|프로필설정|프로필이미지설정|검색|검색결과|
 |-|-|-|-|-|
 |![시작](https://github.com/user-attachments/assets/af382521-6fb6-44d3-9237-8eb058bd858e)|![프로필설정](https://github.com/user-attachments/assets/487fccb6-72e4-4124-a5d3-214f2d18b51a)|![프로필이미지](https://github.com/user-attachments/assets/11aebe67-d339-4dae-9703-9f7322bac890)|![검색](https://github.com/user-attachments/assets/6d5273db-c49b-4a6f-b023-abcea1db8f7d)|![검색결과](https://github.com/user-attachments/assets/949af6f2-19eb-4b0e-9495-fe1296ba15c0)|

@@ -30,6 +30,7 @@
 		7B65E1D82C44206A00A55ACF /* NVSBasketFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */; };
 		7B65E1DA2C4479B300A55ACF /* AddBasketFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1D92C4479B300A55ACF /* AddBasketFolderViewModel.swift */; };
 		7B65E1DC2C44827000A55ACF /* NVSBasketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1DB2C44827000A55ACF /* NVSBasketViewModel.swift */; };
+		7B65E1DE2C44AA8C00A55ACF /* NVSProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1DD2C44AA8C00A55ACF /* NVSProductDetailViewModel.swift */; };
 		7B6BB9C92C1ADFFB00BC85F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */; };
 		7B6BB9CB2C1ADFFB00BC85F8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */; };
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
@@ -130,6 +131,7 @@
 		7B65E1D72C44206A00A55ACF /* NVSBasketFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketFolderViewModel.swift; sourceTree = "<group>"; };
 		7B65E1D92C4479B300A55ACF /* AddBasketFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBasketFolderViewModel.swift; sourceTree = "<group>"; };
 		7B65E1DB2C44827000A55ACF /* NVSBasketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSBasketViewModel.swift; sourceTree = "<group>"; };
+		7B65E1DD2C44AA8C00A55ACF /* NVSProductDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NVSProductDetailViewModel.swift; sourceTree = "<group>"; };
 		7B6BB9C52C1ADFFB00BC85F8 /* LagomStyle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LagomStyle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6BB9C82C1ADFFB00BC85F8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B6BB9CA2C1ADFFB00BC85F8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			children = (
 				7B9BCBBD2C2ACE9D0082AE38 /* NVSProductDetailView.swift */,
 				7B6BBA112C1DE85F00BC85F8 /* NVSProductDetailViewController.swift */,
+				7B65E1DD2C44AA8C00A55ACF /* NVSProductDetailViewModel.swift */,
 			);
 			path = NVSProductDetail;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				7B6BBA232C1F13FE00BC85F8 /* UserDefaultsHelper.swift in Sources */,
 				7B8BD3DE2C319705007A7E63 /* UICollectionViewFlowLayout+.swift in Sources */,
 				7B8BD3D22C317B50007A7E63 /* Resource + AssetImage.swift in Sources */,
+				7B65E1DE2C44AA8C00A55ACF /* NVSProductDetailViewModel.swift in Sources */,
 				7B9BCBB42C2AC9F50082AE38 /* OnboardingView.swift in Sources */,
 				7B823D442C224A12009567EE /* UILabel+.swift in Sources */,
 				7B6BBA1C2C1F044600BC85F8 /* ImageCollectionViewCell.swift in Sources */,

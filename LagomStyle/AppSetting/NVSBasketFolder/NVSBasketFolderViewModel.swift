@@ -12,6 +12,13 @@ import RealmSwift
 final class NVSBasketFolderViewModel {
     private let realmRepository: RealmRepository
     
+    private var folders: Results<Folder> {
+        return realmRepository.fetchItem(of: Folder.self)
+    }
+    private var baskets: Results<Basket> {
+        return realmRepository.fetchItem(of: Basket.self)
+    }
+    
     var inputViewDidLoad: Observable<Void?> = Observable(nil)
     var inputViewWillAppear: Observable<Void?> = Observable(nil)
     var inputTableViewReloadData: Observable<Void?> = Observable(nil)
@@ -57,8 +64,8 @@ final class NVSBasketFolderViewModel {
         
         inputFetchData.bind { [weak self] _ in
             guard let self else { return }
-            outputDidFetchFolderData.value = Array(getFolders())
-            outputDidFetchBasketData.value = Array(getBaskets())
+            outputDidFetchFolderData.value = Array(folders)
+            outputDidFetchBasketData.value = Array(baskets)
         }
         
         inputTableViewReloadRows.bind { [weak self] indexPaths in
@@ -68,7 +75,7 @@ final class NVSBasketFolderViewModel {
         
         inputDeleteFolder.bind { [weak self] indexPath in
             guard let self, let indexPath else { return }
-            let folder = getFolders()[indexPath.row]
+            let folder = folders[indexPath.row]
             realmRepository.deleteItem(folder)
             inputFetchData.value = ()
             outputDidTableViewDeleteRows.value = [indexPath]
@@ -81,16 +88,8 @@ final class NVSBasketFolderViewModel {
         
         inputDidSelectRowAt.bind { [weak self] indexPath in
             guard let self, let indexPath else { return }
-            let folder = getFolders()[indexPath.row]
+            let folder = folders[indexPath.row]
             outputDidPushNavigation.value = (indexPath, folder)
         }
-    }
-    
-    private func getFolders() -> Results<Folder> {
-        return realmRepository.fetchItem(of: Folder.self)
-    }
-    
-    private func getBaskets() -> Results<Basket> {
-        return realmRepository.fetchItem(of: Basket.self)
     }
 }

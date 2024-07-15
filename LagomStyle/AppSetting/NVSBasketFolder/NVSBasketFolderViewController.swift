@@ -82,8 +82,7 @@ final class NVSBasketFolderViewController: BaseViewController {
         
         viewModel.outputDidPushNavigation.bind { [weak self] tuple in
             guard let self, let tuple else { return }
-            let nvsBasketViewController = NVSBasketViewController()
-            nvsBasketViewController.folder = tuple.folder
+            let nvsBasketViewController = NVSBasketViewController(folder: tuple.folder)
             nvsBasketViewController.onChangeFolder = { [weak self] in
                 guard let self else { return }
                 viewModel.inputTableViewReloadData.value = ()

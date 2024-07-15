@@ -106,8 +106,7 @@ final class NVSSearchResultViewController: BaseViewController {
         
         viewModel.outputDidPresentFolderModal.bind { [weak self] tuple in
             guard let self, let tuple else { return }
-            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
-            addOrMoveBasketFolderViewController.productID = tuple.product.productID
+            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController(productID: tuple.product.productID)
             addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
                 guard let self else { return }
                 viewModel.inputOnChangeFolder.value = (newFolder, tuple.index)

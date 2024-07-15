@@ -42,8 +42,7 @@ final class NVSProductDetailViewController: BaseViewController {
         
         viewModel.outputDidPresentAddOrMoveBasketFolderView.bind { [weak self] tuple in
             guard let self, let tuple else { return }
-            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
-            addOrMoveBasketFolderViewController.productID = tuple.id
+            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController(productID: tuple.id)
             addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
                 guard let self else { return }
                 var oldFolder: Folder?

@@ -18,15 +18,6 @@
 <summary><h2>📚 구현 체크리스트</summary>
 <div markdown="1">
 
-
-
-</div>
-</details>
-
-<details>
-<summary><h2>📚 구현하면서 생긴 문제</summary>
-<div markdown="1">
-
 - [x] 검색 결과 데이터 없을 때 앱 크래시 현상 해결 필요
 - [x] 검색 결과 콜렉션뷰 셀 제약조건 위에서부터 다시 잡아주기!!!!
 - [x] 닉네임 유효성 검사 메서드 do-try catch 구문으로 error throw 하는 방식으로 변경
@@ -69,6 +60,15 @@
 - [ ] 조금씩 UI변경해나가기
 - [ ] 로직 리팩토링
 - [ ] 뷰 리팩토링
+
+</div>
+</details>
+
+<details>
+<summary><h2>📚 구현하면서 생긴 문제</summary>
+<div markdown="1">
+
+
 
 </div>
 </details>

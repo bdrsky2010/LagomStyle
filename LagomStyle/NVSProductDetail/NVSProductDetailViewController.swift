@@ -10,15 +10,58 @@ import UIKit
 import RealmSwift
 
 final class NVSProductDetailViewController: BaseViewController {
-    private let nvsProductDetailView = NVSProductDetailView()
-    private let realmRepository = RealmRepository()
+    private let nvsProductDetailView: NVSProductDetailView
+    private let viewModel: NVSProductDetailViewModel
     
-    var row: Int?
-    var isBasket: Bool?
-    var productID: String?
-    var productTitle: String?
-    var productLink: String?
     var onChangeBasket: ((_ row: Int, _ isBasket: Bool, _ oldFolder: Folder?, _ newFolder: Folder) -> Void)?
+    
+    init(row: Int, product: CommonProduct) {
+        self.nvsProductDetailView = NVSProductDetailView()
+        self.viewModel = NVSProductDetailViewModel()
+        super.init()
+        bindData()
+        viewModel.inputInitRow.value = row
+        viewModel.inputInitProduct.value = product
+    }
+    
+    private func bindData() {
+        viewModel.outputDidConfigureNavigation.bind { [weak self] tuple in
+            guard let self ,let tuple else { return }
+            navigationItem.title = tuple.title
+            let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: tuple.image)?.withRenderingMode(.alwaysOriginal),
+                                                    style: .plain,
+                                                    target: self,
+                                                    action: #selector(basketButtonClicked))
+            navigationItem.rightBarButtonItem = likeBarButtonItem
+        }
+        
+        viewModel.outputDidRequestWebView.bind { [weak self] request in
+            guard let self, let request else { return }
+            nvsProductDetailView.webView.load(request)
+        }
+        
+        viewModel.outputDidPresentAddOrMoveBasketFolderView.bind { [weak self] tuple in
+            guard let self, let tuple else { return }
+            let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
+            addOrMoveBasketFolderViewController.productID = tuple.id
+            addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
+                guard let self else { return }
+                var oldFolder: Folder?
+                let isBasket = viewModel.isProductExistBasket(tuple.id) { folder in
+                    oldFolder = folder
+                }
+                viewModel.inputOnChangeFolder.value = (oldFolder, newFolder)
+                onChangeBasket?(tuple.row, isBasket, oldFolder, newFolder)
+            }
+            let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
+            present(navigationController, animated: true)
+        }
+        
+        viewModel.outputDidReconfigureNavigation.bind { [weak self] image in
+            guard let self else { return }
+            navigationItem.rightBarButtonItem?.image = UIImage(named: image)?.withRenderingMode(.alwaysOriginal)
+        }
+    }
     
     override func loadView() {
         view = nvsProductDetailView
@@ -26,55 +69,11 @@ final class NVSProductDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-    }
-    
-    override func configureView() {
-        requestWebView()
-    }
-    
-    override func configureNavigation() {
-        guard let productTitle, let productID else { return }
-        navigationItem.title = productTitle
-        let isBasket = realmRepository.fetchItem(of: Basket.self).contains(where: { $0.id == productID })
-        let likeBarButtonItem = UIBarButtonItem(image: UIImage(named: LagomStyle.AssetImage.like(selected: isBasket).imageName)?.withRenderingMode(.alwaysOriginal),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(basketButtonClicked))
-        navigationItem.rightBarButtonItem = likeBarButtonItem
+        viewModel.inputViewDidLoad.value = ()
     }
     
     @objc
     private func basketButtonClicked() {
-        guard let productID, let row else { return }
-        let addOrMoveBasketFolderViewController = AddOrMoveBasketFolderViewController()
-        addOrMoveBasketFolderViewController.productID = productID
-        addOrMoveBasketFolderViewController.onChangeFolder = { [weak self] newFolder in
-            guard let self else { return }
-            var isBasket = false
-            var oldFolder: Folder?
-            let basketList = realmRepository.fetchItem(of: Basket.self)
-            for basket in basketList {
-                if basket.id == productID {
-                    isBasket = true
-                    oldFolder = basket.folder.first
-                    break
-                }
-            }
-            if let oldFolder {
-                navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: oldFolder.id != newFolder.id).imageName)?.withRenderingMode(.alwaysOriginal)
-            } else {
-                navigationItem.rightBarButtonItem?.image = UIImage(named: LagomStyle.AssetImage.like(selected: true).imageName)?.withRenderingMode(.alwaysOriginal)
-            }
-            onChangeBasket?(row, isBasket, oldFolder, newFolder)
-        }
-        let navigationController = UINavigationController(rootViewController: addOrMoveBasketFolderViewController)
-        present(navigationController, animated: true)
-    }
-    
-    private func requestWebView() {
-        guard let productLink, let url = URL(string: productLink) else { return }
-        let request = URLRequest(url: url)
-        nvsProductDetailView.webView.load(request)
+        viewModel.inputBasketButtonClicked.value = ()
     }
 }

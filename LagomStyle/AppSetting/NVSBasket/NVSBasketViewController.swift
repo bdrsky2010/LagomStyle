@@ -55,13 +55,8 @@ final class NVSBasketViewController: BaseViewController {
         
         viewModel.outputDidPushNavigation.bind { [weak self] row in
             guard let self else { return }
-            let nvsProductDetailViewController = NVSProductDetailViewController()
             let product = viewModel.outputDidCheckIsTotalFolder.value ? viewModel.outputDidSetTotalBasketList.value[row] : viewModel.outputDidSetFolderBasketList.value[row]
-            nvsProductDetailViewController.productID = product.id
-            nvsProductDetailViewController.productTitle = product.name
-            nvsProductDetailViewController.productLink = product.webUrlString
-            nvsProductDetailViewController.row = row
-            nvsProductDetailViewController.isBasket = true
+            let nvsProductDetailViewController = NVSProductDetailViewController(row: row, product: CommonProduct(contentsOf: product))
             nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
                 guard let self, let oldFolder else { return }
                 viewModel.inputOnChangeBasket.value = (row, isBasket, oldFolder, newFolder)
@@ -132,7 +127,7 @@ extension NVSBasketViewController: UICollectionViewDelegate, UICollectionViewDat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultCollectionViewCell.identifier, for: indexPath) as? SearchResultCollectionViewCell else { return UICollectionViewCell() }
         let index = indexPath.row
         let basket = viewModel.outputDidCheckIsTotalFolder.value ? viewModel.outputDidSetTotalBasketList.value[index] : viewModel.outputDidSetFolderBasketList.value[index]
-        let commonProduct = CommonProduct(title: basket.name, mallName: basket.mallName, lowPrice: basket.lowPrice, imageUrlString: basket.imageUrlString)
+        let commonProduct = CommonProduct(contentsOf: basket)
         
         cell.configureContent(product: commonProduct, isBasket: true)
         

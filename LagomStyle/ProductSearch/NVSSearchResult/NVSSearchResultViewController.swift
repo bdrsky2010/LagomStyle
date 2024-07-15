@@ -83,11 +83,7 @@ final class NVSSearchResultViewController: BaseViewController {
         viewModel.outputDidPushNavigation.bind { [weak self] tuple in
             guard let self, let tuple else { return }
             
-            let nvsProductDetailViewController = NVSProductDetailViewController()
-            nvsProductDetailViewController.productID = tuple.product.productID
-            nvsProductDetailViewController.productTitle = tuple.product.title
-            nvsProductDetailViewController.productLink = tuple.product.urlString
-            nvsProductDetailViewController.row = tuple.index
+            let nvsProductDetailViewController = NVSProductDetailViewController(row: tuple.index, product: CommonProduct(contentsOf: tuple.product))
             nvsProductDetailViewController.onChangeBasket = { [weak self] row, isBasket, oldFolder, newFolder in
                 guard let self else { return }
                 viewModel.inputOnChangeBasket.value = (row, isBasket, oldFolder, newFolder)
@@ -209,7 +205,7 @@ extension NVSSearchResultViewController: UICollectionViewDelegate, UICollectionV
         guard let product = viewModel.inputNVSSResult.value?.products[index] else { return cell }
         
         let isBasket = viewModel.isProductExistOnBasket(product)
-        let commonProduct = CommonProduct(title: product.title, mallName: product.mallName, lowPrice: product.lowPrice, imageUrlString: product.imageUrlString)
+        let commonProduct = CommonProduct(contentsOf: product)
         
         cell.configureContent(product: commonProduct, isBasket: isBasket)
         cell.highlightingWithQuery(query: viewModel.inputReceiveQueryString.value)

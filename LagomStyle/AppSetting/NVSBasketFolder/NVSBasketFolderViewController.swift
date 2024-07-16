@@ -141,4 +141,21 @@ extension NVSBasketFolderViewController: UITableViewDelegate, UITableViewDataSou
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(actionProvider:  { _ in
+            let modify = UIAction(title: "수정", image: UIImage(systemName: "square.and.pencil")) { _ in
+                print("수정하기")
+            }
+            let note = UIAction(title: "메모", image: UIImage(systemName: "list.bullet.clipboard")) { _ in
+                print("메모하기")
+            }
+            let delete = UIAction(title: "삭제", image: UIImage(systemName: "trash")) { _ in
+                print("메모하기")
+            }
+            
+            return UIMenu(children: [modify, note, delete])
+        })
+    }
 }

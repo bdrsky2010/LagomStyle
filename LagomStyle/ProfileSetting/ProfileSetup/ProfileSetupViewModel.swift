@@ -34,6 +34,8 @@ final class ProfileSetupViewModel {
     var inputImageTapTrigger: Observable<Void?> = Observable(nil)
     var inputSaveDatabaseTrigger: Observable<LagomStyle.PFSetupOption?> = Observable(nil)
     
+    private(set) var outputDidConfigureNavigation: Observable<String> = Observable("")
+    private(set) var outputDidConfigureView: Observable<Void?> = Observable(nil)
     private(set) var outputDidCheckIsEditOption: Observable<(isHidden: Bool, nickname: String)?> = Observable(nil)
     private(set) var outputDidSelectedImage = Observable("")
     private(set) var outputDidTrimmedText: Observable<String> = Observable("")
@@ -51,6 +53,9 @@ final class ProfileSetupViewModel {
     private func bindData() {
         inputViewDidLoadTrigger.bind { [weak self] pfSetupType in
             guard let self, let pfSetupType else { return }
+            outputDidConfigureNavigation.value = pfSetupType.title
+            outputDidConfigureView.value = ()
+            
             switch pfSetupType {
             case .setup:
                 inputSelectedImageIndex.value = Int.random(in: 0...11)

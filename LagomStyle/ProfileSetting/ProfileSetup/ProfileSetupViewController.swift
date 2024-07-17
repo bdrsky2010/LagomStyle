@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class ProfileSetupViewController: BaseViewController {
-    
     private let profileSetupView: ProfileSetupView
     private let viewModel: ProfileSetupViewModel
     private let pfSetupOption: LagomStyle.PFSetupOption
@@ -28,38 +27,33 @@ final class ProfileSetupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCompleteButton()
-    }
-    
-    override func configureView() {
         bindData()
-        configureNavigation()
-        configureContent()
-        configureProfileImageView()
-        configureTextField()
-    }
-    
-    override func configureNavigation() {
-        navigationController?.navigationBar.isHidden = false
-        navigationItem.title = pfSetupOption.title
-        
-        if pfSetupOption == .edit {
-            let rightBarButtonItem = UIBarButtonItem(title: "저장",
-                                                     style: .plain,
-                                                     target: self,
-                                                     action: #selector(saveButtonClicked))
-            navigationItem.rightBarButtonItem = rightBarButtonItem
-        }
-        
-        configureNavigationBackButton()
-    }
-    
-    @objc
-    private func saveButtonClicked() {
-        viewModel.inputSaveDatabaseTrigger.value = pfSetupOption
+        viewModel.inputViewDidLoadTrigger.value = pfSetupOption
     }
     
     private func bindData() {
+        viewModel.outputDidConfigureNavigation.bind { [weak self] title in
+            guard let self else { return }
+            navigationController?.navigationBar.isHidden = false
+            navigationItem.title = pfSetupOption.title
+            
+            if pfSetupOption == .edit {
+                let rightBarButtonItem = UIBarButtonItem(title: "저장",
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(saveButtonClicked))
+                navigationItem.rightBarButtonItem = rightBarButtonItem
+            }
+            configureNavigationBackButton()
+        }
+        
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            configureCompleteButton()
+            configureProfileImageView()
+            configureTextField()
+        }
+        
         viewModel.outputDidCheckIsEditOption.bind { [weak self] tuple in
             guard let self ,let tuple else { return }
             profileSetupView.completeButton.isHidden = tuple.isHidden
@@ -115,9 +109,9 @@ final class ProfileSetupViewController: BaseViewController {
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    func configureContent() {
-        viewModel.inputViewDidLoadTrigger.value = pfSetupOption
+    @objc
+    private func saveButtonClicked() {
+        viewModel.inputSaveDatabaseTrigger.value = pfSetupOption
     }
     
     private func configureTextField() {
@@ -149,7 +143,6 @@ final class ProfileSetupViewController: BaseViewController {
 }
 
 extension ProfileSetupViewController: UITextFieldDelegate {
-    
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let text = textField.text else { return }
         viewModel.inputChangeText.value = text

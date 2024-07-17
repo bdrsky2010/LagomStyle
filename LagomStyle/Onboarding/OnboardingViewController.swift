@@ -25,24 +25,25 @@ final class OnboardingViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindData()
-        configureButton()
+        viewModel.inputViewDidLoad.value = ()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        configureNavigation()
-    }
-    
-    override func configureView() {
-        super.configureView()
-    }
-    
-    override func configureNavigation() {
-        navigationController?.navigationBar.isHidden = true
+        viewModel.inputViewWillAppear.value = ()
     }
     
     private func bindData() {
+        viewModel.outputDidConfigureView.bind { [weak self] _ in
+            guard let self else { return }
+            configureButton()
+        }
+        
+        viewModel.outputDidConfigureNavigation.bind { [weak self] _ in
+            guard let self else { return }
+            navigationController?.navigationBar.isHidden = true
+        }
+        
         viewModel.outputDidSendPfSetupOption.bind { [weak self] option in
             guard let self, let option else { return }
             let profileSetupViewController = ProfileSetupViewController(pfSetupOption: option)

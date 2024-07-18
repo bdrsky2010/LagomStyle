@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 
 final class AddOrMoveBasketFolderView: BaseView {
-    
     let folderTableView = UITableView(frame: .zero, style: .insetGrouped)
     
     override init(frame: CGRect) {

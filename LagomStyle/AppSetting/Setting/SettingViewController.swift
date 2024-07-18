@@ -10,12 +10,10 @@ import UIKit
 final class SettingViewController: BaseViewController {
     private let settingView: SettingView
     private let viewModel: SettingViewModel
-    private let realmRepository: RealmRepository
     
     override init() {
         self.settingView = SettingView()
         self.viewModel = SettingViewModel()
-        self.realmRepository = RealmRepository()
         super.init()
     }
     

@@ -35,10 +35,6 @@ extension LagomStyle {
         static let settingOptions = ["", "나의 장바구니 목록", "자주 묻는 질문", "1:1 문의", "알림 설정", "탈퇴하기"]
         
         static let availableNickname = "사용 가능한 닉네임입니다 ୧༼ ヘ ᗜ ヘ ༽୨"
-        static let numberOfCharacterX = "2글자 이상 10글자 미만으로 설정해주세요( ´༎ຶㅂ༎ຶ`)"
-        static let specialCharacterX = "닉네임에 @, #, $, % 는 포함할 수 없어요 (༎ຶ⌑༎ຶ)"
-        static let includeNumbers = "닉네임에 숫자는 포함할 수 없어요 ༼;´༎ຶ ۝ ༎ຶ༽"
-        static let unknownError = "알 수 없는 에러가 발생했어요 ༼;´༎ຶ ۝ ༎ຶ༽"
         
         static let withdrawalAlertTitle = "탈퇴하기"
         static let withdrawalAlertMessage = "탈퇴하면 모든 데이터가 초기화됩니다. 탈퇴 하시겠습니까?"

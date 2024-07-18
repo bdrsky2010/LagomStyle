@@ -10,28 +10,14 @@ import UIKit
 import RealmSwift
 
 final class NVSBasketViewController: BaseViewController {
-    
     private let nvsBasketView: NVSBasketView
     private let viewModel: NVSBasketViewModel
-    private let realmRepository: RealmRepository
     
-    private var isTotalFolder: Bool {
-        if let totalFolder = realmRepository.fetchItem(of: Folder.self).first, let folder {
-            return totalFolder.id == folder.id
-        } else {
-            return false
-        }
-    }
-    
-    var folder: Folder?
-    var totalBasketList: Results<Basket>!
-    var folderBasketList = List<Basket>()
     var onChangeFolder: (() -> Void)?
     
     init(folder: Folder) {
         self.nvsBasketView = NVSBasketView()
         self.viewModel = NVSBasketViewModel()
-        self.realmRepository = RealmRepository()
         super.init()
         bindData()
         viewModel.inputInitViewController.value = folder
@@ -86,19 +72,11 @@ final class NVSBasketViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.inputViewDidLoad.value = ()
-        configureData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.inputCollectionViewReloadData.value = ()
-    }
-    
-    private func configureData() {
-        if let folder {
-            folderBasketList = folder.detail
-        }
-        totalBasketList = realmRepository.fetchItem(of: Basket.self)
     }
     
     private func configureCollectionView() {

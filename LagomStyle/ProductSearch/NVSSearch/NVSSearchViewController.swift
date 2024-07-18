@@ -11,7 +11,6 @@ import RealmSwift
 import SnapKit
 
 final class NVSSearchViewController: BaseViewController {
-    
     private let nvsSearchView: NVSSearchView
     private let viewModel: NVSSearchViewModel
     

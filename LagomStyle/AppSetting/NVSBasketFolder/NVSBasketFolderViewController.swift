@@ -13,14 +13,10 @@ final class NVSBasketFolderViewController: BaseViewController {
     
     private let nvsBasketFolderView: NVSBasketFolderView
     private let viewModel: NVSBasketFolderViewModel
-    private let realmRepository: RealmRepository
-    
-    private var folder: Results<Folder>!
     
     override init() {
         self.nvsBasketFolderView = NVSBasketFolderView()
         self.viewModel = NVSBasketFolderViewModel()
-        self.realmRepository = RealmRepository()
         super.init()
     }
     

@@ -56,7 +56,7 @@
 |SkeletonView|비동기 API 호출 과정에서 로딩 애니메이션 처리|
 |Kingfisher|이미지 로드 및 캐싱 처리|
 |IQKeyboardManagerSwift|디바이스 Keyboard 사용성 향상|
-|Firebase Crashlytics|앱 안정성 개선|
+
 <br>
 
 # 활용기술

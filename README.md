@@ -71,7 +71,7 @@ Folder는 여러 장바구니 항목들을 그룹화 할 수 있도록 장바구
 `1:N to many relationship`의 형태로 구성되어 있으며
 이를 통해 장바구니 항목을 폴더별로 분류할 수 있다.
 <p align="center"> 
-    <img src="./images/Modeling_1.png" align="center" width="19%">
+    <img src="./images/Modeling_1.png" align="center" width="80%">
 </p>
 
 Basket은 `LinkingObjects`를 통해 해당 장바구니가 속한 Folder와
@@ -79,7 +79,7 @@ Basket은 `LinkingObjects`를 통해 해당 장바구니가 속한 Folder와
 `양방향 참조`가 가능해진다. 이를 통해 특정 Basket 객체가
 어느 폴더에 속해 있는지 쉽게 확인할 수 있다.
 <p align="center"> 
-    <img src="./images/Modeling_2.png" align="center" width="19%">
+    <img src="./images/Modeling_2.png" align="center" width="80%">
 </p>
 
 </div>

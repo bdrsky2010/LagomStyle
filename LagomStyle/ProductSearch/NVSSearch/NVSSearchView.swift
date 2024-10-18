@@ -30,21 +30,32 @@ final class NVSSearchView: BaseView {
     let productSearchTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.attributedPlaceholder = NSAttributedString(string: LagomStyle.Phrase.searchViewPlaceholder, attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.regular16, NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomGray])
+        textField.attributedPlaceholder = NSAttributedString(
+            string: LagomStyle.Phrase.searchViewPlaceholder,
+            attributes: [
+                NSAttributedString.Key.font: LagomStyle.SystemFont.regular16,
+                NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomGray
+            ]
+        )
         textField.returnKeyType = .search
         return textField
     }()
     
     
-    let recentSearchTableViewTitleLabel = UILabel.blackBlack14(text: LagomStyle.Phrase.searchViewRecentSearch)
+    let recentSearchTableViewTitleLabel = UILabel.blackBlack16(text: LagomStyle.Phrase.searchViewRecentSearch)
     
     let removeAllQueriesButton: UIButton = {
         let button = UIButton(type: .system)
         button.configuration = .plain()
         button.configuration?.attributedTitle = AttributedString(
-            NSAttributedString(string: LagomStyle.Phrase.searchViewRemoveAll,
-                               attributes: [NSAttributedString.Key.font: LagomStyle.SystemFont.regular13,
-                                            NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomPrimaryColor]))
+            NSAttributedString(
+                string: LagomStyle.Phrase.searchViewRemoveAll,
+                attributes: [
+                    NSAttributedString.Key.font: LagomStyle.SystemFont.regular13,
+                    NSAttributedString.Key.foregroundColor: LagomStyle.AssetColor.lagomPrimaryColor
+                ]
+            )
+        )
         button.configuration?.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         return button
     }()
@@ -116,5 +127,24 @@ final class NVSSearchView: BaseView {
             make.top.equalTo(divider.snp.bottom)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
+    }
+}
+
+extension NVSSearchView {
+    static func createLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(200))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(200)
+        )
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize, subitems: [item]
+        )
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
 }

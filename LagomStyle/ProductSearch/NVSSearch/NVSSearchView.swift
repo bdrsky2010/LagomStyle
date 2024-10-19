@@ -138,7 +138,7 @@ extension NVSSearchView {
             layoutSize: groupSize,
             subitems: [item]
         )
-        group.interItemSpacing = .fixed(4)
+        group.interItemSpacing = .fixed(6)
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 8
         let layout = UICollectionViewCompositionalLayout(section: section)

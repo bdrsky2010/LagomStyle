@@ -41,7 +41,8 @@ final class NVSSearchViewController: BaseViewController {
             guard let self else { return }
             configureTextField()
             configutrRemoveAllButton()
-            configureTableView()
+//            configureTableView()
+            configureCollectionView()
         }
         
         viewModel.outputDidChangeNavigationTitle.bind { [weak self] title in
@@ -54,9 +55,11 @@ final class NVSSearchViewController: BaseViewController {
             let isHidden = list.isEmpty
             nvsSearchView.recentSearchTableViewTitleLabel.isHidden = isHidden
             nvsSearchView.removeAllQueriesButton.isHidden = isHidden
-            nvsSearchView.recentSearchTableView.isHidden = isHidden
+//            nvsSearchView.recentSearchTableView.isHidden = isHidden
+            nvsSearchView.recentSearchCollectionView.isHidden = isHidden
             nvsSearchView.emptyView.isHidden = !isHidden
-            if !isHidden { nvsSearchView.recentSearchTableView.reloadData() }
+//            if !isHidden { nvsSearchView.recentSearchTableView.reloadData() }
+            if !isHidden { nvsSearchView.recentSearchCollectionView.reloadData() }
         }
         
         viewModel.outputDidPushSearchResultViewTrigger.bind { [weak self] query in
@@ -80,12 +83,21 @@ final class NVSSearchViewController: BaseViewController {
         viewModel.inputTableViewReloadTrigger.value = ()
     }
     
-    private func configureTableView() {
-        nvsSearchView.recentSearchTableView.delegate = self
-        nvsSearchView.recentSearchTableView.dataSource = self
-        nvsSearchView.recentSearchTableView.register(RecentSearchTableViewCell.self, forCellReuseIdentifier: RecentSearchTableViewCell.identifier)
-        nvsSearchView.recentSearchTableView.separatorStyle = .none
-        nvsSearchView.recentSearchTableView.rowHeight = 32
+//    private func configureTableView() {
+//        nvsSearchView.recentSearchTableView.delegate = self
+//        nvsSearchView.recentSearchTableView.dataSource = self
+//        nvsSearchView.recentSearchTableView.register(RecentSearchTableViewCell.self, forCellReuseIdentifier: RecentSearchTableViewCell.identifier)
+//        nvsSearchView.recentSearchTableView.separatorStyle = .none
+//        nvsSearchView.recentSearchTableView.rowHeight = 32
+//    }
+    
+    private func configureCollectionView() {
+        nvsSearchView.recentSearchCollectionView.delegate = self
+        nvsSearchView.recentSearchCollectionView.dataSource = self
+        nvsSearchView.recentSearchCollectionView.register(
+            CapsuleCollectionViewCell.self,
+            forCellWithReuseIdentifier: CapsuleCollectionViewCell.identifier
+        )
     }
 }
 
@@ -101,30 +113,30 @@ extension NVSSearchViewController: UITextFieldDelegate {
     }
 }
 
-extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension NVSSearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let query = viewModel.outputDidChangeRecentSearchList.value[indexPath.row]
         let nvsSearchResultViewController = NVSSearchResultViewController(query: query)
         
         navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
         
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        collectionView.reloadItems(at: [indexPath])
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.outputDidChangeRecentSearchList.value.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchTableViewCell.identifier, for: indexPath) as? RecentSearchTableViewCell else { return UITableViewCell() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CapsuleCollectionViewCell.identifier, for: indexPath) as? CapsuleCollectionViewCell else { return UICollectionViewCell() }
         
         let row = indexPath.row
         let query = viewModel.outputDidChangeRecentSearchList.value[row]
         
-        cell.configureContent(query: query)
+        cell.configureContent(text: query)
         cell.removeButton.tag = row
         cell.removeButton.addTarget(self, action: #selector(removeButtonClicked), for: .touchUpInside)
+        
         return cell
     }
     
@@ -135,3 +147,38 @@ extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource {
         viewModel.inputTableViewReloadTrigger.value = ()
     }
 }
+
+//extension NVSSearchViewController: UITableViewDelegate, UITableViewDataSource {
+//    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let query = viewModel.outputDidChangeRecentSearchList.value[indexPath.row]
+//        let nvsSearchResultViewController = NVSSearchResultViewController(query: query)
+//        
+//        navigationController?.pushViewController(nvsSearchResultViewController, animated: true)
+//        
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+//    }
+//    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return viewModel.outputDidChangeRecentSearchList.value.count
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchTableViewCell.identifier, for: indexPath) as? RecentSearchTableViewCell else { return UITableViewCell() }
+//        
+//        let row = indexPath.row
+//        let query = viewModel.outputDidChangeRecentSearchList.value[row]
+//        
+//        cell.configureContent(query: query)
+//        cell.removeButton.tag = row
+//        cell.removeButton.addTarget(self, action: #selector(removeButtonClicked), for: .touchUpInside)
+//        return cell
+//    }
+//    
+//    @objc
+//    private func removeButtonClicked(sender: UIButton) {
+//        let index = sender.tag
+//        viewModel.inputClickedRemoveButton.value = index
+//        viewModel.inputTableViewReloadTrigger.value = ()
+//    }
+//}

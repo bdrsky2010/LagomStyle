@@ -18,13 +18,6 @@ final class NVSSearchView: BaseView {
         return view
     }()
     
-    private let productSearchBarImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: LagomStyle.SystemImage.magnifyingglass)
-        imageView.tintColor = LagomStyle.AssetColor.lagomGray
-        return imageView
-    }()
-    
     private let divider = Divider(backgroundColor: LagomStyle.AssetColor.lagomLightGray)
     
     let productSearchTextField: UITextField = {
@@ -60,7 +53,8 @@ final class NVSSearchView: BaseView {
         return button
     }()
     
-    let recentSearchTableView = UITableView()
+//    let recentSearchTableView = UITableView()
+    let recentSearchCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchViewNoRecentSearch)
     
     override init(frame: CGRect) {
@@ -73,13 +67,12 @@ final class NVSSearchView: BaseView {
     
     override func configureHierarchy() {
         addSubview(productSearchBarView)
-        productSearchBarView.addSubview(productSearchBarImage)
         productSearchBarView.addSubview(productSearchTextField)
         
         addSubview(divider)
         addSubview(recentSearchTableViewTitleLabel)
         addSubview(removeAllQueriesButton)
-        addSubview(recentSearchTableView)
+        addSubview(recentSearchCollectionView)
         addSubview(emptyView)
     }
     
@@ -90,15 +83,8 @@ final class NVSSearchView: BaseView {
             make.height.equalTo(44)
         }
         
-        productSearchBarImage.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(8)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(20)
-        }
-        
         productSearchTextField.snp.makeConstraints { make in
-            make.leading.equalTo(productSearchBarImage.snp.trailing).offset(8)
-            make.trailing.equalToSuperview().offset(-8)
+            make.horizontalEdges.equalToSuperview().inset(8)
             make.centerY.equalToSuperview()
         }
         
@@ -118,9 +104,15 @@ final class NVSSearchView: BaseView {
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
         }
         
-        recentSearchTableView.snp.makeConstraints { make in
+//        recentSearchTableView.snp.makeConstraints { make in
+//            make.top.equalTo(recentSearchTableViewTitleLabel.snp.bottom).offset(16)
+//            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+//        }
+        
+        recentSearchCollectionView.snp.makeConstraints { make in
             make.top.equalTo(recentSearchTableViewTitleLabel.snp.bottom).offset(16)
-            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         emptyView.snp.makeConstraints { make in
@@ -133,17 +125,22 @@ final class NVSSearchView: BaseView {
 extension NVSSearchView {
     static func createLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200))
+            widthDimension: .estimated(100),
+            heightDimension: .estimated(50))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(200)
+            heightDimension: .estimated(50)
         )
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: groupSize, subitems: [item]
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
         )
+        group.interItemSpacing = .fixed(4)
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 8
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }

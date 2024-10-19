@@ -16,7 +16,7 @@ final class CapsuleCollectionViewCell: BaseCollectionViewCell {
         button.configuration = .plain()
         button.configuration?.image = UIImage(systemName: LagomStyle.SystemImage.xmark)
         button.configuration?.baseForegroundColor = LagomStyle.AssetColor.lagomBlack
-        button.configuration?.preferredSymbolConfigurationForImage = .init(font: UIFont.systemFont(ofSize: 13))
+        button.configuration?.preferredSymbolConfigurationForImage = .init(font: UIFont.systemFont(ofSize: 8))
         return button
     }()
     
@@ -27,6 +27,7 @@ final class CapsuleCollectionViewCell: BaseCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layer.cornerRadius = contentView.bounds.height / 2
+        contentView.backgroundColor = LagomStyle.AssetColor.lagomLightGray
     }
     
     override func configureHierarchy() {
@@ -42,8 +43,9 @@ final class CapsuleCollectionViewCell: BaseCollectionViewCell {
         
         removeButton.snp.makeConstraints { make in
             make.centerY.equalTo(queryLabel.snp.centerY)
-            make.leading.equalTo(queryLabel.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(12)
+            make.leading.equalTo(queryLabel.snp.trailing)
+            make.trailing.equalToSuperview().inset(6)
+            make.size.equalTo(20)
         }
     }
 }

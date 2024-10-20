@@ -33,7 +33,7 @@ final class SearchResultCollectionViewCell: BaseCollectionViewCell {
         return imageView
     }()
     
-    private let mallNameLabel = UILabel.lightGrayRegular13()
+    private let mallNameLabel = UILabel.grayRegular13()
     private let productTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = LagomStyle.AssetColor.lagomBlack

@@ -24,7 +24,7 @@ extension LagomStyle {
         
         static let searchViewNavigationTitle = "'s LagomStyle"
         static let searchViewPlaceholder = "브랜드, 상품 등을 입력하세요."
-        static let searchViewRecentSearch = "최근 검색"
+        static let searchViewRecentSearch = "최근 검색어"
         static let searchViewNoRecentSearch = "최근 검색어가 없어요"
         static let searchViewRemoveAll = "전체 삭제"
         

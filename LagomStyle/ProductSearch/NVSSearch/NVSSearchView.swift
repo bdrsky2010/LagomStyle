@@ -53,7 +53,6 @@ final class NVSSearchView: BaseView {
         return button
     }()
     
-//    let recentSearchTableView = UITableView()
     let recentSearchCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     let emptyView = EmptyResultView(text: LagomStyle.Phrase.searchViewNoRecentSearch)
     
@@ -103,11 +102,6 @@ final class NVSSearchView: BaseView {
             make.centerY.equalTo(recentSearchTableViewTitleLabel.snp.centerY)
             make.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
         }
-        
-//        recentSearchTableView.snp.makeConstraints { make in
-//            make.top.equalTo(recentSearchTableViewTitleLabel.snp.bottom).offset(16)
-//            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
-//        }
         
         recentSearchCollectionView.snp.makeConstraints { make in
             make.top.equalTo(recentSearchTableViewTitleLabel.snp.bottom).offset(16)

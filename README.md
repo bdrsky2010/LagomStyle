@@ -146,8 +146,9 @@ private var recentSearchQueries: [NVSSKeyword: Void] { }
 - **forwardImageView**와 간격 유지 실패.
 - 사용자 입장에서 시각적으로 어색한 레이아웃 발생.
 
+#### **시뮬레이터**
 <img width="371" alt="Pasted image 20240708234557" src="https://github.com/user-attachments/assets/ff1f9726-f927-4963-8d8b-9f0a82ad5757">
- 
+#### **하이어라키**
  ![Pasted image 20240708234804](https://github.com/user-attachments/assets/ccca573c-6b3c-4212-9c17-b4f7412ebec7)
 
 ## 2️⃣ 문제 원인 분석: Hugging Priority와 IntrinsicContentSize의 이해

@@ -221,10 +221,11 @@ forwardImageView.snp.makeConstraints { make in
 - **countLabel**과 **forwardImageView**가 의도한 위치에서 정확히 배치.
 - **titleLabel**과 **optionLabel**도 고정된 위치를 유지.
 
-- 시뮬레이터
+
+#### **시뮬레이터**
 <img width="378" alt="Pasted image 20240708235432" src="https://github.com/user-attachments/assets/0a52749d-25da-494c-a427-20ce841a6437">
 
-- 하이어라키
+#### **하이어라키**
 
 ![Pasted image 20240708235458](https://github.com/user-attachments/assets/7501473a-bd17-4af7-a6c5-c56ace71594b)
 

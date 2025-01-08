@@ -75,7 +75,7 @@ final class ProfileSetupViewModel {
         
         inputChangeText.bind { [weak self] text in
             guard let self else { return }
-            outputDidTrimmedText.value = text.filter { $0 != " " }
+            outputDidTrimmedText.value = text.replacingOccurrences(of: " ", with: "")
         }
         
         inputNickname.bind { [weak self] nickname in

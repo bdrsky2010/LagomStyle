@@ -20,6 +20,7 @@
 		7B0857B62C3CB04E008422EA /* AddOrMoveBasketFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */; };
 		7B0857B82C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0857B72C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift */; };
 		7B5A956A2CC2AF1A00F7E6A7 /* CapsuleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5A95692CC2AF1A00F7E6A7 /* CapsuleCollectionViewCell.swift */; };
+		7B5A956E2CC55D6900F7E6A7 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5A956D2CC55D6900F7E6A7 /* APIKey.swift */; };
 		7B65E1BB2C3EBB5B00A55ACF /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BA2C3EBB5B00A55ACF /* Observable.swift */; };
 		7B65E1BD2C3EBE5A00A55ACF /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BC2C3EBE5A00A55ACF /* OnboardingViewModel.swift */; };
 		7B65E1BF2C3EC2F200A55ACF /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B65E1BE2C3EC2F200A55ACF /* ProfileSetupViewModel.swift */; };
@@ -38,7 +39,6 @@
 		7B6BB9D22C1ADFFC00BC85F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */; };
 		7B6BB9D52C1ADFFC00BC85F8 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9D42C1ADFFC00BC85F8 /* Base */; };
 		7B6BB9DD2C1AE11F00BC85F8 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7B6BB9DC2C1AE11F00BC85F8 /* .gitignore */; };
-		7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */; };
 		7B6BB9E22C1AE50C00BC85F8 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BB9E12C1AE50C00BC85F8 /* Kingfisher */; };
 		7B6BB9E82C1AE57600BC85F8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7B6BB9E72C1AE57600BC85F8 /* SnapKit */; };
 		7B6BB9EB2C1AE60C00BC85F8 /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6BB9EA2C1AE60C00BC85F8 /* UINavigationController+.swift */; };
@@ -123,6 +123,7 @@
 		7B0857B52C3CB04E008422EA /* AddOrMoveBasketFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrMoveBasketFolderView.swift; sourceTree = "<group>"; };
 		7B0857B72C3CB274008422EA /* AddOrMoveFolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrMoveFolderTableViewCell.swift; sourceTree = "<group>"; };
 		7B5A95692CC2AF1A00F7E6A7 /* CapsuleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B5A956D2CC55D6900F7E6A7 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7B65E1BA2C3EBB5B00A55ACF /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		7B65E1BC2C3EBE5A00A55ACF /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		7B65E1BE2C3EC2F200A55ACF /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
@@ -143,7 +144,6 @@
 		7B6BB9D42C1ADFFC00BC85F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B6BB9D62C1ADFFC00BC85F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B6BB9DC2C1AE11F00BC85F8 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		7B6BB9EA2C1AE60C00BC85F8 /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
 		7B6BB9EC2C1AE61D00BC85F8 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		7B6BB9F22C1AE64C00BC85F8 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 				7B65E1B42C3EBA5300A55ACF /* AddOrMoveBasketFolder */,
 				7B6BBA212C1F13EB00BC85F8 /* Helper */,
 				7B6BB9E92C1AE5BB00BC85F8 /* Extension */,
-				7B6BB9DE2C1AE1C500BC85F8 /* APIKey.swift */,
+				7B5A956D2CC55D6900F7E6A7 /* APIKey.swift */,
 				7B6BB9D12C1ADFFC00BC85F8 /* Assets.xcassets */,
 				7B6BB9D32C1ADFFC00BC85F8 /* LaunchScreen.storyboard */,
 				7B6BB9D62C1ADFFC00BC85F8 /* Info.plist */,
@@ -641,6 +641,7 @@
 				7B6BB9F32C1AE64C00BC85F8 /* UIImageView+.swift in Sources */,
 				7B6BBA122C1DE85F00BC85F8 /* NVSProductDetailViewController.swift in Sources */,
 				7B9BCBBE2C2ACE9D0082AE38 /* NVSProductDetailView.swift in Sources */,
+				7B5A956E2CC55D6900F7E6A7 /* APIKey.swift in Sources */,
 				7B6BBA602C20643A00BC85F8 /* SettingTableViewProfileCell.swift in Sources */,
 				7B6BB9F52C1AE65200BC85F8 /* String+.swift in Sources */,
 				7B6BBA072C1DE6DE00BC85F8 /* ProfileImageSetupViewController.swift in Sources */,
@@ -663,7 +664,6 @@
 				7B6BBA032C1DE66600BC85F8 /* OnboardingViewController.swift in Sources */,
 				7B8BD3CC2C314B52007A7E63 /* UIView+.swift in Sources */,
 				7B0857B42C3CB02F008422EA /* AddOrMoveBasketFolderViewController.swift in Sources */,
-				7B6BB9DF2C1AE1C500BC85F8 /* APIKey.swift in Sources */,
 				7B823D422C2242DF009567EE /* Divider.swift in Sources */,
 				7B6BBA662C206BB400BC85F8 /* SettingDelegate.swift in Sources */,
 				7B9BCB712C293C550082AE38 /* NetworkHelper.swift in Sources */,

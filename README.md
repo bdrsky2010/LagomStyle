@@ -159,8 +159,8 @@ private var recentSearchQueries: [NVSSKeyword: Void] { }
 - 기본적으로 UILabel은 자신의 크기를 유지하려는 성질이 있어 **Hugging Priority** 값이 기본적으로 251로 설정됩니다.
 
 ### **발생한 문제**
-- `countLabel`과 `forwardImageView` 간 간격을 정의했지만, `countLabel`이 intrinsicContentSize를 유지하려 하면서 **titleLabel**과 **optionLabel**을 밀어내는 문제가 발생.
-- 각 요소 간의 **Hugging Priority**와 **Compression Resistance Priority** 간 충돌이 원인이었습니다.
+- `countLabel`과 `forwardImageView` 간 간격을 정의했지만, **titleLabel**과 **optionLabel**이 intrinsicContentSize를 유지하려 하면서 `countLabel`을 당겨버리는 문제가 발생.
+- 각 요소 간의 **Hugging Priority** 충돌이 원인이었습니다.
 ---
 
 ## 3️⃣ 해결 접근 방식: Hugging Priority 조정
@@ -191,9 +191,6 @@ forwardImageView.snp.makeConstraints { make in
     make.trailing.equalToSuperview().offset(-20)
 }
 ```
-
-#### **초기 시도 2: 데이터 길이 제한**
-- countLabel의 데이터 길이를 제한하거나 텍스트를 축약하는 방식도 시도했으나, **레이아웃 자체의 문제**를 해결하지 못했습니다.
 
 #### **최종 해결: Hugging Priority 조정**
 countLabel과 forwardImageView의 Hugging Priority를 252로 설정하여 intrinsicContentSize보다 **간격 제약조건을 우선**하도록 설정했습니다.

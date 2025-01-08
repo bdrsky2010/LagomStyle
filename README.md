@@ -227,7 +227,7 @@ func textFieldDidChangeSelection(_ textField: UITextField) {
 ```swift
 func textFieldDidChangeSelection(_ textField: UITextField) {
     guard let text = textField.text else { return }
-    textField.text = textField.text?.filter { $0 != " " }
+    textField.text = textField.text?.replacingOccurrences(of: " ", with: "")
 }
 ```
 

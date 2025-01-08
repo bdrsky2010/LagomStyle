@@ -128,14 +128,43 @@ private var recentSearchQueries: [NVSSKeyword: Void] { }
 <summary>테이블뷰 셀에서 늘어나지 않아야 할 뷰가 늘어난 경우</summary>
 <div>
 
-- 갯수를 나타내는 레이블이 오른쪽 이미지와 붙어있어야 하는데 제약조건을 주면서 늘어나버린 상황
-<img width="371" alt="Pasted image 20240708234557" src="https://github.com/user-attachments/assets/ff1f9726-f927-4963-8d8b-9f0a82ad5757">
+# 테이블뷰 셀에서 뷰가 의도치 않게 늘어난 문제 해결 과정
+테이블뷰 셀 레이아웃 구현 중, 의도치 않게 특정 뷰가 늘어나며 레이아웃이 깨지는 문제가 발생했다.
+문제의 원인과 해결 과정을 레이아웃 안정성을 확보한 방법을 차근차근히 설명해보겠다.
 
-- 하이어라키를 확인해보면 늘어나있는 것을 볼 수 있음
+## 1️⃣ 문제 정의: 늘어나서는 안 되는 뷰가 늘어난 상황
+아래 레이아웃은 테이블뷰 셀 내부에서 각 요소 간의 관계를 정의한 것입니다:
+- **titleLabel**: 왼쪽 상단에 위치, 텍스트를 표시.
+- **optionLabel**: 왼쪽 하단에 위치, 세부 설명 표시.
+- **countLabel**: 오른쪽에 위치, 갯수를 나타냄.
+- **forwardImageView**: 오른쪽 끝에 위치, 방향 아이콘 표시.
+  
+**문제**는 `countLabel`과 `forwardImageView`가 서로 가까이 붙어야 하지만, `countLabel`의 크기가 늘어나며 `titleLabel`과 `optionLabel`의 레이아웃까지 왜곡되었습니다.
+
+### 문제 발생 시 레이아웃:
+- **countLabel**의 크기가 불필요하게 커짐.
+- **forwardImageView**와 간격 유지 실패.
+- 사용자 입장에서 시각적으로 어색한 레이아웃 발생.
+
+<img width="371" alt="Pasted image 20240708234557" src="https://github.com/user-attachments/assets/ff1f9726-f927-4963-8d8b-9f0a82ad5757">
  
  ![Pasted image 20240708234804](https://github.com/user-attachments/assets/ccca573c-6b3c-4212-9c17-b4f7412ebec7)
- 
-- 걸려있는 제약조건
+
+## 2️⃣ 문제 원인 분석: Hugging Priority와 IntrinsicContentSize의 이해
+### **UILabel의 기본 특성**
+- UILabel은 텍스트 길이에 따라 **intrinsicContentSize**를 계산해 크기를 자동으로 조정합니다.
+- 기본적으로 UILabel은 자신의 크기를 유지하려는 성질이 있어 **Hugging Priority** 값이 기본적으로 251로 설정됩니다.
+
+### **발생한 문제**
+- `countLabel`과 `forwardImageView` 간 간격을 정의했지만, `countLabel`이 intrinsicContentSize를 유지하려 하면서 **titleLabel**과 **optionLabel**을 밀어내는 문제가 발생.
+- 각 요소 간의 **Hugging Priority**와 **Compression Resistance Priority** 간 충돌이 원인이었습니다.
+---
+
+## 3️⃣ 해결 접근 방식: Hugging Priority 조정
+### **초기 시도 1: 기본 제약조건 설정**
+
+아래와 같이 각 요소 간 간격을 정의했지만, `countLabel`과 `forwardImageView` 간의 관계에서 문제가 발생했습니다.
+
 ```swift
 titleLabel.snp.makeConstraints { make in
     make.bottom.equalTo(contentView.snp.centerY)
@@ -160,12 +189,38 @@ forwardImageView.snp.makeConstraints { make in
 }
 ```
 
-### 해결 방법
-- hugging priority 가 더 높은 뷰는 intrinsicSize 를 유지하려고 하는 특성이 있음
-- UILabel hugging priority의 default 값은 251
-- countLabel 과 forwardImageView 의 hugging priority 값을 252로 설정
+#### **초기 시도 2: 데이터 길이 제한**
+- countLabel의 데이터 길이를 제한하거나 텍스트를 축약하는 방식도 시도했으나, **레이아웃 자체의 문제**를 해결하지 못했습니다.
 
-### 결과
+#### **최종 해결: Hugging Priority 조정**
+countLabel과 forwardImageView의 Hugging Priority를 252로 설정하여 intrinsicContentSize보다 **간격 제약조건을 우선**하도록 설정했습니다.
+
+```swift
+countLabel.setContentHuggingPriority(.init(252), for: .horizontal)
+forwardImageView.setContentHuggingPriority(.init(252), for: .horizontal)
+```
+수정된 제약조건
+```swift
+countLabel.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalTo(forwardImageView.snp.leading).offset(-4)
+}
+
+forwardImageView.snp.makeConstraints { make in
+    make.centerY.equalToSuperview()
+    make.trailing.equalToSuperview().offset(-20)
+}
+```
+# **4️⃣ 결과: 레이아웃 안정성 확보**
+#### **문제 해결 후 개선점:**
+- **countLabel**과 **forwardImageView**의 간격이 의도한 대로 유지되었습니다.
+- countLabel의 크기가 불필요하게 늘어나지 않으며, 다른 요소의 레이아웃에도 영향을 미치지 않았습니다.
+- 사용자 입장에서 일관되고 안정적인 UI 경험을 제공.
+
+#### **해결된 레이아웃:**
+- **countLabel**과 **forwardImageView**가 의도한 위치에서 정확히 배치.
+- **titleLabel**과 **optionLabel**도 고정된 위치를 유지.
+
 - 시뮬레이터
 <img width="378" alt="Pasted image 20240708235432" src="https://github.com/user-attachments/assets/0a52749d-25da-494c-a427-20ce841a6437">
 
@@ -173,32 +228,14 @@ forwardImageView.snp.makeConstraints { make in
 
 ![Pasted image 20240708235458](https://github.com/user-attachments/assets/7501473a-bd17-4af7-a6c5-c56ace71594b)
 
-- 소스코드
-```swift
-titleLabel.snp.makeConstraints { make in
-    make.bottom.equalTo(contentView.snp.centerY)
-    make.leading.equalToSuperview().offset(20)
-    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
-}
+# **5️⃣ 결론 및 배운 점**
+#### **배운 점**
+- **Hugging Priority**와 **IntrinsicContentSize**는 Auto Layout에서 중요한 역할을 합니다. 뷰 간 간격과 크기를 정확히 조정하려면 우선순위를 명확히 설정해야 합니다.
+- 단순히 제약조건을 설정하는 것만으로는 해결되지 않는 경우, 우선순위 조정을 통해 문제를 해결할 수 있습니다.
 
-optionLabel.snp.makeConstraints { make in
-    make.top.equalTo(contentView.snp.centerY)
-    make.leading.equalToSuperview().offset(20)
-    make.trailing.equalTo(countLabel.snp.leading).offset(-20)
-}
-
-countLabel.setContentHuggingPriority(.init(252), for: .horizontal)
-countLabel.snp.makeConstraints { make in
-    make.centerY.equalToSuperview()
-    make.trailing.equalTo(forwardImageView.snp.leading).offset(-4)
-}
-
-forwardImageView.setContentHuggingPriority(.init(252), for: .horizontal)
-forwardImageView.snp.makeConstraints { make in
-    make.centerY.equalToSuperview()
-    make.trailing.equalToSuperview().offset(-20)
-}
-```
+#### **향후 개선 방향**
+- 다양한 데이터 입력 시에도 레이아웃이 안정적으로 작동하는지 추가 테스트.
+- Hugging Priority 외에 Compression Resistance Priority도 활용하여 더 유연한 레이아웃 구현 시도.
 
 </div>
 </details>
